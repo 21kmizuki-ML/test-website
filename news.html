@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大塚光雄バイオメカニクス研究室 | University Lab</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* --- 基本設定 & 変数 --- */
+        :root {
+            --primary-color: #003366;
+            --accent-color: #c5a059;
+            --text-color: #333;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+            --transition: all 0.3s ease;
+            --footer-dark: #1a1a1a; /* やや明るめの黒 */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            color: var(--text-color);
+            line-height: 1.8;
+            background-color: var(--white);
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* --- ヘッダー & ハンバーガーメニュー --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 5%;
+            background: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            height: 80px;
+        }
+
+        .logo a {
+            display: flex;
+            align-items: center;
+        }
+        .logo img {
+            height: 60px;
+            width: auto;
+            display: block;
+        }
+
+        #menu-toggle { display: none; }
+
+        .menu-icon {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        nav ul {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-link {
+            font-size: 0.85rem;
+            font-weight: 600;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; width: 0; height: 2px;
+            background: var(--accent-color);
+            transition: var(--transition);
+        }
+        .nav-link:hover::after { width: 100%; }
+
+
+
+        /* --- コンテンツセクション --- */
+        section {
+            padding: 80px 10%;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: var(--accent-color);
+        }
+
+        /* ===== News Card Layout ===== */
+        .news-wrapper { max-width: 900px; margin: auto; }
+        .news-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .news-title { font-weight: bold; font-size: 1.1rem; margin-bottom: 10px; }
+        .news-date { color:#888; font-size:0.9rem; margin-bottom:10px; }
+
+        /* ===== Accordion ===== */
+        .accordion {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .accordion-content {
+            max-height: 120px;
+            overflow: hidden;
+            transition: 0.4s ease;
+            position: relative;
+        }
+
+        .accordion-content.expanded {
+            max-height: 1000px;
+        }
+
+        .accordion-toggle {
+            margin-top: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        /* ===== Language Toggle ===== */
+        .lang-btn {
+            margin-left: 20px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        /* --- フッター --- */
+        footer {
+            background: var(--primary-color);
+            color: white;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            padding: 60px 10% 40px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-contact h4, .footer-nav h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+        }
+
+        .footer-contact p { margin-bottom: 10px; font-size: 0.9rem; }
+
+        /* ③ フッター最下部の装飾設定 */
+        .footer-bottom {
+            background: var(--footer-dark);
+            text-align: center;
+            padding: 25px 0;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* モバイル対応 */
+        @media (max-width: 768px) {
+            .menu-icon { display: block; }
+
+            nav {
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background: var(--white);
+                max-height: 0;
+                overflow: hidden;
+                transition: var(--transition);
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            }
+
+            nav ul {
+                flex-direction: column;
+                padding: 20px 5%;
+                gap: 15px;
+            }
+
+            #menu-toggle:checked ~ nav { max-height: 500px; }
+
+            .hero { height: 350px; }
+            .chief-container { flex-direction: column; text-align: center; }
+            section { padding: 50px 5%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="index.html">
+                <img src="image/logo.png" alt="研究室ロゴ">
+            </a>
+        </div>
+
+        <input type="checkbox" id="menu-toggle">
+        <label for="menu-toggle" class="menu-icon">
+            <i class="fas fa-bars"></i>
+        </label>
+        <div>
+            <span class="lang-btn" onclick="switchLang('ja')">JP</span> /
+            <span class="lang-btn" onclick="switchLang('en')">EN</span>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="index.html" class="nav-link">HOME</a></li>
+                <li><a href="#about" class="nav-link">ABOUT</a></li>
+                <li><a href="#research" class="nav-link">RESEARCH</a></li>
+                <li><a href="#lab-chief" class="nav-link">MEMBERS</a></li>
+                <li><a href="#recruit" class="nav-link">RECRUIT</a></li>
+                <li><a href="news.html" class="nav-link">NEWS</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>News & Topics</h2>
+            <div id="news-list"></div>
+
+            <!-- 管理ログインUI（初期非表示） -->
+            <div id="adminPanel" style="display:none; border:1px solid #ccc; padding:10px; margin-top:20px;">
+            <h3>管理者ログイン</h3>
+
+            <input id="name" placeholder="名前">
+            <button onclick="requestOTP()">OTP送信</button>
+
+            <br><br>
+
+            <input id="otp" placeholder="OTP">
+            <button onclick="verifyOTP()">認証</button>
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p><i class="fas fa-university"></i> 日本体育大学大学院 体育科学研究科</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 〒227-0033 神奈川県横浜市青葉区鴨志田町 1221-1</p>
+                    <p><i class="fas fa-envelope"></i> contact☆example.univ.ac.jp (☆→＠)</p>
+                </div>
+                
+                <div class="footer-nav">
+                    <h4>Quick Links</h4>
+                    <ul style="font-size: 0.9rem;">
+                        <li style="margin-bottom: 8px;"><a href="#home">Home</a></li>
+                        <li style="margin-bottom: 8px;"><a href="#about">About Our Lab</a></li>
+                        <li style="margin-bottom: 8px;"><a href="#research">Research</a></li>
+                        <li style="margin-bottom: 8px;"><a href="#recruit">Recruit</a></li> </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            &copy; 2026 Otsuka Lab, Nippon Sport Science University. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script>
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbw0E4JDXKGuNAcFuPW5QvqTQ2nnMhPSe_yTIxisSl6mMbTRg-pQuG0iFBRXLttBNjhsBQ/exec";
+
+        function requestOTP(){
+
+        fetch(GAS_URL,{
+            method:"POST",
+            headers:{
+                "Content-Type":
+                "application/x-www-form-urlencoded"
+            },
+            body:new URLSearchParams({
+                type:"request",
+                name:document.getElementById("name").value
+            })
+        })
+        .then(r=>r.json())
+        .then(d=>alert(JSON.stringify(d)));
+
+        }
+
+        function verifyOTP(){
+
+        fetch(GAS_URL,{
+            method:"POST",
+            headers:{
+                "Content-Type":
+                "application/x-www-form-urlencoded"
+            },
+            body:new URLSearchParams({
+                type:"verifyOTP",
+                name:document.getElementById("name").value,
+                otp:document.getElementById("otp").value
+            })
+        })
+        .then(r=>r.json())
+        .then(d=>{
+            if(d.success){
+                window.location.href=
+                "news-admin.html?token="+d.token;
+            }else{
+                alert(JSON.stringify(d));
+            }
+        });
+
+        }
+        
+        let secret = [];
+        const konami = [
+        "ArrowUp","ArrowUp",
+        "ArrowDown","ArrowDown",
+        "ArrowLeft","ArrowRight",
+        "ArrowLeft","ArrowRight",
+        "b","a"
+        ];
+
+        document.addEventListener("keydown", function(e){
+
+        secret.push(e.key);
+
+        if(secret.length > konami.length){
+            secret.shift();
+        }
+
+        if(JSON.stringify(secret) === JSON.stringify(konami)){
+            document.getElementById("adminPanel").style.display = "block";
+            secret = [];
+        }
+
+        });
+
+        /* ===== News Auto Display (将来news.json取得可) ===== */
+        const newsData = [
+            {date:"2026.02.27", text:"ウェブサイトをリニューアルしました。"},
+            {date:"2026.02.15", text:"M2の山田さんが国際学会で優秀発表賞を受賞しました。"},
+            {date:"2026.01.30", text:"新しい研究プロジェクトが開始しました。"},
+            {date:"2026.01.10", text:"修士論文発表会を実施しました。"}
+        ];
+
+        const newsList = document.getElementById("news-list");
+        newsData.slice(0,3).forEach(item=>{
+            newsList.innerHTML += `
+                <div class="news-item">
+                    <div class="news-date">${item.date}</div>
+                    <div>${item.text}</div>
+                </div>
+            `;
+        });
+
+        /* ===== Accordion ===== */
+        function toggleAccordion(id){
+            document.getElementById(id).classList.toggle("expanded");
+        }
+
+        /* ===== Language Switch ===== */
+        function switchLang(lang){
+            if(lang==="en"){
+                alert("English version will be implemented.");
+            } else {
+                location.reload();
+            }
+        }
+    </script>
+
+</body>
+</html>
