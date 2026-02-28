@@ -340,8 +340,9 @@
         .then(d=>{
             if(d.success){
                 window.location.href =
-  "https://script.google.com/macros/s/AKfycbwKyqQCdGf55UtUlhwbZyeaY5knk4-oRvGjzX9MS_sdA0TL-mBr77lceMF4t3v5BArytQ/exec"
-  + "?page=admin&token=" + d.token;
+                GAS_URL +
+                "?page=admin&token=" + d.token +
+                "&v=" + Date.now();
             }else{
                 alert(JSON.stringify(d));
             }
@@ -409,6 +410,7 @@
 </body>
 
 </html>
+
 
 
 
