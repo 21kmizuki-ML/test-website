@@ -339,8 +339,9 @@
         .then(r=>r.json())
         .then(d=>{
             if(d.success){
-                window.location.href=
-                "news-admin.html?token="+d.token;
+                window.location.href =
+  "https://script.google.com/macros/s/AKfycbxqXK8X9onwkrh5YmZ3POJvklId6S2JTlS_kNUPxwv1fvPFhnyiZP2L3vzsUBzSNhAsPA/exec"
+  + "?page=admin&token=" + d.token;
             }else{
                 alert(JSON.stringify(d));
             }
@@ -408,5 +409,6 @@
 </body>
 
 </html>
+
 
 
