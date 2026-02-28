@@ -340,9 +340,7 @@
         .then(d=>{
             if(d.success){
                 window.location.href =
-                GAS_URL +
-                "?page=admin&token=" + d.token +
-                "&v=" + Date.now();
+                `${GAS_URL}?page=admin&token=${d.token}&t=${Date.now()}`;
             }else{
                 alert(JSON.stringify(d));
             }
@@ -410,6 +408,7 @@
 </body>
 
 </html>
+
 
 
 
