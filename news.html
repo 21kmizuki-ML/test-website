@@ -6,7 +6,6 @@
     <title>XXXXXXXXXXX研究室 | University Lab</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* --- 基本設定 & 変数 --- */
         :root {
             --primary-color: #003366;
             --accent-color: #c5a059;
@@ -14,222 +13,121 @@
             --bg-light: #f8f9fa;
             --white: #ffffff;
             --transition: all 0.3s ease;
-            --footer-dark: #1a1a1a; /* やや明るめの黒 */
+            --footer-dark: #1a1a1a;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
-            color: var(--text-color);
-            line-height: 1.8;
-            background-color: var(--white);
+            color: var(--text-color); line-height: 1.8; background-color: var(--white);
         }
-
         a { text-decoration: none; color: inherit; }
         ul { list-style: none; }
 
-        /* --- ヘッダー & ハンバーガーメニュー --- */
+        /* ヘッダー */
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.5rem 5%;
-            background: var(--white);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            height: 80px;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.5rem 5%; background: var(--white);
+            position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); height: 80px;
         }
-
-        .logo a {
-            display: flex;
-            align-items: center;
-        }
-        .logo img {
-            height: 60px;
-            width: auto;
-            display: block;
-        }
-
+        .logo a { display: flex; align-items: center; }
+        .logo img { height: 60px; width: auto; display: block; }
         #menu-toggle { display: none; }
-
-        .menu-icon {
-            display: none;
-            cursor: pointer;
-            font-size: 1.5rem;
-            color: var(--primary-color);
-        }
-
-        nav ul {
-            display: flex;
-            gap: 20px;
-        }
-
-        .nav-link {
-            font-size: 0.85rem;
-            font-weight: 600;
-            position: relative;
-            padding: 5px 0;
-        }
-
+        .menu-icon { display: none; cursor: pointer; font-size: 1.5rem; color: var(--primary-color); }
+        nav ul { display: flex; gap: 20px; }
+        .nav-link { font-size: 0.85rem; font-weight: 600; position: relative; padding: 5px 0; }
         .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0; width: 0; height: 2px;
-            background: var(--accent-color);
-            transition: var(--transition);
+            content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px;
+            background: var(--accent-color); transition: var(--transition);
         }
         .nav-link:hover::after { width: 100%; }
 
-
-
-        /* --- コンテンツセクション --- */
-        section {
-            padding: 80px 10%;
-        }
-
+        /* セクション */
+        section { padding: 80px 10%; }
         h2 {
-            font-size: 2rem;
-            margin-bottom: 40px;
-            text-align: center;
-            position: relative;
-            padding-bottom: 15px;
+            font-size: 2rem; margin-bottom: 40px; text-align: center;
+            position: relative; padding-bottom: 15px;
         }
-
         h2::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 3px;
+            content: ''; position: absolute; bottom: 0; left: 50%;
+            transform: translateX(-50%); width: 50px; height: 3px;
             background: var(--accent-color);
         }
 
-        /* ===== News Card Layout ===== */
-        /* ローディング表示 */
+        /* ローディング */
         .loading-state {
-            text-align: center;
-            padding: 50px 20px;
-            color: #888;
-            font-size: 1rem;
+            text-align: center; padding: 50px 20px; color: #888; font-size: 1rem;
         }
         .loading-state i { margin-right: 8px; }
         @keyframes spin { from{transform:rotate(0)} to{transform:rotate(360deg)} }
         .fa-spin { animation: spin 1s linear infinite; }
-        
+
+        /* ニュースカード */
         .news-wrapper { max-width: 900px; margin: auto; }
         .news-card {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            background: white; padding: 22px 24px; border-radius: 10px;
+            margin-bottom: 18px; box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+            border-left: 4px solid transparent; transition: var(--transition);
         }
-        .news-title { font-weight: bold; font-size: 1.1rem; margin-bottom: 10px; }
-        .news-date { color:#888; font-size:0.9rem; margin-bottom:10px; }
-
-        /* ===== Accordion ===== */
-        .accordion {
-            max-width: 800px;
-            margin: 0 auto;
+        .news-card:hover {
+            transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            border-left-color: var(--accent-color);
         }
-
-        .accordion-content {
-            max-height: 120px;
-            overflow: hidden;
-            transition: 0.4s ease;
-            position: relative;
+        .news-date { color: #888; font-size: 0.88rem; margin-bottom: 6px; }
+        .news-tag {
+            display: inline-block; background: var(--primary-color); color: white;
+            font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; margin-left: 8px;
         }
+        .news-title { font-weight: bold; font-size: 1.05rem; margin-bottom: 6px; }
+        .news-body { font-size: 0.9rem; color: #555; }
 
-        .accordion-content.expanded {
-            max-height: 1000px;
+        /* 管理者パネル */
+        #adminPanel {
+            display: none; border: 1px solid #ccc; padding: 20px;
+            border-radius: 8px; margin-top: 30px; background: #fafafa;
         }
-
-        .accordion-toggle {
-            margin-top: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            color: var(--primary-color);
+        #adminPanel h3 { margin-bottom: 14px; color: var(--primary-color); }
+        #adminPanel input {
+            padding: 8px 12px; margin: 4px 0 10px; border: 1px solid #ccc;
+            border-radius: 6px; font-size: 0.9rem; width: 260px; max-width: 100%;
         }
-
-        /* ===== Language Toggle ===== */
-        .lang-btn {
-            margin-left: 20px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            font-weight: bold;
-            color: var(--primary-color);
+        #adminPanel button {
+            padding: 8px 18px; background: var(--primary-color); color: white;
+            border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; margin-left: 6px;
+        }
+        #adminPanel button:hover { background: var(--accent-color); }
+        .pw-wrap { position: relative; display: inline-block; }
+        .pw-wrap input { padding-right: 40px; }
+        .pw-eye {
+            position: absolute; right: 10px; top: 50%; transform: translateY(-60%);
+            cursor: pointer; font-size: 1.1rem; user-select: none;
         }
 
-        /* --- フッター --- */
-        footer {
-            background: var(--primary-color);
-            color: white;
-            margin-top: 50px;
-        }
+        /* 言語切替 */
+        .lang-btn { margin-left: 20px; cursor: pointer; font-size: 0.8rem; font-weight: bold; color: var(--primary-color); }
 
-        .footer-content {
-            padding: 60px 10% 40px;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-        }
-
-        .footer-contact h4, .footer-nav h4 {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            color: var(--accent-color);
-        }
-
+        /* フッター */
+        footer { background: var(--primary-color); color: white; margin-top: 50px; }
+        .footer-content { padding: 60px 10% 40px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
+        .footer-contact h4, .footer-nav h4 { font-size: 1.2rem; margin-bottom: 20px; color: var(--accent-color); }
         .footer-contact p { margin-bottom: 10px; font-size: 0.9rem; }
-
-        /* ③ フッター最下部の装飾設定 */
         .footer-bottom {
-            background: var(--footer-dark);
-            text-align: center;
-            padding: 25px 0;
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.6);
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background: var(--footer-dark); text-align: center; padding: 25px 0;
+            font-size: 0.8rem; color: rgba(255,255,255,0.6);
+            border-top: 1px solid rgba(255,255,255,0.05);
         }
 
-        /* モバイル対応 */
+        /* モバイル */
         @media (max-width: 768px) {
             .menu-icon { display: block; }
-
             nav {
-                position: absolute;
-                top: 80px;
-                left: 0;
-                width: 100%;
-                background: var(--white);
-                max-height: 0;
-                overflow: hidden;
-                transition: var(--transition);
-                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+                position: absolute; top: 80px; left: 0; width: 100%;
+                background: var(--white); max-height: 0; overflow: hidden;
+                transition: var(--transition); box-shadow: 0 5px 10px rgba(0,0,0,0.1);
             }
-
-            nav ul {
-                flex-direction: column;
-                padding: 20px 5%;
-                gap: 15px;
-            }
-
+            nav ul { flex-direction: column; padding: 20px 5%; gap: 15px; }
             #menu-toggle:checked ~ nav { max-height: 500px; }
-
-            .hero { height: 350px; }
-            .chief-container { flex-direction: column; text-align: center; }
             section { padding: 50px 5%; }
         }
     </style>
@@ -238,20 +136,14 @@
 
     <header>
         <div class="logo">
-            <a href="index.html">
-                <img src="image/logo.png" alt="研究室ロゴ">
-            </a>
+            <a href="index.html"><img src="image/logo.png" alt="研究室ロゴ"></a>
         </div>
-
         <input type="checkbox" id="menu-toggle">
-        <label for="menu-toggle" class="menu-icon">
-            <i class="fas fa-bars"></i>
-        </label>
+        <label for="menu-toggle" class="menu-icon"><i class="fas fa-bars"></i></label>
         <div>
             <span class="lang-btn" onclick="switchLang('ja')">JP</span> /
             <span class="lang-btn" onclick="switchLang('en')">EN</span>
         </div>
-
         <nav>
             <ul>
                 <li><a href="index.html" class="nav-link">HOME</a></li>
@@ -266,41 +158,31 @@
 
     <main>
         <section>
-            <h2>News & Topics</h2>
-            <div id="news-list">
+            <h2>News &amp; Topics</h2>
+
+            <!-- ローディング → 取得後に差し替え -->
+            <div id="news-list" class="news-wrapper">
                 <div class="loading-state">
                     <i class="fas fa-spinner fa-spin"></i>記事を読み込み中...
                 </div>
             </div>
 
-            <!-- 管理ログインUI（初期非表示） -->
-            <div id="adminPanel" style="display:none; border:1px solid #ccc; padding:10px; margin-top:20px;">
-              <h3>管理者ログイン</h3>
-              <input id="name" placeholder="名前">
-
-                
-              <!-- パスワード欄（表示切替付き） -->
-              <div style="position:relative; margin: 6px 0 14px;">
-                <input id="pw" type="password" placeholder="パスワード 45"
-                  style="width:100%; padding:10px; padding-right:40px;
-                         border:1px solid #ccc; border-radius:6px;">
-                <span onclick="togglePw()"
-                  id="pwEye"
-                  style="position:absolute; right:12px; top:50%;
-                         transform:translateY(-50%);
-                         cursor:pointer; font-size:1.1rem; user-select:none;">
-                  👁
-                </span>
-              </div>
-                
-              <button onclick="requestOTP()">OTP送信</button>
-              <br><br>
-              <input id="otp" placeholder="OTP">
-              <button onclick="verifyOTP()">認証</button>
+            <!-- 管理ログインUI（コナミコマンドで表示） -->
+            <div id="adminPanel">
+                <h3>管理者ログイン</h3>
+                <div>
+                    <input id="name" placeholder="ユーザー名">
+                </div>
+                <div class="pw-wrap">
+                    <input id="pw" type="password" placeholder="パスワード">
+                    <span class="pw-eye" id="pwEye" onclick="togglePw()">👁</span>
+                </div>
+                <button onclick="requestOTP()">OTP送信</button>
+                <br><br>
+                <input id="otp" placeholder="OTPコード">
+                <button onclick="verifyOTP()">認証してログイン</button>
             </div>
-
         </section>
-
     </main>
 
     <footer>
@@ -312,18 +194,17 @@
                     <p><i class="fas fa-map-marker-alt"></i> 〒XXX-XXXX XXXXXXXXXXXX町 XXXX-X</p>
                     <p><i class="fas fa-envelope"></i> contact☆example.univ.ac.jp (☆→＠)</p>
                 </div>
-                
                 <div class="footer-nav">
                     <h4>Quick Links</h4>
-                    <ul style="font-size: 0.9rem;">
-                        <li style="margin-bottom: 8px;"><a href="#home">Home</a></li>
-                        <li style="margin-bottom: 8px;"><a href="#about">About Our Lab</a></li>
-                        <li style="margin-bottom: 8px;"><a href="achievements.html">Research</a></li>
-                        <li style="margin-bottom: 8px;"><a href="#recruit">Recruit</a></li> </ul>
+                    <ul style="font-size:0.9rem;">
+                        <li style="margin-bottom:8px;"><a href="index.html">Home</a></li>
+                        <li style="margin-bottom:8px;"><a href="members.html">Members</a></li>
+                        <li style="margin-bottom:8px;"><a href="achievements.html">Research</a></li>
+                        <li style="margin-bottom:8px;"><a href="recruit.html">Recruit</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
-
         <div class="footer-bottom">
             &copy; 2026 XXXXXXXXXXXX Lab, XXXXXXXXXXX University. All Rights Reserved.
         </div>
@@ -332,206 +213,135 @@
     <script>
         const GAS_URL = "https://script.google.com/macros/s/AKfycbyn-77l1a98_TDs8q12SLCiqxVKLz39UKwfEHOy-QphXecg5-cgBHFx5jAe3iXzuY8D4A/exec";
 
-        // パスワード入力欄を追加
-        function requestOTP(){
-          fetch(GAS_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: new URLSearchParams({
-              type     : "request",
-              name     : document.getElementById("name").value,
-              password : document.getElementById("pw").value  // ← 追加
-            })
-          })
-          .then(r => r.json())
-          .then(d => {
-            if(d.success){
-              alert("OTPをメールに送信しました");
-            } else {
-              alert("名前またはパスワードが違います");
-            }
-          });
-        }
+        let currentLang  = "ja";
+        let allArticles  = [];
 
-        function verifyOTP(){
-
-        fetch(GAS_URL,{
-            method:"POST",
-            headers:{
-                "Content-Type":
-                "application/x-www-form-urlencoded"
-            },
-            body:new URLSearchParams({
-                type:"verifyOTP",
-                name:document.getElementById("name").value,
-                otp:document.getElementById("otp").value
-            })
-        })
-        .then(r=>r.json())
-        .then(d=>{
-            if(d.success){
-                // ===== 変更後（この1行に差し替え） =====
-                window.open(
-                  `${GAS_URL}?page=admin&token=${d.token}&t=${Date.now()}`,
-                  'adminWindow',
-                  'width=1150,height=750,scrollbars=yes,resizable=yes,left=100,top=80'
-                );
-            }else{
-                alert(JSON.stringify(d));
-            }
-        });
-
-        }
-        
-        let secret = [];
-        const konami = [
-        "ArrowUp","ArrowUp",
-        "ArrowDown","ArrowDown",
-        "ArrowLeft","ArrowRight",
-        "ArrowLeft","ArrowRight",
-        "b","a"
-        ];
-
-        document.addEventListener("keydown", function(e){
-
-        secret.push(e.key);
-
-        if(secret.length > konami.length){
-            secret.shift();
-        }
-
-        if(JSON.stringify(secret) === JSON.stringify(konami)){
-            document.getElementById("adminPanel").style.display = "block";
-            secret = [];
-        }
-
-        });
-
-        function togglePw(){
-          const input = document.getElementById("pw");
-          const eye   = document.getElementById("pwEye");
-          if(input.type === "password"){
-            input.type = "text";
-            eye.textContent = "🙈";
-          } else {
-            input.type = "password";
-            eye.textContent = "👁";
-          }
-        }
-
-
-        /* ===== News Auto Display (将来news.json取得可) ===== */
-        let currentLang = "ja";
-        let allArticles = [];
-        
+        /* ===== レンダリング ===== */
         function renderNews(){
-        　const newsList = document.getElementById('news-list');
-            newsList.innerHTML = '';
-            .catch(() => {
-            document.getElementById('news-list').innerHTML =
-                    '<p style="text-align:center;color:#888;padding:40px">記事を取得できませんでした。</p>';
-            });
-            
-          const container = document.getElementById("news-list");
-          container.innerHTML = "";
-        
-          allArticles
-            .sort((a,b) => new Date(b.date) - new Date(a.date))
-            .forEach(item => {
-              const title   = currentLang === "ja" ? item.title_ja   : item.title_en;
-              const content = currentLang === "ja" ? item.content_ja : item.content_en;
-        
-              if(!title) return; // その言語の記事がなければスキップ
-        
-              container.innerHTML += `
+            const container = document.getElementById("news-list");
+            container.innerHTML = "";
+
+            const sorted = allArticles.slice().sort((a,b)=>new Date(b.date)-new Date(a.date));
+            if(sorted.length === 0){
+                container.innerHTML = '<p style="text-align:center;color:#888;padding:40px">記事がありません。</p>';
+                return;
+            }
+
+            sorted.forEach(item => {
+                const title   = currentLang === "ja" ? item.title_ja   : (item.title_en   || item.title_ja);
+                const content = currentLang === "ja" ? item.content_ja : (item.content_en || item.content_ja);
+                if(!title) return;
+
+                container.innerHTML += `
                 <div class="news-card">
-                  <div class="news-date">${item.date}
-                    <span style="
-                      background:#003366;
-                      color:white;
-                      font-size:0.7rem;
-                      padding:2px 8px;
-                      border-radius:10px;
-                      margin-left:8px;">
-                      ${item.tag}
-                    </span>
-                  </div>
-                  <div class="news-title">${title}</div>
-                  <p style="font-size:0.9rem;">${content}</p>
-                  ${item.externalLink ? 
-                    `<a href="${item.externalLink}" target="_blank"
-                      style="color:#003366; font-size:0.85rem;">
-                      詳細を見る →</a>` : ""}
+                    <div class="news-date">
+                        ${item.date}
+                        <span class="news-tag">${item.tag}</span>
+                    </div>
+                    <div class="news-title">${title}</div>
+                    ${content ? `<p class="news-body">${content}</p>` : ''}
+                    ${item.externalLink
+                        ? `<a href="${item.externalLink}" target="_blank" rel="noopener"
+                            style="color:var(--primary-color);font-size:0.85rem;font-weight:600;">
+                            詳細を見る <i class="fas fa-external-link-alt" style="font-size:.75rem;"></i></a>`
+                        : ''}
                 </div>`;
             });
         }
-        
+
         function switchLang(lang){
-          currentLang = lang;
-          renderNews();
+            currentLang = lang;
+            if(allArticles.length) renderNews();
         }
-        
-        // 初期ロード
+
+        /* ===== 初期ロード ===== */
         fetch(GAS_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: new URLSearchParams({ type: "getPublicArticles" })
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({ type: "getPublicArticles" })
         })
         .then(r => r.json())
         .then(data => {
-          if(!data.success) return;
-          allArticles = data.articles;
-          renderNews();
+            if(!data.success) throw new Error("取得失敗");
+            allArticles = data.articles || [];
+            renderNews();
+        })
+        .catch(() => {
+            document.getElementById("news-list").innerHTML =
+                '<p style="text-align:center;color:#888;padding:40px">記事を取得できませんでした。</p>';
         });
 
-        /* ===== Accordion ===== */
-        function toggleAccordion(id){
-            document.getElementById(id).classList.toggle("expanded");
+        /* ===== 管理者ログイン ===== */
+        function requestOTP(){
+            fetch(GAS_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: new URLSearchParams({
+                    type    : "request",
+                    name    : document.getElementById("name").value,
+                    password: document.getElementById("pw").value
+                })
+            })
+            .then(r => r.json())
+            .then(d => {
+                if(d.success){
+                    alert("OTPをメールに送信しました");
+                } else if(d.error === "locked"){
+                    alert(`アカウントがロックされています（残り${d.remaining}分）`);
+                } else {
+                    alert("ユーザー名またはパスワードが違います");
+                }
+            });
         }
+
+        function verifyOTP(){
+            fetch(GAS_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: new URLSearchParams({
+                    type: "verifyOTP",
+                    name: document.getElementById("name").value,
+                    otp : document.getElementById("otp").value
+                })
+            })
+            .then(r => r.json())
+            .then(d => {
+                if(d.success){
+                    window.open(
+                        `${GAS_URL}?page=admin&token=${d.token}&t=${Date.now()}`,
+                        'adminWindow',
+                        'width=1150,height=750,scrollbars=yes,resizable=yes,left=100,top=80'
+                    );
+                } else {
+                    const msg = {
+                        "wrong_otp": "OTPが違います",
+                        "expired"  : "OTPの有効期限が切れました",
+                        "no_otp"   : "OTPが発行されていません"
+                    };
+                    alert(msg[d.error] || JSON.stringify(d));
+                }
+            });
+        }
+
+        function togglePw(){
+            const input = document.getElementById("pw");
+            const eye   = document.getElementById("pwEye");
+            if(input.type === "password"){ input.type = "text"; eye.textContent = "🙈"; }
+            else                         { input.type = "password"; eye.textContent = "👁"; }
+        }
+
+        /* ===== コナミコマンド ===== */
+        let secret = [];
+        const konami = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown",
+                        "ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
+        document.addEventListener("keydown", e => {
+            secret.push(e.key);
+            if(secret.length > konami.length) secret.shift();
+            if(JSON.stringify(secret) === JSON.stringify(konami)){
+                document.getElementById("adminPanel").style.display = "block";
+                secret = [];
+            }
+        });
     </script>
-
 </body>
-
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
