@@ -146,7 +146,7 @@
         </div>
         <nav>
             <ul>
-                <li><a href="index.html" class="nav-link">HOME15</a></li>
+                <li><a href="index.html" class="nav-link">11HOME</a></li>
                 <li><a href="aboutUs.html" class="nav-link">ABOUT</a></li>
                 <li><a href="achievements.html" class="nav-link">RESEARCH</a></li>
                 <li><a href="members.html" class="nav-link">MEMBERS</a></li>
@@ -211,7 +211,7 @@
     </footer>
 
     <script>
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbyn-77l1a98_TDs8q12SLCiqxVKLz39UKwfEHOy-QphXecg5-cgBHFx5jAe3iXzuY8D4A/exec";
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbw_xTVSO0jYA22tsPTEKWS1_LWKQHKFHaU9RmBIl_0F9mcM-RtQIzE5CcttT5FQzhjXUQ/exec";
 
         let currentLang  = "ja";
         let allArticles  = [];
@@ -255,11 +255,7 @@
         }
 
         /* ===== 初期ロード ===== */
-        fetch(GAS_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: new URLSearchParams({ type: "getPublicArticles" })
-        })
+        fetch(GAS_URL + '?' + new URLSearchParams({ type: 'getPublicArticles' }), { redirect: 'follow' }))
         .then(r => r.json())
         .then(data => {
             if(!data.success) throw new Error("取得失敗");
@@ -273,15 +269,11 @@
 
         /* ===== 管理者ログイン ===== */
         function requestOTP(){
-            fetch(GAS_URL, {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: new URLSearchParams({
+            fetch(GAS_URL + '?' + new URLSearchParams({
                     type    : "request",
                     name    : document.getElementById("name").value,
                     password: document.getElementById("pw").value
-                })
-            })
+                }), { redirect: 'follow' })
             .then(r => r.json())
             .then(d => {
                 if(d.success){
@@ -295,15 +287,11 @@
         }
 
         function verifyOTP(){
-            fetch(GAS_URL, {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: new URLSearchParams({
+            fetch(GAS_URL + '?' + new URLSearchParams({
                     type: "verifyOTP",
                     name: document.getElementById("name").value,
                     otp : document.getElementById("otp").value
-                })
-            })
+                }), { redirect: 'follow' })
             .then(r => r.json())
             .then(d => {
                 if(d.success){
@@ -345,4 +333,3 @@
     </script>
 </body>
 </html>
-
