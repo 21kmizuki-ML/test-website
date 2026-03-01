@@ -470,31 +470,72 @@
     </footer>
 
     <script>
-    /* ===== News Auto Display (将来news.json取得可) ===== */
-    fetch("news.json")
-    .then(res=>res.json())
-    .then(data=>{
-        data.sort((a,b)=> new Date(b.date) - new Date(a.date));
-        data.slice(0,3).forEach(item=>{
-            newsList.innerHTML += `
+        const GAS_URL = "https://script.google.com/macros/s/XXXXXXXXXX/exec";
+        const LANG = "ja"; // このページは日本語固定
+        
+        fetch(GAS_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({ type: "getPublicArticles" })
+        })
+        .then(r => r.json())
+        .then(data => {
+          if(!data.success) return;
+        
+          const newsList = document.getElementById("news-list");
+        
+          // 日付降順ソートして最新3件のみ表示
+          data.articles
+            .sort((a, b) => new Date(b.date) - new Date(a.date))
+            .slice(0, 3)
+            .forEach(item => {
+              const title   = LANG === "ja" ? item.title_ja   : item.title_en;
+              const content = LANG === "ja" ? item.content_ja : item.content_en;
+        
+              // どちらかが空の場合はスキップ
+              if(!title) return;
+        
+              newsList.innerHTML += `
                 <div class="news-item">
-                    <div class="news-date">${item.date}</div>
-                    <div><strong>${item.title}</strong><br>${item.content}</div>
+                  <div class="news-date">${item.date} 
+                    <span style="
+                      background:#003366;
+                      color:white;
+                      font-size:0.7rem;
+                      padding:2px 8px;
+                      border-radius:10px;
+                      margin-left:8px;">
+                      ${item.tag}
+                    </span>
+                  </div>
+                  <div><strong>${title}</strong>
+                    <p style="margin-top:5px; font-size:0.9rem;">${content}</p>
+                    ${item.externalLink ? 
+                      `<a href="${item.externalLink}" target="_blank" 
+                        style="color:#003366; font-size:0.85rem;">
+                        詳細を見る →</a>` : ""}
+                  </div>
                 </div>`;
-        });
-    })
-    .catch(()=>{
-        newsData.slice(0,3).forEach(item=>{
+            });
+        })
+        .catch(() => {
+          // フォールバック：GAS取得失敗時はハードコードのデータを表示
+          const fallback = [
+            {date:"2026.02.27", title_ja:"ウェブサイトをリニューアルしました。"}
+          ];
+          const newsList = document.getElementById("news-list");
+          fallback.forEach(item => {
             newsList.innerHTML += `
-                <div class="news-item">
-                    <div class="news-date">${item.date}</div>
-                    <div>${item.text}</div>
-                </div>`;
+              <div class="news-item">
+                <div class="news-date">${item.date}</div>
+                <div>${item.title_ja}</div>
+              </div>`;
+          });
         });
-    });
-    </script>
+        </script>
 
 </body>
 
 </html>
+
 
