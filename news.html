@@ -302,7 +302,7 @@
     </footer>
 
     <script>
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbxmF8YIHmuNaakqhuUKsHQK1icmdnr5-ciST0wu0lcDQo2_ccnC0eArCONCaimWGhxqpw/exec";
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbywbiifOkghl6BMa2VOZpyFM5kHu9Of1ahA-ySDH5lzplxD-tBodzdszxVg-lPFqSfUEA/exec";
 
         function requestOTP(){
 
@@ -373,21 +373,60 @@
         });
 
         /* ===== News Auto Display (将来news.json取得可) ===== */
-        const newsData = [
-            {date:"2026.02.27", text:"ウェブサイトをリニューアルしました。"},
-            {date:"2026.02.15", text:"M2の山田さんが国際学会で優秀発表賞を受賞しました。"},
-            {date:"2026.01.30", text:"新しい研究プロジェクトが開始しました。"},
-            {date:"2026.01.10", text:"修士論文発表会を実施しました。"}
-        ];
-
-        const newsList = document.getElementById("news-list");
-        newsData.slice(0,3).forEach(item=>{
-            newsList.innerHTML += `
-                <div class="news-item">
-                    <div class="news-date">${item.date}</div>
-                    <div>${item.text}</div>
-                </div>
-            `;
+        let currentLang = "ja";
+        let allArticles = [];
+        
+        function renderNews(){
+          const container = document.getElementById("news-list");
+          container.innerHTML = "";
+        
+          allArticles
+            .sort((a,b) => new Date(b.date) - new Date(a.date))
+            .forEach(item => {
+              const title   = currentLang === "ja" ? item.title_ja   : item.title_en;
+              const content = currentLang === "ja" ? item.content_ja : item.content_en;
+        
+              if(!title) return; // その言語の記事がなければスキップ
+        
+              container.innerHTML += `
+                <div class="news-card">
+                  <div class="news-date">${item.date}
+                    <span style="
+                      background:#003366;
+                      color:white;
+                      font-size:0.7rem;
+                      padding:2px 8px;
+                      border-radius:10px;
+                      margin-left:8px;">
+                      ${item.tag}
+                    </span>
+                  </div>
+                  <div class="news-title">${title}</div>
+                  <p style="font-size:0.9rem;">${content}</p>
+                  ${item.externalLink ? 
+                    `<a href="${item.externalLink}" target="_blank"
+                      style="color:#003366; font-size:0.85rem;">
+                      詳細を見る →</a>` : ""}
+                </div>`;
+            });
+        }
+        
+        function switchLang(lang){
+          currentLang = lang;
+          renderNews();
+        }
+        
+        // 初期ロード
+        fetch(GAS_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({ type: "getPublicArticles" })
+        })
+        .then(r => r.json())
+        .then(data => {
+          if(!data.success) return;
+          allArticles = data.articles;
+          renderNews();
         });
 
         /* ===== Accordion ===== */
@@ -408,6 +447,7 @@
 </body>
 
 </html>
+
 
 
 
