@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>GAS 診断ツール</title>
+<style>
+  body{ font-family:monospace; padding:20px; background:#111; color:#eee; font-size:14px; }
+  h1{ color:#f0c040; }
+  .section{ margin:20px 0; border:1px solid #444; border-radius:6px; overflow:hidden; }
+  .section-title{ background:#222; padding:10px 14px; font-weight:bold; color:#adf; font-size:1rem; }
+  .row{ display:flex; align-items:center; gap:10px; padding:10px 14px; border-top:1px solid #333; }
+  label{ width:220px; color:#ccc; }
+  button{ padding:6px 14px; background:#003366; color:#fff; border:none; border-radius:4px; cursor:pointer; font-size:0.9rem; }
+  button:hover{ background:#0055aa; }
+  .result{ flex:1; padding:8px 12px; background:#1a1a1a; border-radius:4px; color:#7f7; font-size:0.82rem; overflow-wrap:anywhere; max-height:120px; overflow-y:auto; }
+  .result.error{ color:#f77; }
+  .result.warn{ color:#fa7; }
+  input[type=text]{ padding:6px 10px; background:#222; color:#eee; border:1px solid #555; border-radius:4px; width:200px; }
+  .status{ display:inline-block; width:12px; height:12px; border-radius:50%; margin-right:6px; vertical-align:middle; }
+  .ok{ background:#4f4; }
+  .ng{ background:#f44; }
+  .pending{ background:#fa4; }
+  .tip{ background:#223; border-left:4px solid #f0c040; padding:10px 14px; margin:14px 0; font-size:0.85rem; line-height:1.8; color:#ffc; }
+  .url-display{ word-break:break-all; color:#adf; font-size:0.8rem; padding:8px 14px; background:#1a1a2e; }
+</style>
+</head>
+<body>
+
+<h1>🔬 GAS 診断ツール</h1>
+
+<div class="tip">
+  ① このページをサーバーにアップロードして開くか、<br>
+  ② ブラウザで「ファイルを開く」で直接開いてください。<br>
+  各ボタンを上から順に押して、すべて緑になれば正常です。
+</div>
+
+<!-- GAS URL 設定 -->
+<div class="section">
+  <div class="section-title">⚙️ GAS URL 設定</div>
+  <div class="row">
+    <label>デプロイ URL</label>
+    <input type="text" id="gas-url" 
+      value="https://script.google.com/macros/s/AKfycbwSn6NRczBSietv9pIPXnKXxc5XiobGurw_9gqTFXvjUqNT4l4PkBJ4f1PVNwfw6hTUnw/exec"
+      style="width:500px;">
+    <button onclick="saveUrl()">セット</button>
+  </div>
+  <div class="url-display" id="url-display">—</div>
+</div>
+
+<!-- テスト1: 疎通確認 -->
+<div class="section">
+  <div class="section-title">1️⃣ GAS 疎通確認（GET リクエスト）</div>
+  <div class="row">
+    <label>GAS にアクセスできるか</label>
+    <button onclick="testGet()">テスト実行</button>
+    <div class="result" id="r-get">—</div>
+  </div>
+</div>
+
+<!-- テスト2: 記事取得 -->
+<div class="section">
+  <div class="section-title">2️⃣ 公開記事取得（getPublicArticles）</div>
+  <div class="row">
+    <label>index.html / news.html で使用</label>
+    <button onclick="testPost('getPublicArticles','r-articles')">テスト実行</button>
+    <div class="result" id="r-articles">—</div>
+  </div>
+</div>
+
+<!-- テスト3: 業績取得 -->
+<div class="section">
+  <div class="section-title">3️⃣ 研究業績取得（getPublicPublications）</div>
+  <div class="row">
+    <label>achievements.html で使用</label>
+    <button onclick="testPost('getPublicPublications','r-pubs')">テスト実行</button>
+    <div class="result" id="r-pubs">—</div>
+  </div>
+</div>
+
+<!-- テスト4: メンバー取得 -->
+<div class="section">
+  <div class="section-title">4️⃣ メンバー取得（getPublicMembers）</div>
+  <div class="row">
+    <label>members.html で使用</label>
+    <button onclick="testPost('getPublicMembers','r-members')">テスト実行</button>
+    <div class="result" id="r-members">—</div>
+  </div>
+</div>
+
+<!-- テスト5: OTPリクエスト -->
+<div class="section">
+  <div class="section-title">5️⃣ OTP 送信テスト（管理者ログイン Step 1）</div>
+  <div class="row">
+    <label>ユーザー名</label>
+    <input type="text" id="test-name" placeholder="スプレッドシートのA列の名前">
+  </div>
+  <div class="row">
+    <label>パスワード</label>
+    <input type="text" id="test-pw" placeholder="C列のパスワード">
+    <button onclick="testOtpRequest()">OTP送信テスト</button>
+    <div class="result" id="r-otp-req">—</div>
+  </div>
+</div>
+
+<!-- テスト6: OTP検証 -->
+<div class="section">
+  <div class="section-title">6️⃣ OTP 検証テスト（管理者ログイン Step 2）</div>
+  <div class="row">
+    <label>受信したOTPコード</label>
+    <input type="text" id="test-otp" placeholder="6桁の数字">
+    <button onclick="testOtpVerify()">検証テスト</button>
+    <div class="result" id="r-otp-verify">—</div>
+  </div>
+</div>
+
+<!-- 結果サマリー -->
+<div class="section">
+  <div class="section-title">📋 診断サマリー</div>
+  <div class="row" style="display:block; padding:14px;">
+    <div id="summary" style="line-height:2.2; font-size:0.9rem; color:#ccc;">
+      テストを実行すると、ここに診断結果が表示されます。
+    </div>
+  </div>
+</div>
+
+<script>
+let GAS_URL = document.getElementById('gas-url').value;
+
+function saveUrl(){
+  GAS_URL = document.getElementById('gas-url').value.trim();
+  document.getElementById('url-display').textContent = GAS_URL;
+}
+saveUrl();
+
+const results = {};
+
+function setResult(id, text, type='ok'){
+  const el = document.getElementById(id);
+  el.textContent = text;
+  el.className = 'result ' + (type === 'ok' ? '' : type);
+  results[id] = { text, type };
+  updateSummary();
+}
+
+function updateSummary(){
+  const checks = [
+    { id:'r-get',       label:'GAS疎通' },
+    { id:'r-articles',  label:'記事取得' },
+    { id:'r-pubs',      label:'業績取得' },
+    { id:'r-members',   label:'メンバー取得' },
+    { id:'r-otp-req',   label:'OTP送信' },
+    { id:'r-otp-verify',label:'OTP検証' },
+  ];
+  let html = '';
+  checks.forEach(c=>{
+    const r = results[c.id];
+    if(!r){ html += `<span class="status pending"></span>${c.label}: 未テスト<br>`; return; }
+    const cls = r.type === 'ok' ? 'ok' : (r.type === 'warn' ? 'pending' : 'ng');
+    html += `<span class="status ${cls}"></span>${c.label}: ${r.text.substring(0,80)}<br>`;
+  });
+  document.getElementById('summary').innerHTML = html || '—';
+}
+
+/* ===== GET テスト ===== */
+async function testGet(){
+  setResult('r-get','実行中...','warn');
+  try{
+    const r = await fetch(GAS_URL, { redirect:'follow' });
+    const text = await r.text();
+    if(r.ok){
+      setResult('r-get', `✅ HTTP ${r.status} — GASに到達できます（${text.substring(0,50)}...）`,'ok');
+    } else {
+      setResult('r-get', `⚠️ HTTP ${r.status} — ${text.substring(0,100)}`,'warn');
+    }
+  }catch(e){
+    setResult('r-get', `❌ エラー: ${e.message}\n→ CORS or URL問題の可能性`, 'error');
+  }
+}
+
+/* ===== POST テスト共通 ===== */
+async function testPost(type, resultId){
+  setResult(resultId, '実行中...', 'warn');
+  try{
+    const r = await fetch(GAS_URL, {
+      method:'POST',
+      redirect:'follow',
+      headers:{ 'Content-Type':'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ type })
+    });
+    const text = await r.text();
+    
+    // JSON parse 試行
+    let json;
+    try{ json = JSON.parse(text); }
+    catch(e){
+      setResult(resultId, `❌ JSONパース失敗\nレスポンス: ${text.substring(0,150)}`, 'error');
+      return;
+    }
+    
+    if(json.success !== false && json.error == null){
+      const count = json.articles?.length ?? json.publications?.length ?? json.members?.length ?? '—';
+      setResult(resultId, `✅ 成功 — ${typeof count === 'number' ? count+'件取得' : JSON.stringify(json).substring(0,80)}`);
+    } else {
+      setResult(resultId, `❌ success:false または error — ${JSON.stringify(json).substring(0,120)}`, 'error');
+    }
+  }catch(e){
+    setResult(resultId, `❌ fetchエラー: ${e.message}`, 'error');
+  }
+}
+
+/* ===== OTP リクエスト ===== */
+async function testOtpRequest(){
+  const name = document.getElementById('test-name').value.trim();
+  const pw   = document.getElementById('test-pw').value.trim();
+  if(!name||!pw){ setResult('r-otp-req','❌ 名前とパスワードを入力してください','error'); return; }
+  
+  setResult('r-otp-req','実行中...','warn');
+  try{
+    const r = await fetch(GAS_URL, {
+      method:'POST', redirect:'follow',
+      headers:{ 'Content-Type':'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ type:'request', name, password:pw })
+    });
+    const json = await r.json();
+    if(json.success){
+      setResult('r-otp-req', `✅ OTP送信成功！メールを確認してください`);
+    } else if(json.error === 'invalid_credentials'){
+      setResult('r-otp-req', `❌ 認証失敗 — ユーザー名またはパスワードが違います\n※ users シートのA列(名前)・C列(パスワード)を確認`, 'error');
+    } else if(json.error === 'locked'){
+      setResult('r-otp-req', `⚠️ ロック中 — 残り${json.remaining}分後に再試行`, 'warn');
+    } else {
+      setResult('r-otp-req', `❌ 不明エラー: ${JSON.stringify(json)}`, 'error');
+    }
+  }catch(e){
+    setResult('r-otp-req', `❌ fetchエラー: ${e.message}`, 'error');
+  }
+}
+
+/* ===== OTP 検証 ===== */
+async function testOtpVerify(){
+  const name = document.getElementById('test-name').value.trim();
+  const otp  = document.getElementById('test-otp').value.trim();
+  if(!name||!otp){ setResult('r-otp-verify','❌ 名前とOTPコードを入力してください','error'); return; }
+  
+  setResult('r-otp-verify','実行中...','warn');
+  try{
+    const r = await fetch(GAS_URL, {
+      method:'POST', redirect:'follow',
+      headers:{ 'Content-Type':'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ type:'verifyOTP', name, otp })
+    });
+    const json = await r.json();
+    if(json.success && json.token){
+      setResult('r-otp-verify', `✅ 認証成功！ token=${json.token.substring(0,16)}...`);
+    } else {
+      const msg = {
+        wrong_otp:'OTPコードが違います',
+        expired:'有効期限切れ（再度OTP送信が必要）',
+        no_otp:'OTPが発行されていません（先にOTP送信を）'
+      };
+      setResult('r-otp-verify', `❌ ${msg[json.error]||JSON.stringify(json)}`, 'error');
+    }
+  }catch(e){
+    setResult('r-otp-verify', `❌ fetchエラー: ${e.message}`, 'error');
+  }
+}
+
+updateSummary();
+</script>
+
+</body>
+</html>
