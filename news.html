@@ -302,24 +302,27 @@
     </footer>
 
     <script>
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbyFjyQQrAfOh7GqIfjyVtBvvJ66C12KovfS8qQ89hb9jAFg_POOtdOESnpTDq1wyvXQ1g/exec";
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbz_C9qXKVfKH7J7sQ-rDGePA1x-4SG0N8ccjHYO3QcDM31-hjIh_uVSVYq84IYvaya2yw/exec";
 
+        // パスワード入力欄を追加
         function requestOTP(){
-
-        fetch(GAS_URL,{
-            method:"POST",
-            headers:{
-                "Content-Type":
-                "application/x-www-form-urlencoded"
-            },
-            body:new URLSearchParams({
-                type:"request",
-                name:document.getElementById("name").value
+          fetch(GAS_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({
+              type     : "request",
+              name     : document.getElementById("name").value,
+              password : document.getElementById("pw").value  // ← 追加
             })
-        })
-        .then(r=>r.json())
-        .then(d=>alert(JSON.stringify(d)));
-
+          })
+          .then(r => r.json())
+          .then(d => {
+            if(d.success){
+              alert("OTPをメールに送信しました");
+            } else {
+              alert("名前またはパスワードが違います");
+            }
+          });
         }
 
         function verifyOTP(){
@@ -447,6 +450,7 @@
 </body>
 
 </html>
+
 
 
 
