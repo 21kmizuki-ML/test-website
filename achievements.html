@@ -220,7 +220,7 @@
         let currentFilter = 'all';
 
         // GASから取得
-        fetch(GAS_URL + '?' + new URLSearchParams({ type: 'getPublicPublications' }), { redirect: 'follow' }))
+        fetch(GAS_URL + '?' + new URLSearchParams({ type: 'getPublicPublications' }), { redirect: 'follow' })
         .then(r => r.json())
         .then(data => {
             if (!data.success) {
