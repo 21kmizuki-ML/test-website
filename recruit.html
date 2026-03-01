@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RECRUIT | 大塚光雄バイオメカニクス研究室</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* index.html の共通スタイルを継承 */
+        :root {
+            --primary-color: #003366;
+            --accent-color: #c5a059;
+            --text-color: #333;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+            --transition: all 0.3s ease;
+            --footer-dark: #1a1a1a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            color: var(--text-color);
+            line-height: 1.8;
+        }
+
+        header { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 5%; background: var(--white); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); height: 80px; }
+        .logo img { height: 60px; width: auto; }
+        nav ul { display: flex; gap: 20px; list-style: none; }
+        .nav-link { font-size: 0.85rem; font-weight: 600; text-decoration: none; color: inherit; position: relative; }
+        .nav-link::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--accent-color); transition: var(--transition); }
+        .nav-link:hover::after { width: 100%; }
+
+        /* リクルート専用メッセージセクション */
+        .recruit-hero {
+            padding: 120px 10%;
+            background: linear-gradient(135deg, #003366 0%, #001a33 100%);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .recruit-hero::before {
+            content: '“';
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 15rem;
+            color: rgba(197, 160, 89, 0.1);
+            font-family: serif;
+        }
+
+        .message-box {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .message-main {
+            font-size: 2.2rem;
+            font-weight: bold;
+            line-height: 1.5;
+            margin-bottom: 40px;
+            color: var(--accent-color);
+        }
+
+        .message-sub {
+            font-size: 1.1rem;
+            line-height: 2;
+            text-align: left;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 15px;
+            border-bottom: 3px solid var(--accent-color);
+        }
+
+        /* 求める人物像セクション */
+        section { padding: 80px 10%; }
+        .target-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 50px;
+        }
+        .target-item {
+            padding: 30px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .target-item i { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 20px; }
+
+        /* コンタクトボタン */
+        .cta-section {
+            text-align: center;
+            background-color: var(--bg-light);
+        }
+        .btn-large {
+            display: inline-block;
+            padding: 20px 60px;
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: var(--transition);
+            margin-top: 30px;
+        }
+        .btn-large:hover { background-color: var(--accent-color); transform: scale(1.05); }
+
+        footer { background: var(--primary-color); color: white; padding: 60px 10% 0; }
+        .footer-bottom { background: var(--footer-dark); text-align: center; padding: 25px 0; font-size: 0.8rem; margin: 0 -11.2%; margin-top: 40px;}
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo"><a href="index.html"><img src="image/logo.png" alt="研究室ロゴ"></a></div>
+        <nav>
+            <ul>
+                <li><a href="index.html" class="nav-link">HOME</a></li>
+                <li><a href="aboutUs.html" class="nav-link">ABOUT</a></li>
+                <li><a href="research.html" class="nav-link">RESEARCH</a></li>
+                <li><a href="recruit.html" class="nav-link">RECRUIT</a></li>
+                <li><a href="news.html" class="nav-link">NEWS</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="recruit-hero">
+            <div class="message-box">
+                <div class="message-main">
+                    素人発想、大歓迎です。<br>
+                    その発想を玄人実行できるように<br>研究指導をさせて頂きます。
+                </div>
+                <div class="message-sub">
+                    日頃のトレーニングやコーチングで浮かぶ疑問の答えが知りたい方、スポーツや物理が好きな方、知的に競技を続けたい方、大塚研究室のテーマで研究をしたい方は、是非、一度、連絡を下さい。
+                </div>
+            </div>
+        </div>
+
+        <section>
+            <h2 style="text-align: center;">こんな方を募集しています</h2>
+            <div class="target-list">
+                <div class="target-item">
+                    <i class="fas fa-lightbulb"></i>
+                    <p>現場での疑問を科学的に解決したい指導者・選手</p>
+                </div>
+                <div class="target-item">
+                    <i class="fas fa-calculate"></i>
+                    <p>スポーツを物理学や力学の視点で分析したい方</p>
+                </div>
+                <div class="target-item">
+                    <i class="fas fa-medal"></i>
+                    <p>高い志を持って知的に競技を追求したい方</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <h2>Join Our Lab</h2>
+            <p>研究室見学や入学相談は随時受け付けています。</p>
+            <a href="mailto:contact☆example.univ.ac.jp" class="btn-large">
+                <i class="fas fa-paper-plane"></i> お問い合わせはこちら
+            </a>
+            <p style="margin-top: 15px; font-size: 0.9rem;">(☆→＠に書き換えて送信してください)</p>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-bottom">&copy; 2026 Otsuka Lab, NSSU. All Rights Reserved.</div>
+    </footer>
+
+</body>
+</html>
