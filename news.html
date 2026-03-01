@@ -260,15 +260,13 @@
 
             <!-- 管理ログインUI（初期非表示） -->
             <div id="adminPanel" style="display:none; border:1px solid #ccc; padding:10px; margin-top:20px;">
-            <h3>管理者ログイン</h3>
-
-            <input id="name" placeholder="名前">
-            <button onclick="requestOTP()">OTP送信</button>
-
-            <br><br>
-
-            <input id="otp" placeholder="OTP">
-            <button onclick="verifyOTP()">認証</button>
+              <h3>管理者ログイン</h3>
+              <input id="name" placeholder="名前">
+              <input id="pw" type="password" placeholder="パスワード">
+              <button onclick="requestOTP()">OTP送信</button>
+              <br><br>
+              <input id="otp" placeholder="OTP">
+              <button onclick="verifyOTP()">認証</button>
             </div>
 
         </section>
@@ -436,20 +434,12 @@
         function toggleAccordion(id){
             document.getElementById(id).classList.toggle("expanded");
         }
-
-        /* ===== Language Switch ===== */
-        function switchLang(lang){
-            if(lang==="en"){
-                alert("English version will be implemented.");
-            } else {
-                location.reload();
-            }
-        }
     </script>
 
 </body>
 
 </html>
+
 
 
 
