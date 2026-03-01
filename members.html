@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>メンバー紹介 | 研究室</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #003366;
+            --accent-color: #c5a059;
+            --text-color: #333;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+            --transition: all 0.3s ease;
+            --footer-dark: #1a1a1a;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; color: var(--text-color); line-height: 1.8; background-color: var(--white); }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* ヘッダー */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 5%; background: var(--white); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); height: 80px; }
+        .logo a { display: flex; align-items: center; }
+        .logo img { height: 60px; width: auto; display: block; }
+        #menu-toggle { display: none; }
+        .menu-icon { display: none; cursor: pointer; font-size: 1.5rem; color: var(--primary-color); }
+        nav ul { display: flex; gap: 20px; }
+        .nav-link { font-size: 0.85rem; font-weight: 600; position: relative; padding: 5px 0; }
+        .nav-link::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--accent-color); transition: var(--transition); }
+        .nav-link:hover::after { width: 100%; }
+
+        /* ページヒーロー */
+        .page-hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #005599 100%);
+            color: white;
+            padding: 80px 10%;
+            text-align: center;
+        }
+        .page-hero h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        .page-hero p { opacity: 0.8; }
+
+        /* ===== 教員プロフィール（常時表示・アコーディオン対象外） ===== */
+        .faculty-section {
+            background: var(--bg-light);
+            padding: 70px 10%;
+        }
+        .faculty-card {
+            max-width: 960px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+            overflow: hidden;
+            display: flex;
+            gap: 0;
+        }
+        .faculty-photo-wrap {
+            flex: 0 0 300px;
+            min-height: 360px;
+            background: #dde4ec;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .faculty-photo-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .faculty-photo-placeholder {
+            font-size: 5rem;
+            color: #aaa;
+        }
+        .faculty-info {
+            flex: 1;
+            padding: 40px 44px;
+        }
+        .faculty-grade-badge {
+            display: inline-block;
+            background: var(--accent-color);
+            color: white;
+            font-size: 0.8rem;
+            padding: 4px 14px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+            font-weight: bold;
+        }
+        .faculty-name {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 6px;
+        }
+        .faculty-comment {
+            font-size: 1rem;
+            line-height: 1.9;
+            color: #444;
+            margin: 16px 0 24px;
+            padding: 16px 20px;
+            background: var(--bg-light);
+            border-left: 4px solid var(--accent-color);
+            border-radius: 0 8px 8px 0;
+        }
+        .faculty-section-label {
+            font-size: 0.82rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            margin-top: 20px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .faculty-section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #ddd;
+        }
+        .faculty-text {
+            font-size: 0.9rem;
+            color: #555;
+            white-space: pre-line;
+        }
+
+        /* ===== メンバーリスト（グループアコーディオン） ===== */
+        .members-section { padding: 70px 10%; }
+        .members-section h2 { font-size: 2rem; margin-bottom: 40px; text-align: center; position: relative; padding-bottom: 15px; }
+        .members-section h2::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 50px; height: 3px; background: var(--accent-color); }
+
+        /* グループアコーディオン */
+        .group-accordion {
+            max-width: 900px;
+            margin: 0 auto 16px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+        .group-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            transition: var(--transition);
+        }
+        .group-header:hover { background: #004488; }
+        .group-title { font-size: 1.05rem; font-weight: bold; display: flex; align-items: center; gap: 10px; }
+        .group-count { font-size: 0.82rem; opacity: 0.75; }
+        .group-arrow { font-size: 1.1rem; transition: transform .3s; }
+        .group-arrow.open { transform: rotate(180deg); }
+        .group-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.45s ease;
+            background: var(--white);
+        }
+        .group-body.open { max-height: 4000px; }
+
+        /* メンバーカード */
+        .member-card {
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+            padding: 24px 28px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: var(--transition);
+        }
+        .member-card:last-child { border-bottom: none; }
+        .member-card:hover { background: var(--bg-light); }
+        .member-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+            flex-shrink: 0;
+        }
+        .member-avatar-placeholder {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: #dde4ec;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            color: #aaa;
+            flex-shrink: 0;
+        }
+        .member-info { flex: 1; }
+        .member-name { font-size: 1.1rem; font-weight: bold; color: var(--primary-color); }
+        .member-grade-tag {
+            display: inline-block;
+            background: #eef2f8;
+            color: var(--primary-color);
+            font-size: 0.75rem;
+            padding: 2px 10px;
+            border-radius: 10px;
+            margin-left: 8px;
+            font-weight: 600;
+        }
+        .member-bio { font-size: 0.9rem; color: #555; margin-top: 6px; line-height: 1.7; }
+        .lang-switch { display: flex; gap: 8px; margin-top: 8px; }
+        .lang-btn-small {
+            padding: 2px 10px;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            background: white;
+            transition: var(--transition);
+        }
+        .lang-btn-small.active { background: var(--primary-color); color: white; border-color: var(--primary-color); }
+
+        /* Loading */
+        .loading { text-align: center; padding: 60px; color: #888; font-size: 1.1rem; }
+
+        /* フッター */
+        footer { background: var(--primary-color); color: white; margin-top: 50px; }
+        .footer-content { padding: 60px 10% 40px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
+        .footer-contact h4, .footer-nav h4 { font-size: 1.2rem; margin-bottom: 20px; color: var(--accent-color); }
+        .footer-contact p { margin-bottom: 10px; font-size: 0.9rem; }
+        .footer-bottom { background: var(--footer-dark); text-align: center; padding: 25px 0; font-size: 0.8rem; color: rgba(255,255,255,0.6); border-top: 1px solid rgba(255,255,255,0.05); }
+
+        /* モバイル */
+        @media (max-width: 768px) {
+            .menu-icon { display: block; }
+            nav { position: absolute; top: 80px; left: 0; width: 100%; background: var(--white); max-height: 0; overflow: hidden; transition: var(--transition); box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
+            nav ul { flex-direction: column; padding: 20px 5%; gap: 15px; }
+            #menu-toggle:checked ~ nav { max-height: 500px; }
+            .faculty-card { flex-direction: column; }
+            .faculty-photo-wrap { flex: 0 0 240px; min-height: 240px; }
+            .faculty-info { padding: 28px 24px; }
+            .faculty-name { font-size: 1.6rem; }
+            .page-hero h1 { font-size: 1.8rem; }
+            .member-card { gap: 16px; }
+            .member-avatar, .member-avatar-placeholder { width: 70px; height: 70px; font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="index.html"><img src="image/logo.png" alt="研究室ロゴ"></a>
+        </div>
+        <input type="checkbox" id="menu-toggle">
+        <label for="menu-toggle" class="menu-icon"><i class="fas fa-bars"></i></label>
+        <nav>
+            <ul>
+                <li><a href="index.html" class="nav-link">HOME</a></li>
+                <li><a href="index.html#about" class="nav-link">ABOUT</a></li>
+                <li><a href="index.html#research" class="nav-link">RESEARCH</a></li>
+                <li><a href="members.html" class="nav-link">MEMBERS</a></li>
+                <li><a href="achievements.html" class="nav-link">ACHIEVEMENTS</a></li>
+                <li><a href="news.html" class="nav-link">NEWS</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="page-hero">
+        <h1>メンバー紹介</h1>
+        <p>Members</p>
+    </div>
+
+    <!-- ===== 教員プロフィール（常時固定表示） ===== -->
+    <div class="faculty-section">
+        <div id="faculty-container">
+            <div class="loading"><i class="fas fa-spinner fa-spin"></i>　読み込み中...</div>
+        </div>
+    </div>
+
+    <!-- ===== その他メンバー（グループアコーディオン） ===== -->
+    <div class="members-section">
+        <h2>Members</h2>
+        <div id="members-container">
+            <div class="loading"><i class="fas fa-spinner fa-spin"></i>　読み込み中...</div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p><i class="fas fa-university"></i> XXXXXXXXXXXXX大学院XXXXXXXXXX研究科</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 〒XXX-XXXX XXXXXXXXXXXXXXXX XXXX-X</p>
+                    <p><i class="fas fa-envelope"></i> contact☆example.univ.ac.jp (☆→＠)</p>
+                </div>
+                <div class="footer-nav">
+                    <h4>Quick Links</h4>
+                    <ul style="font-size:0.9rem;">
+                        <li style="margin-bottom:8px;"><a href="index.html">Home</a></li>
+                        <li style="margin-bottom:8px;"><a href="members.html">Members</a></li>
+                        <li style="margin-bottom:8px;"><a href="achievements.html">Achievements</a></li>
+                        <li style="margin-bottom:8px;"><a href="news.html">News</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">&copy; 2026 XXXXXX Lab, XXXXXXXXXXXXXXXX University. All Rights Reserved.</div>
+    </footer>
+
+    <script>
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbzW6Xf5VuAGaxOTPJFh2ggO2Rlc9qoM2mYdEZGP7gMrSyCA6kku9NYCqhwnKNzlURWd5A/exec";
+
+        // グループ定義
+        const GROUPS = [
+            { label: '大学院生', icon: '🎓', grades: ['D3','D2','D1','M2','M1'] },
+            { label: '学部4年生', icon: '📖', grades: ['B4'] },
+            { label: '学部3年生', icon: '📗', grades: ['B3'] }
+        ];
+
+        let currentLang = 'ja';
+
+        // Googleドライブ共有URLを直接表示可能なURLに変換
+        function driveUrl(url) {
+            if (!url) return '';
+            const m = url.match(/\/file\/d\/([^/]+)/);
+            if (m) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w400`;
+            return url;
+        }
+
+        fetch(GAS_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({ type: "getPublicMembers" })
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (!data.success) {
+                document.getElementById('faculty-container').innerHTML = '<p style="text-align:center;color:#888">データを取得できませんでした。</p>';
+                document.getElementById('members-container').innerHTML = '';
+                return;
+            }
+
+            const members = data.members || [];
+            const faculty = members.filter(m => m.grade === '研究員');
+            const others  = members.filter(m => m.grade !== '研究員');
+
+            renderFaculty(faculty);
+            renderGroups(others);
+        })
+        .catch(() => {
+            document.getElementById('faculty-container').innerHTML = '<p style="text-align:center;color:#888">データを取得できませんでした。</p>';
+            document.getElementById('members-container').innerHTML = '';
+        });
+
+        /* ===== 教員プロフィール ===== */
+        function renderFaculty(list) {
+            if (list.length === 0) {
+                document.getElementById('faculty-container').innerHTML = '';
+                return;
+            }
+            const html = list.map(m => {
+                const imgUrl = driveUrl(m.photoUrl);
+                const photoHtml = imgUrl
+                    ? `<img src="${imgUrl}" alt="${m.name}" onerror="this.parentNode.innerHTML='<div class=faculty-photo-placeholder><i class=fas fa-user></i></div>'">`
+                    : `<div class="faculty-photo-placeholder"><i class="fas fa-user"></i></div>`;
+
+                const eduHtml = m.education
+                    ? `<div class="faculty-section-label"><i class="fas fa-graduation-cap"></i> 学歴</div>
+                       <div class="faculty-text">${m.education}</div>`
+                    : '';
+                const careerHtml = m.career
+                    ? `<div class="faculty-section-label"><i class="fas fa-briefcase"></i> 職歴</div>
+                       <div class="faculty-text">${m.career}</div>`
+                    : '';
+
+                return `
+                <div class="faculty-card">
+                    <div class="faculty-photo-wrap">${photoHtml}</div>
+                    <div class="faculty-info">
+                        <span class="faculty-grade-badge">研究員</span>
+                        <h2 class="faculty-name">${m.name}</h2>
+                        ${m.bio_ja ? `<div class="faculty-comment">${m.bio_ja}</div>` : ''}
+                        ${eduHtml}
+                        ${careerHtml}
+                    </div>
+                </div>`;
+            }).join('<div style="height:24px;"></div>');
+
+            document.getElementById('faculty-container').innerHTML = html;
+        }
+
+        /* ===== グループアコーディオン ===== */
+        function renderGroups(members) {
+            let html = '';
+
+            GROUPS.forEach((group, gi) => {
+                const inGroup = members.filter(m => group.grades.includes(m.grade));
+                if (inGroup.length === 0) return;
+
+                const bodyId = `group-body-${gi}`;
+                const arrowId = `group-arrow-${gi}`;
+
+                html += `
+                <div class="group-accordion">
+                    <div class="group-header" onclick="toggleGroup('${bodyId}','${arrowId}')">
+                        <div class="group-title">
+                            <span>${group.icon}</span>
+                            <span>${group.label}</span>
+                            <span class="group-count">${inGroup.length}名</span>
+                        </div>
+                        <span class="group-arrow open" id="${arrowId}">▲</span>
+                    </div>
+                    <div class="group-body open" id="${bodyId}">
+                        ${inGroup.map((m, mi) => renderMemberCard(m, gi, mi)).join('')}
+                    </div>
+                </div>`;
+            });
+
+            document.getElementById('members-container').innerHTML = html || '<p style="text-align:center;color:#888;padding:40px">メンバーが登録されていません。</p>';
+        }
+
+        function renderMemberCard(m, gi, mi) {
+            const imgUrl = driveUrl(m.photoUrl);
+            const photoHtml = imgUrl
+                ? `<img class="member-avatar" src="${imgUrl}" alt="${m.name}"
+                    onerror="this.outerHTML='<div class=member-avatar-placeholder><i class=fas fa-user></i></div>'">`
+                : `<div class="member-avatar-placeholder"><i class="fas fa-user"></i></div>`;
+
+            const bioJa = m.bio_ja || '';
+            const bioEn = m.bio_en || '';
+            const hasBoth = bioJa && bioEn;
+            const cardId = `mc-${gi}-${mi}`;
+
+            return `
+            <div class="member-card">
+                ${photoHtml}
+                <div class="member-info">
+                    <div>
+                        <span class="member-name">${m.name}</span>
+                        <span class="member-grade-tag">${m.grade}</span>
+                    </div>
+                    <div class="member-bio" id="${cardId}-bio">${bioJa || bioEn}</div>
+                    ${hasBoth ? `
+                    <div class="lang-switch">
+                        <button class="lang-btn-small active" id="${cardId}-ja" onclick="switchMemberLang('${cardId}','ja',${JSON.stringify(bioJa)},${JSON.stringify(bioEn)})">JP</button>
+                        <button class="lang-btn-small" id="${cardId}-en" onclick="switchMemberLang('${cardId}','en',${JSON.stringify(bioJa)},${JSON.stringify(bioEn)})">EN</button>
+                    </div>` : ''}
+                </div>
+            </div>`;
+        }
+
+        function toggleGroup(bodyId, arrowId) {
+            const body  = document.getElementById(bodyId);
+            const arrow = document.getElementById(arrowId);
+            body.classList.toggle('open');
+            arrow.classList.toggle('open');
+            arrow.textContent = body.classList.contains('open') ? '▲' : '▽';
+        }
+
+        function switchMemberLang(cardId, lang, bioJa, bioEn) {
+            document.getElementById(cardId+'-bio').textContent = lang === 'ja' ? bioJa : bioEn;
+            document.getElementById(cardId+'-ja').classList.toggle('active', lang==='ja');
+            document.getElementById(cardId+'-en').classList.toggle('active', lang==='en');
+        }
+    </script>
+</body>
+</html>
