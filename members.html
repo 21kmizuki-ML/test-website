@@ -330,7 +330,7 @@
             return url;
         }
 
-        fetch(GAS_URL + '?' + new URLSearchParams({ type: 'getPublicMembers' }), { redirect: 'follow' }))
+        fetch(GAS_URL + '?' + new URLSearchParams({ type: 'getPublicMembers' }), { redirect: 'follow' })
         .then(r => r.json())
         .then(data => {
             if (!data.success) {
