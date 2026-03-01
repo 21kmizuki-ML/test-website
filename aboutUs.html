@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABOUT US | 大塚光雄バイオメカニクス研究室</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* index.html の共通スタイルを継承 */
+        :root {
+            --primary-color: #003366;
+            --accent-color: #c5a059;
+            --text-color: #333;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+            --transition: all 0.3s ease;
+            --footer-dark: #1a1a1a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            color: var(--text-color);
+            line-height: 1.8;
+        }
+        
+        /* ヘッダー・フッター共通設定 */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 5%; background: var(--white); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); height: 80px; }
+        .logo img { height: 60px; width: auto; }
+        nav ul { display: flex; gap: 20px; list-style: none; }
+        .nav-link { font-size: 0.85rem; font-weight: 600; text-decoration: none; color: inherit; position: relative; }
+        .nav-link::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--accent-color); transition: var(--transition); }
+        .nav-link:hover::after { width: 100%; }
+
+        /* ページヘッダー */
+        .page-header {
+            background: linear-gradient(rgba(0,51,102,0.8), rgba(0,51,102,0.8)), url('image/slide-1.png');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 10%;
+            text-align: center;
+        }
+
+        section { padding: 80px 10%; }
+        h2 { font-size: 2rem; margin-bottom: 50px; text-align: center; position: relative; padding-bottom: 15px; }
+        h2::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 50px; height: 3px; background: var(--accent-color); }
+
+        /* ロゴの意味セクション */
+        .logo-concept {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            max-width: 1000px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+        .logo-display { flex: 1; text-align: center; min-width: 300px; }
+        .logo-display img { max-width: 100%; height: auto; border: 1px solid #eee; padding: 20px; }
+        .logo-explanation { flex: 1; min-width: 300px; }
+
+        /* 研究テーマセクション */
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .theme-card {
+            background: var(--bg-light);
+            padding: 40px;
+            border-left: 5px solid var(--primary-color);
+            transition: var(--transition);
+        }
+        .theme-card:hover { transform: translateY(-5px); background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .theme-card i { font-size: 2rem; color: var(--accent-color); margin-bottom: 20px; }
+        .theme-card h3 { margin-bottom: 15px; color: var(--primary-color); }
+
+        footer { background: var(--primary-color); color: white; padding: 60px 10% 0; }
+        .footer-bottom { background: var(--footer-dark); text-align: center; padding: 25px 0; font-size: 0.8rem; margin: 0 -11.2%; margin-top: 40px;}
+
+        @media (max-width: 768px) {
+            section { padding: 50px 5%; }
+            .logo-concept { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo"><a href="index.html"><img src="image/logo.png" alt="研究室ロゴ"></a></div>
+        <nav>
+            <ul>
+                <li><a href="index.html" class="nav-link">HOME</a></li>
+                <li><a href="aboutUs.html" class="nav-link">ABOUT</a></li>
+                <li><a href="research.html" class="nav-link">RESEARCH</a></li>
+                <li><a href="recruit.html" class="nav-link">RECRUIT</a></li>
+                <li><a href="news.html" class="nav-link">NEWS</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="page-header">
+            <h1>ABOUT OUR LAB</h1>
+            <p>研究室について</p>
+        </div>
+
+        <section>
+            <h2>Logo Identity</h2>
+            <div class="logo-concept">
+                <div class="logo-display">
+                    <img src="image/logo.png" alt="Lab Logo">
+                </div>
+                <div class="logo-explanation">
+                    <h3 style="color: var(--primary-color); margin-bottom: 15px;">ロゴに込めた想い</h3>
+                    <p>
+                        横長に構成された私たちのロゴは、「水平線（躍進）」と「バイオメカニクスの波形」を象徴しています。<br><br>
+                        青色は「論理的な思考と科学的誠実さ」を、アクセントのゴールドは「アスリートが目指す頂点」を表現しており、スポーツと科学が交差する地点で新しい価値を創造するという決意を込めています。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section style="background-color: var(--bg-light);">
+            <h2>Research Themes</h2>
+            <div class="theme-grid">
+                <div class="theme-card">
+                    <i class="fas fa-running"></i>
+                    <h3>アスリートのパフォーマンス分析</h3>
+                    <p>ハイスピードカメラや地面反力計を用い、トップスプリンターの接地メカニクスを詳細に分析。競技力向上に直結するバイオメカニクス的要因を解明します。 </p>
+                </div>
+                <div class="theme-card">
+                    <i class="fas fa-child"></i>
+                    <h3>子どもの運動技能発達</h3>
+                    <p>運動が苦手な子どもからジュニア選手までを対象に、動作のコツを定量化。発育発達段階に応じた最適な指導法の構築を目指します。</p>
+                </div>
+                <div class="theme-card">
+                    <i class="fas fa-microscope"></i>
+                    <h3>筋腱複合体の動態解析</h3>
+                    <p>MRIや超音波診断装置を駆使し、筋腱の形態や硬さがスポーツ動作に及ぼす影響を研究。怪我の予防とパフォーマンスの両立を追求します。</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-bottom">&copy; 2026 Otsuka Lab, NSSU. All Rights Reserved.</div>
+    </footer>
+
+</body>
+</html>
