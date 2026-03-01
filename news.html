@@ -315,7 +315,7 @@
     </footer>
 
     <script>
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbypAmrQ9M9wdzmWr0t2fp6TF5SvP8wqZEWMZTpIqePN_OqAY21EYaZkbwN2g4REdN0U1g/exec";
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbxc6syLYEMHeJKtJWBzxqHtvxECEsF755m5KcTXkiYyqpVf-YYa_zvZQPp4OzZmfTu1/exec";
 
         // パスワード入力欄を追加
         function requestOTP(){
@@ -355,8 +355,12 @@
         .then(r=>r.json())
         .then(d=>{
             if(d.success){
-                window.location.href =
-                `${GAS_URL}?page=admin&token=${d.token}&t=${Date.now()}`;
+                // ===== 変更後（この1行に差し替え） =====
+                window.open(
+                  `${GAS_URL}?page=admin&token=${d.token}&t=${Date.now()}`,
+                  'adminWindow',
+                  'width=1150,height=750,scrollbars=yes,resizable=yes,left=100,top=80'
+                );
             }else{
                 alert(JSON.stringify(d));
             }
@@ -466,6 +470,7 @@
 </body>
 
 </html>
+
 
 
 
