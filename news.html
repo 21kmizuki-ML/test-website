@@ -262,7 +262,22 @@
             <div id="adminPanel" style="display:none; border:1px solid #ccc; padding:10px; margin-top:20px;">
               <h3>管理者ログイン</h3>
               <input id="name" placeholder="名前">
-              <input id="pw" type="password" placeholder="パスワード">
+
+                
+              <!-- パスワード欄（表示切替付き） -->
+              <div style="position:relative; margin: 6px 0 14px;">
+                <input id="pw" type="password" placeholder="パスワード"
+                  style="width:100%; padding:10px; padding-right:40px;
+                         border:1px solid #ccc; border-radius:6px;">
+                <span onclick="togglePw()"
+                  id="pwEye"
+                  style="position:absolute; right:12px; top:50%;
+                         transform:translateY(-50%);
+                         cursor:pointer; font-size:1.1rem; user-select:none;">
+                  👁
+                </span>
+              </div>
+                
               <button onclick="requestOTP()">OTP送信</button>
               <br><br>
               <input id="otp" placeholder="OTP">
@@ -373,6 +388,18 @@
 
         });
 
+        function togglePw(){
+          const input = document.getElementById("pw");
+          const eye   = document.getElementById("pwEye");
+          if(input.type === "password"){
+            input.type = "text";
+            eye.textContent = "🙈";
+          } else {
+            input.type = "password";
+            eye.textContent = "👁";
+          }
+        }
+
         /* ===== News Auto Display (将来news.json取得可) ===== */
         let currentLang = "ja";
         let allArticles = [];
@@ -439,6 +466,7 @@
 </body>
 
 </html>
+
 
 
 
