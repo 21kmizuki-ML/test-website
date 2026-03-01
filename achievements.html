@@ -159,10 +159,10 @@
         <nav>
             <ul>
                 <li><a href="index.html" class="nav-link">HOME</a></li>
-                <li><a href="aboutUs.html" class="nav-link">ABOUT</a></li>
-                <li><a href="achievements.html" class="nav-link">RESEARCH</a></li>
+                <li><a href="index.html#about" class="nav-link">ABOUT</a></li>
+                <li><a href="index.html#research" class="nav-link">RESEARCH</a></li>
                 <li><a href="members.html" class="nav-link">MEMBERS</a></li>
-                <li><a href="recruit.html" class="nav-link">RECRUIT</a></li>
+                <li><a href="achievements.html" class="nav-link">ACHIEVEMENTS</a></li>
                 <li><a href="news.html" class="nav-link">NEWS</a></li>
             </ul>
         </nav>
@@ -213,18 +213,14 @@
     </footer>
 
     <script>
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbyn-77l1a98_TDs8q12SLCiqxVKLz39UKwfEHOy-QphXecg5-cgBHFx5jAe3iXzuY8D4A/exec";
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbw_xTVSO0jYA22tsPTEKWS1_LWKQHKFHaU9RmBIl_0F9mcM-RtQIzE5CcttT5FQzhjXUQ/exec";
 
         const TYPE_ICON = { '論文': '📄', '科研費': '💴', '受賞': '🏆' };
         let ALL_PUBS = [];
         let currentFilter = 'all';
 
         // GASから取得
-        fetch(GAS_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: new URLSearchParams({ type: "getPublicPublications" })
-        })
+        fetch(GAS_URL + '?' + new URLSearchParams({ type: 'getPublicPublications' }), { redirect: 'follow' }))
         .then(r => r.json())
         .then(data => {
             if (!data.success) {
