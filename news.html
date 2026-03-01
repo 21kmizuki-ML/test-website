@@ -114,6 +114,17 @@
         }
 
         /* ===== News Card Layout ===== */
+        /* ローディング表示 */
+        .loading-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #888;
+            font-size: 1rem;
+        }
+        .loading-state i { margin-right: 8px; }
+        @keyframes spin { from{transform:rotate(0)} to{transform:rotate(360deg)} }
+        .fa-spin { animation: spin 1s linear infinite; }
+        
         .news-wrapper { max-width: 900px; margin: auto; }
         .news-card {
             background: white;
@@ -256,7 +267,11 @@
     <main>
         <section>
             <h2>News & Topics</h2>
-            <div id="news-list"></div>
+            <div id="news-list">
+                <div class="loading-state">
+                    <i class="fas fa-spinner fa-spin"></i>記事を読み込み中...
+                </div>
+            </div>
 
             <!-- 管理ログインUI（初期非表示） -->
             <div id="adminPanel" style="display:none; border:1px solid #ccc; padding:10px; margin-top:20px;">
@@ -404,11 +419,19 @@
           }
         }
 
+
         /* ===== News Auto Display (将来news.json取得可) ===== */
         let currentLang = "ja";
         let allArticles = [];
         
         function renderNews(){
+        　const newsList = document.getElementById('news-list');
+            newsList.innerHTML = '';
+            .catch(() => {
+            document.getElementById('news-list').innerHTML =
+                    '<p style="text-align:center;color:#888;padding:40px">記事を取得できませんでした。</p>';
+            });
+            
           const container = document.getElementById("news-list");
           container.innerHTML = "";
         
@@ -470,6 +493,7 @@
 </body>
 
 </html>
+
 
 
 
