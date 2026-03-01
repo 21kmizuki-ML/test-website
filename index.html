@@ -7,7 +7,6 @@
     <title>XXXXXXXXXXXXXXXX研究室 | University Lab</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* --- 基本設定 & 変数 --- */
         :root {
             --primary-color: #003366;
             --accent-color: #c5a059;
@@ -15,327 +14,153 @@
             --bg-light: #f8f9fa;
             --white: #ffffff;
             --transition: all 0.3s ease;
-            --footer-dark: #1a1a1a; /* やや明るめの黒 */
+            --footer-dark: #1a1a1a;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
-            color: var(--text-color);
-            line-height: 1.8;
-            background-color: var(--white);
+            color: var(--text-color); line-height: 1.8; background-color: var(--white);
         }
-
         a { text-decoration: none; color: inherit; }
         ul { list-style: none; }
 
-        /* --- ヘッダー & ハンバーガーメニュー --- */
+        /* ヘッダー */
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.5rem 5%;
-            background: var(--white);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            height: 80px;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.5rem 5%; background: var(--white);
+            position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); height: 80px;
         }
-
-        .logo a {
-            display: flex;
-            align-items: center;
-        }
-        .logo img {
-            height: 60px;
-            width: auto;
-            display: block;
-        }
-
+        .logo a { display: flex; align-items: center; }
+        .logo img { height: 60px; width: auto; display: block; }
         #menu-toggle { display: none; }
-
-        .menu-icon {
-            display: none;
-            cursor: pointer;
-            font-size: 1.5rem;
-            color: var(--primary-color);
-        }
-
-        nav ul {
-            display: flex;
-            gap: 20px;
-        }
-
-        .nav-link {
-            font-size: 0.85rem;
-            font-weight: 600;
-            position: relative;
-            padding: 5px 0;
-        }
-
+        .menu-icon { display: none; cursor: pointer; font-size: 1.5rem; color: var(--primary-color); }
+        nav ul { display: flex; gap: 20px; }
+        .nav-link { font-size: 0.85rem; font-weight: 600; position: relative; padding: 5px 0; }
         .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0; width: 0; height: 2px;
-            background: var(--accent-color);
-            transition: var(--transition);
+            content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px;
+            background: var(--accent-color); transition: var(--transition);
         }
         .nav-link:hover::after { width: 100%; }
 
-        /* --- スライドショー --- */
-        .hero {
-            width: 100%;
-            height: 500px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .slideshow {
-            width: 100%;
-            height: 100%;
-        }
-
+        /* スライドショー */
+        .hero { width: 100%; height: 500px; overflow: hidden; position: relative; }
+        .slideshow { width: 100%; height: 100%; }
         .slide {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            animation: slideAnime 20s infinite;
-            background-size: cover;
-            background-position: center;
+            position: absolute; width: 100%; height: 100%; opacity: 0;
+            animation: slideAnime 20s infinite; background-size: cover; background-position: center;
         }
-
         .slide:nth-child(1) { background-image: url('image/slide-1.png'); animation-delay: 0s; }
         .slide:nth-child(2) { background-image: url('image/slide-2.png'); animation-delay: 5s; }
         .slide:nth-child(3) { background-image: url('image/slide-3.png'); animation-delay: 10s; }
         .slide:nth-child(4) { background-image: url('image/slide-4.png'); animation-delay: 15s; }
-
         @keyframes slideAnime {
-            0% { opacity: 0; transform: scale(1.0); }
-            10% { opacity: 1; }
-            33% { opacity: 1; }
-            43% { opacity: 0; transform: scale(1.1); }
+            0%   { opacity: 0; transform: scale(1.0); }
+            10%  { opacity: 1; }
+            33%  { opacity: 1; }
+            43%  { opacity: 0; transform: scale(1.1); }
             100% { opacity: 0; }
         }
-
         .hero-text {
-            position: absolute;
-            top: 50%;
-            left: 5%;
-            transform: translateY(-50%);
-            color: white;
-            text-shadow: 0 0 20px rgba(0,0,0,0.5);
-            z-index: 10;
+            position: absolute; top: 50%; left: 5%;
+            transform: translateY(-50%); color: white;
+            text-shadow: 0 0 20px rgba(0,0,0,0.5); z-index: 10;
         }
 
-        /* --- コンテンツセクション --- */
-        section {
-            padding: 80px 10%;
-        }
-
+        /* セクション */
+        section { padding: 80px 10%; }
         h2 {
-            font-size: 2rem;
-            margin-bottom: 40px;
-            text-align: center;
-            position: relative;
-            padding-bottom: 15px;
+            font-size: 2rem; margin-bottom: 40px; text-align: center;
+            position: relative; padding-bottom: 15px;
         }
-
         h2::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 3px;
+            content: ''; position: absolute; bottom: 0; left: 50%;
+            transform: translateX(-50%); width: 50px; height: 3px;
             background: var(--accent-color);
         }
 
-        /* ===== News Card Layout ===== */
-        .news-list {
-            display: grid;
-            gap: 20px;
+        /* ローディング */
+        .loading-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #888;
+            font-size: 1rem;
         }
+        .loading-state i { margin-right: 8px; }
+        @keyframes spin { from{transform:rotate(0)} to{transform:rotate(360deg)} }
+        .fa-spin { animation: spin 1s linear infinite; }
 
+        /* ニュース */
+        .news-list { display: grid; gap: 16px; }
         .news-item {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            transition: var(--transition);
+            background: white; padding: 18px 20px; border-radius: 8px;
+            transition: var(--transition); border-left: 3px solid transparent;
         }
-
         .news-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            border-left-color: var(--accent-color);
         }
-
-        .news-more {
-            text-align: center;
-            margin-top: 30px;
+        .news-date { font-size: 0.85rem; color: #888; margin-bottom: 4px; }
+        .news-tag {
+            display: inline-block; background: var(--primary-color); color: white;
+            font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; margin-left: 8px;
         }
+        .news-more { text-align: center; margin-top: 30px; }
 
-        /* ===== Accordion ===== */
-        .accordion {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .accordion-content {
-            max-height: 120px;
-            overflow: hidden;
-            transition: 0.4s ease;
-            position: relative;
-        }
-
-        .accordion-content.expanded {
-            max-height: 1000px;
-        }
-
-        .accordion-toggle {
-            margin-top: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-
-        /* ===== Language Toggle ===== */
-        .lang-btn {
-            margin-left: 20px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-
-        /* Research / Recruit */
-        .summary-box {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
+        /* ボタン */
         .btn-link {
-            display: inline-block;
-            margin-top: 25px;
-            padding: 12px 30px;
-            background-color: var(--primary-color);
-            color: white;
-            font-weight: bold;
-            border-radius: 5px;
-            transition: var(--transition);
+            display: inline-block; margin-top: 25px; padding: 12px 30px;
+            background-color: var(--primary-color); color: white;
+            font-weight: bold; border-radius: 5px; transition: var(--transition);
         }
-        .btn-link:hover {
-            background-color: var(--accent-color);
-            transform: translateY(-2px);
-        }
+        .btn-link:hover { background-color: var(--accent-color); transform: translateY(-2px); }
+        .btn-link.accent { background-color: var(--accent-color); }
+        .btn-link.accent:hover { background-color: #b8924e; }
 
-        /* LAB CHIEF セクション */
+        /* アコーディオン */
+        .accordion-content { max-height: 120px; overflow: hidden; transition: 0.4s ease; }
+        .accordion-content.expanded { max-height: 1000px; }
+        .accordion-toggle { margin-top: 20px; cursor: pointer; font-weight: bold; color: var(--primary-color); }
+
+        /* 言語切替 */
+        .lang-btn { margin-left: 20px; cursor: pointer; font-size: 0.8rem; font-weight: bold; color: var(--primary-color); }
+
+        /* LAB CHIEF */
         .chief-container {
-            display: flex;
-            align-items: center;
-            gap: 50px;
-            max-width: 900px;
-            margin: 0 auto;
-            flex-wrap: wrap;
+            display: flex; align-items: center; gap: 50px;
+            max-width: 900px; margin: 0 auto; flex-wrap: wrap;
         }
-
-        .chief-image {
-            flex: 1;
-            min-width: 250px;
-            text-align: center;
-        }
-
+        .chief-image { flex: 1; min-width: 250px; text-align: center; }
         .chief-image img {
-            width: 100%;
-            max-width: 300px;
-            border-radius: 10px;
+            width: 100%; max-width: 300px; border-radius: 10px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
+        .chief-profile { flex: 2; min-width: 300px; }
+        .chief-name { font-size: 1.8rem; color: var(--primary-color); margin-bottom: 5px; }
+        .chief-title { font-weight: bold; color: var(--accent-color); margin-bottom: 20px; display: block; }
 
-        .chief-profile {
-            flex: 2;
-            min-width: 300px;
-        }
-
-        .chief-name {
-            font-size: 1.8rem;
-            color: var(--primary-color);
-            margin-bottom: 5px;
-        }
-
-        .chief-title {
-            font-weight: bold;
-            color: var(--accent-color);
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        /* --- フッター --- */
-        footer {
-            background: var(--primary-color);
-            color: white;
-            margin-top: 50px;
-        }
-
-        .footer-content {
-            padding: 60px 10% 40px;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-        }
-
-        .footer-contact h4, .footer-nav h4 {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            color: var(--accent-color);
-        }
-
+        /* フッター */
+        footer { background: var(--primary-color); color: white; margin-top: 50px; }
+        .footer-content { padding: 60px 10% 40px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
+        .footer-contact h4, .footer-nav h4 { font-size: 1.2rem; margin-bottom: 20px; color: var(--accent-color); }
         .footer-contact p { margin-bottom: 10px; font-size: 0.9rem; }
-
-        /* ③ フッター最下部の装飾設定 */
         .footer-bottom {
-            background: var(--footer-dark);
-            text-align: center;
-            padding: 25px 0;
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.6);
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background: var(--footer-dark); text-align: center; padding: 25px 0;
+            font-size: 0.8rem; color: rgba(255,255,255,0.6);
+            border-top: 1px solid rgba(255,255,255,0.05);
         }
 
-        /* モバイル対応 */
+        /* モバイル */
         @media (max-width: 768px) {
             .menu-icon { display: block; }
-
             nav {
-                position: absolute;
-                top: 80px;
-                left: 0;
-                width: 100%;
-                background: var(--white);
-                max-height: 0;
-                overflow: hidden;
-                transition: var(--transition);
-                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+                position: absolute; top: 80px; left: 0; width: 100%;
+                background: var(--white); max-height: 0; overflow: hidden;
+                transition: var(--transition); box-shadow: 0 5px 10px rgba(0,0,0,0.1);
             }
-
-            nav ul {
-                flex-direction: column;
-                padding: 20px 5%;
-                gap: 15px;
-            }
-
+            nav ul { flex-direction: column; padding: 20px 5%; gap: 15px; }
             #menu-toggle:checked ~ nav { max-height: 500px; }
-
             .hero { height: 350px; }
             .chief-container { flex-direction: column; text-align: center; }
             section { padding: 50px 5%; }
@@ -346,20 +171,14 @@
 
     <header>
         <div class="logo">
-            <a href="index.html">
-                <img src="image/logo.png" alt="研究室ロゴ">
-            </a>
+            <a href="index.html"><img src="image/logo.png" alt="研究室ロゴ"></a>
         </div>
-
         <input type="checkbox" id="menu-toggle">
-        <label for="menu-toggle" class="menu-icon">
-            <i class="fas fa-bars"></i>
-        </label>
+        <label for="menu-toggle" class="menu-icon"><i class="fas fa-bars"></i></label>
         <div>
             <span class="lang-btn" onclick="switchLang('ja')">JP</span> /
             <span class="lang-btn" onclick="switchLang('en')">EN</span>
         </div>
-
         <nav>
             <ul>
                 <li><a href="index.html" class="nav-link">HOME</a></li>
@@ -386,11 +205,16 @@
             </div>
         </div>
 
+        <!-- News -->
         <section id="news" style="background-color: var(--bg-light);">
-            <h2>News & Topics</h2>
+            <h2>News &amp; Topics</h2>
             <div class="news-container">
-                <div class="news-list" id="news-list"></div>
-
+                <!-- ローディング表示 → 取得後にニュース一覧に差し替え -->
+                <div id="news-list">
+                    <div class="loading-state">
+                        <i class="fas fa-spinner fa-spin"></i>最新情報を読み込み中...
+                    </div>
+                </div>
                 <div class="news-more">
                     <a href="news.html" class="btn-link">
                         View All News <i class="fas fa-arrow-right"></i>
@@ -399,6 +223,7 @@
             </div>
         </section>
 
+        <!-- Lab Chief -->
         <section id="lab-chief">
             <h2>Lab Chief</h2>
             <div class="chief-container">
@@ -409,38 +234,39 @@
                     <h3 class="chief-name">XXXXXXXX</h3>
                     <span class="chief-title">XXXXXXXXXXXXXXX | 准教授・博士（XXXXXXXXX科学）</span>
                     <div class="accordion-content" id="chief-text">
-                    <p>
-                    科学的なアプローチによって、アスリートにおける競技力向上や運動初心者における運動技能の改善をねらいます。フィールドから実験室まで様々な場所で測定を行い、国際大会で優勝する選手から運動嫌いな子どもまで幅広い運動パフォーマンスの分析を行っています。　世界中の研究機関とのネットワークを活用しながら、前例にとらわれずに、スポーツ科学、社会に貢献することを目指しています。
-                    </p>
+                        <p>科学的なアプローチによって、アスリートにおける競技力向上や運動初心者における運動技能の改善をねらいます。フィールドから実験室まで様々な場所で測定を行い、国際大会で優勝する選手から運動嫌いな子どもまで幅広い運動パフォーマンスの分析を行っています。世界中の研究機関とのネットワークを活用しながら、前例にとらわれずに、スポーツ科学、社会に貢献することを目指しています。</p>
                     </div>
-
-                    <div class="accordion-toggle" onclick="toggleAccordion('chief-text')">
+                    <div class="accordion-toggle" id="chief-toggle" onclick="toggleAccordion()">
                         Read More ↓
                     </div>
-                    <p style="margin-top: 15px; font-size: 0.9rem;">
+                    <p style="margin-top:15px; font-size:0.9rem;">
                         <i class="fas fa-graduation-cap"></i> XXXXXXXXXXXXX大学院XXXXXXX研究科 教授<br>
                         <i class="fas fa-tags"></i> キーワード：短距離走、接地メカニクス、筋腱複合体
                     </p>
+                    <div style="margin-top:16px;">
+                        <a href="members.html" class="btn-link" style="margin-top:0; padding:9px 22px; font-size:0.85rem;">
+                            メンバー一覧へ <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
 
+        <!-- Research -->
         <section id="research" style="background-color: var(--bg-light);">
             <h2>Research</h2>
-
-            <div class="summary-box" style="text-align: left; max-width: 900px;">
-                <p>
-        スポーツバイオメカニクス領域では、強い選手の特徴やトレーニングによる成長は、筋腱メカニクスやスポーツ動作中の運動学・動力学的パラーメータを分析することで評価することができます。　そこで私たちは、一流アスリートから運動嫌いの子どもたちを対象に、MRIやハイスピードカメラ、光学式モーションキャプチャシステムおよび地面反力計といった最新機器を用いて、トレーニングやコーチングに役立つ研究に取り組んでいます。　研究内容は、授業や学会大会での発表、学術論文としての掲載、さらにはスポーツ現場への還元によって積極的に社会発信するようにしています。
-                </p>
-
-                <div style="text-align: right; margin-top: 30px;">
-                    <a href="research.html" class="btn-link">
-                        研究内容の詳細を見る →
+            <div style="text-align:left; max-width:900px; margin:0 auto;">
+                <p>スポーツバイオメカニクス領域では、強い選手の特徴やトレーニングによる成長は、筋腱メカニクスやスポーツ動作中の運動学・動力学的パラーメータを分析することで評価することができます。そこで私たちは、一流アスリートから運動嫌いの子どもたちを対象に、MRIやハイスピードカメラ、光学式モーションキャプチャシステムおよび地面反力計といった最新機器を用いて、トレーニングやコーチングに役立つ研究に取り組んでいます。</p>
+                <div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:28px; justify-content:flex-end;">
+                    <a href="achievements.html" class="btn-link" style="margin-top:0;">
+                        研究業績を見る <i class="fas fa-book"></i>
+                    </a>
+                    <a href="research.html" class="btn-link accent" style="margin-top:0;">
+                        研究内容の詳細 →
                     </a>
                 </div>
             </div>
         </section>
-
     </main>
 
     <footer>
@@ -452,18 +278,17 @@
                     <p><i class="fas fa-map-marker-alt"></i> 〒XXX-XXXX XXXXXXXXXXXXXXXX XXXX-X</p>
                     <p><i class="fas fa-envelope"></i> contact☆example.univ.ac.jp (☆→＠)</p>
                 </div>
-                
                 <div class="footer-nav">
                     <h4>Quick Links</h4>
-                    <ul style="font-size: 0.9rem;">
-                        <li style="margin-bottom: 8px;"><a href="index.html">Home</a></li>
-                        <li style="margin-bottom: 8px;"><a href="aboutUs.html">About Our Lab</a></li>
-                        <li style="margin-bottom: 8px;"><a href="achievements.html">Research</a></li>
-                        <li style="margin-bottom: 8px;"><a href="recruit.html">Recruit</a></li> </ul>
+                    <ul style="font-size:0.9rem;">
+                        <li style="margin-bottom:8px;"><a href="#home">Home</a></li>
+                        <li style="margin-bottom:8px;"><a href="members.html">Members</a></li>
+                        <li style="margin-bottom:8px;"><a href="achievements.html">Achievements</a></li>
+                        <li style="margin-bottom:8px;"><a href="news.html">News</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
-
         <div class="footer-bottom">
             &copy; 2026 XXXXXX Lab, XXXXXXXXXXXXXXXX University. All Rights Reserved.
         </div>
@@ -471,84 +296,77 @@
 
     <script>
         const GAS_URL = "https://script.google.com/macros/s/AKfycbwSn6NRczBSietv9pIPXnKXxc5XiobGurw_9gqTFXvjUqNT4l4PkBJ4f1PVNwfw6hTUnw/exec";
-        const LANG = "ja"; // このページは日本語固定
-        
+        let currentLang = 'ja';
+        let cachedArticles = [];
+
+        function switchLang(lang){
+            currentLang = lang;
+            if(cachedArticles.length) renderNews(cachedArticles);
+        }
+
+        function toggleAccordion(){
+            const el  = document.getElementById('chief-text');
+            const btn = document.getElementById('chief-toggle');
+            const isOpen = el.classList.toggle('expanded');
+            btn.textContent = isOpen ? 'Close ↑' : 'Read More ↓';
+        }
+
+        function renderNews(articles){
+            const newsList = document.getElementById('news-list');
+            const items = articles
+                .sort((a,b) => new Date(b.date) - new Date(a.date))
+                .slice(0, 5);
+
+            if(items.length === 0){
+                newsList.innerHTML = '<p style="text-align:center;color:#888;padding:30px">ニュースはありません。</p>';
+                return;
+            }
+
+            newsList.innerHTML = '<div class="news-list">' +
+                items.map(item => {
+                    const title   = currentLang === 'ja' ? item.title_ja   : (item.title_en   || item.title_ja);
+                    const content = currentLang === 'ja' ? item.content_ja : (item.content_en || item.content_ja);
+                    if(!title) return '';
+                    return `<div class="news-item">
+                        <div class="news-date">
+                            ${item.date}<span class="news-tag">${item.tag}</span>
+                        </div>
+                        <div>
+                            <strong>${title}</strong>
+                            ${content ? `<p style="margin-top:5px;font-size:0.9rem;color:#555;">${content}</p>` : ''}
+                            ${item.externalLink
+                                ? `<a href="${item.externalLink}" target="_blank" rel="noopener"
+                                    style="color:var(--primary-color);font-size:0.85rem;font-weight:600;">
+                                    詳細を見る <i class="fas fa-external-link-alt" style="font-size:.75rem;"></i></a>`
+                                : ''}
+                        </div>
+                    </div>`;
+                }).join('') + '</div>';
+        }
+
+        // ニュース取得（ローディング → データ表示）
         fetch(GAS_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: new URLSearchParams({ type: "getPublicArticles" })
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({ type: "getPublicArticles" })
         })
         .then(r => r.json())
         .then(data => {
-          if(!data.success) return;
-        
-          const newsList = document.getElementById("news-list");
-        
-          // 日付降順ソートして最新3件のみ表示
-          data.articles
-            .sort((a, b) => new Date(b.date) - new Date(a.date))
-            .slice(0, 3)
-            .forEach(item => {
-              const title   = LANG === "ja" ? item.title_ja   : item.title_en;
-              const content = LANG === "ja" ? item.content_ja : item.content_en;
-        
-              // どちらかが空の場合はスキップ
-              if(!title) return;
-        
-              newsList.innerHTML += `
-                <div class="news-item">
-                  <div class="news-date">${item.date} 
-                    <span style="
-                      background:#003366;
-                      color:white;
-                      font-size:0.7rem;
-                      padding:2px 8px;
-                      border-radius:10px;
-                      margin-left:8px;">
-                      ${item.tag}
-                    </span>
-                  </div>
-                  <div><strong>${title}</strong>
-                    <p style="margin-top:5px; font-size:0.9rem;">${content}</p>
-                    ${item.externalLink ? 
-                      `<a href="${item.externalLink}" target="_blank" 
-                        style="color:#003366; font-size:0.85rem;">
-                        詳細を見る →</a>` : ""}
-                  </div>
-                </div>`;
-            });
+            if(!data.success) throw new Error("取得失敗");
+            cachedArticles = data.articles || [];
+            renderNews(cachedArticles);
         })
         .catch(() => {
-          // フォールバック：GAS取得失敗時はハードコードのデータを表示
-          const fallback = [
-            {date:"2026.02.27", title_ja:"ウェブサイトをリニューアルしました。"}
-          ];
-          const newsList = document.getElementById("news-list");
-          fallback.forEach(item => {
-            newsList.innerHTML += `
-              <div class="news-item">
-                <div class="news-date">${item.date}</div>
-                <div>${item.title_ja}</div>
-              </div>`;
-          });
+            // フォールバック
+            const fallback = [{
+                date:"2026.02.27", tag:"News",
+                title_ja:"ウェブサイトをリニューアルしました。",
+                title_en:"Website renewed.",
+                content_ja:"", content_en:"", externalLink:""
+            }];
+            cachedArticles = fallback;
+            renderNews(fallback);
         });
-        </script>
-
+    </script>
 </body>
-
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
