@@ -216,7 +216,7 @@
                     </div>
                 </div>
                 <div class="news-more">
-                    <a href="debug.html" class="btn-link">
+                    <a href="news.html" class="btn-link">
                         View All News <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
@@ -232,7 +232,7 @@
                 </div>
                 <div class="chief-profile">
                     <h3 class="chief-name">XXXXXXXX</h3>
-                    <span class="chief-title">XXXXX15XXXXXXXXXX | 准教授・博士（XXXXXXXXX科学）</span>
+                    <span class="chief-title">XXXXXXXXXXXXXXX | 准教授・博士（XXXXXXXXX科学）</span>
                     <div class="accordion-content" id="chief-text">
                         <p>科学的なアプローチによって、アスリートにおける競技力向上や運動初心者における運動技能の改善をねらいます。フィールドから実験室まで様々な場所で測定を行い、国際大会で優勝する選手から運動嫌いな子どもまで幅広い運動パフォーマンスの分析を行っています。世界中の研究機関とのネットワークを活用しながら、前例にとらわれずに、スポーツ科学、社会に貢献することを目指しています。</p>
                     </div>
@@ -295,7 +295,7 @@
     </footer>
 
     <script>
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbyn-77l1a98_TDs8q12SLCiqxVKLz39UKwfEHOy-QphXecg5-cgBHFx5jAe3iXzuY8D4A/exec";
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbw_xTVSO0jYA22tsPTEKWS1_LWKQHKFHaU9RmBIl_0F9mcM-RtQIzE5CcttT5FQzhjXUQ/exec";
         let currentLang = 'ja';
         let cachedArticles = [];
 
@@ -345,11 +345,7 @@
         }
 
         // ニュース取得（ローディング → データ表示）
-        fetch(GAS_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: new URLSearchParams({ type: "getPublicArticles" })
-        })
+        fetch(GAS_URL + '?' + new URLSearchParams({ type: 'getPublicArticles' }), { redirect: 'follow' }))
         .then(r => r.json())
         .then(data => {
             if(!data.success) throw new Error("取得失敗");
@@ -370,6 +366,3 @@
     </script>
 </body>
 </html>
-
-
-
