@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>研究業績 | 研究室</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #003366;
+            --accent-color: #c5a059;
+            --text-color: #333;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+            --transition: all 0.3s ease;
+            --footer-dark: #1a1a1a;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; color: var(--text-color); line-height: 1.8; background-color: var(--white); }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* ヘッダー */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 5%; background: var(--white); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); height: 80px; }
+        .logo a { display: flex; align-items: center; }
+        .logo img { height: 60px; width: auto; display: block; }
+        #menu-toggle { display: none; }
+        .menu-icon { display: none; cursor: pointer; font-size: 1.5rem; color: var(--primary-color); }
+        nav ul { display: flex; gap: 20px; }
+        .nav-link { font-size: 0.85rem; font-weight: 600; position: relative; padding: 5px 0; }
+        .nav-link::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--accent-color); transition: var(--transition); }
+        .nav-link:hover::after { width: 100%; }
+
+        /* ページヒーロー */
+        .page-hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #005599 100%);
+            color: white;
+            padding: 80px 10%;
+            text-align: center;
+        }
+        .page-hero h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        .page-hero p { opacity: 0.8; font-size: 1rem; }
+
+        /* セクション */
+        section { padding: 60px 10%; }
+        h2 { font-size: 2rem; margin-bottom: 40px; text-align: center; position: relative; padding-bottom: 15px; }
+        h2::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 50px; height: 3px; background: var(--accent-color); }
+
+        /* タブ（タグフィルター） */
+        .pub-tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+        .pub-tab {
+            padding: 8px 22px;
+            border: 2px solid var(--primary-color);
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            background: white;
+            transition: var(--transition);
+        }
+        .pub-tab.active, .pub-tab:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* 年ごとのグループ */
+        .year-group { margin-bottom: 40px; }
+        .year-heading {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 8px;
+            margin-bottom: 16px;
+        }
+
+        /* 業績カード */
+        .pub-item {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 18px 20px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border-left: 4px solid transparent;
+            transition: var(--transition);
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+        .pub-item:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.1); }
+        .pub-item.has-link { border-left-color: var(--accent-color); }
+        .pub-icon {
+            font-size: 1.4rem;
+            min-width: 36px;
+            text-align: center;
+            margin-top: 2px;
+        }
+        .pub-body { flex: 1; }
+        .pub-title { font-weight: bold; font-size: 1rem; margin-bottom: 4px; }
+        .pub-title a { color: var(--primary-color); }
+        .pub-title a:hover { text-decoration: underline; }
+        .pub-meta { font-size: 0.85rem; color: #666; }
+        .pub-link-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 6px;
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+        .tag-label {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        /* Loading */
+        .loading { text-align: center; padding: 60px; color: #888; font-size: 1.1rem; }
+
+        /* フッター */
+        footer { background: var(--primary-color); color: white; margin-top: 50px; }
+        .footer-content { padding: 60px 10% 40px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
+        .footer-contact h4, .footer-nav h4 { font-size: 1.2rem; margin-bottom: 20px; color: var(--accent-color); }
+        .footer-contact p { margin-bottom: 10px; font-size: 0.9rem; }
+        .footer-bottom { background: var(--footer-dark); text-align: center; padding: 25px 0; font-size: 0.8rem; color: rgba(255,255,255,0.6); border-top: 1px solid rgba(255,255,255,0.05); }
+
+        /* モバイル */
+        @media (max-width: 768px) {
+            .menu-icon { display: block; }
+            nav { position: absolute; top: 80px; left: 0; width: 100%; background: var(--white); max-height: 0; overflow: hidden; transition: var(--transition); box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
+            nav ul { flex-direction: column; padding: 20px 5%; gap: 15px; }
+            #menu-toggle:checked ~ nav { max-height: 500px; }
+            .page-hero h1 { font-size: 1.8rem; }
+            section { padding: 40px 5%; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="index.html"><img src="image/logo.png" alt="研究室ロゴ"></a>
+        </div>
+        <input type="checkbox" id="menu-toggle">
+        <label for="menu-toggle" class="menu-icon"><i class="fas fa-bars"></i></label>
+        <nav>
+            <ul>
+                <li><a href="index.html" class="nav-link">HOME</a></li>
+                <li><a href="index.html#about" class="nav-link">ABOUT</a></li>
+                <li><a href="index.html#research" class="nav-link">RESEARCH</a></li>
+                <li><a href="members.html" class="nav-link">MEMBERS</a></li>
+                <li><a href="achievements.html" class="nav-link">ACHIEVEMENTS</a></li>
+                <li><a href="news.html" class="nav-link">NEWS</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="page-hero">
+        <h1>研究業績</h1>
+        <p>Achievements &amp; Publications</p>
+    </div>
+
+    <main>
+        <section>
+            <!-- タグフィルタータブ -->
+            <div class="pub-tabs">
+                <button class="pub-tab active" onclick="filterPub('all',this)">すべて</button>
+                <button class="pub-tab" onclick="filterPub('論文',this)">📄 学術論文</button>
+                <button class="pub-tab" onclick="filterPub('科研費',this)">💴 科学研究費</button>
+                <button class="pub-tab" onclick="filterPub('受賞',this)">🏆 受賞</button>
+            </div>
+
+            <div id="pub-container">
+                <div class="loading"><i class="fas fa-spinner fa-spin"></i>　読み込み中...</div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p><i class="fas fa-university"></i> XXXXXXXXXXXXX大学院XXXXXXXXXX研究科</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 〒XXX-XXXX XXXXXXXXXXXXXXXX XXXX-X</p>
+                    <p><i class="fas fa-envelope"></i> contact☆example.univ.ac.jp (☆→＠)</p>
+                </div>
+                <div class="footer-nav">
+                    <h4>Quick Links</h4>
+                    <ul style="font-size:0.9rem;">
+                        <li style="margin-bottom:8px;"><a href="index.html">Home</a></li>
+                        <li style="margin-bottom:8px;"><a href="members.html">Members</a></li>
+                        <li style="margin-bottom:8px;"><a href="achievements.html">Achievements</a></li>
+                        <li style="margin-bottom:8px;"><a href="news.html">News</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">&copy; 2026 XXXXXX Lab, XXXXXXXXXXXXXXXX University. All Rights Reserved.</div>
+    </footer>
+
+    <script>
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbzW6Xf5VuAGaxOTPJFh2ggO2Rlc9qoM2mYdEZGP7gMrSyCA6kku9NYCqhwnKNzlURWd5A/exec";
+
+        const TYPE_ICON = { '論文': '📄', '科研費': '💴', '受賞': '🏆' };
+        let ALL_PUBS = [];
+        let currentFilter = 'all';
+
+        // GASから取得
+        fetch(GAS_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({ type: "getPublicPublications" })
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (!data.success) {
+                document.getElementById('pub-container').innerHTML = '<p style="text-align:center;color:#888;">データを取得できませんでした。</p>';
+                return;
+            }
+            ALL_PUBS = (data.publications || []).sort((a, b) => b.year - a.year);
+            renderPubs();
+        })
+        .catch(() => {
+            document.getElementById('pub-container').innerHTML = '<p style="text-align:center;color:#888;">データを取得できませんでした。</p>';
+        });
+
+        function filterPub(type, btn) {
+            currentFilter = type;
+            document.querySelectorAll('.pub-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderPubs();
+        }
+
+        function renderPubs() {
+            const filtered = currentFilter === 'all'
+                ? ALL_PUBS
+                : ALL_PUBS.filter(p => p.type === currentFilter);
+
+            if (filtered.length === 0) {
+                document.getElementById('pub-container').innerHTML = '<p style="text-align:center;color:#888;padding:40px">該当する業績がありません。</p>';
+                return;
+            }
+
+            // 年ごとにグループ化
+            const byYear = {};
+            filtered.forEach(p => {
+                const y = p.year || '年度不明';
+                if (!byYear[y]) byYear[y] = [];
+                byYear[y].push(p);
+            });
+
+            const years = Object.keys(byYear).sort((a, b) => b - a);
+            let html = '';
+
+            years.forEach(year => {
+                html += `<div class="year-group">
+                    <div class="year-heading">${year}年</div>`;
+
+                byYear[year].forEach(item => {
+                    const icon = TYPE_ICON[item.type] || '📌';
+                    const hasLink = !!item.externalLink;
+                    const titleHtml = hasLink
+                        ? `<a href="${item.externalLink}" target="_blank" rel="noopener">${item.title}</a>`
+                        : item.title;
+
+                    html += `<div class="pub-item${hasLink ? ' has-link' : ''}">
+                        <div class="pub-icon">${icon}</div>
+                        <div class="pub-body">
+                            <div class="pub-title">
+                                ${titleHtml}
+                                <span class="tag-label">${item.type}</span>
+                            </div>
+                            <div class="pub-meta">
+                                ${item.authors ? item.authors + ' — ' : ''}${item.journal || ''}
+                            </div>
+                            ${hasLink ? `<div class="pub-link-badge"><i class="fas fa-external-link-alt"></i> 詳細を見る</div>` : ''}
+                        </div>
+                    </div>`;
+                });
+
+                html += '</div>';
+            });
+
+            document.getElementById('pub-container').innerHTML = html;
+        }
+    </script>
+</body>
+</html>
