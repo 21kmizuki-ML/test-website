@@ -16,6 +16,7 @@
             --footer-dark: #1a1a1a;
             --code-bg: #2d2d2d;
             --code-text: #f8f8f2;
+            --link-blue: #0056b3; /* 外部リンク用の青色 */
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -325,25 +326,25 @@
 
     <header>
         <div class="logo">
-            <a href="../index.html"><img src="../image/logo.png" alt="研究室ロゴ"></a>
+            <a href="index.html"><img src="image/logo.png" alt="研究室ロゴ"></a>
         </div>
         <input type="checkbox" id="menu-toggle">
         <label for="menu-toggle" class="menu-icon"><i class="fas fa-bars"></i></label>
-        
-        <div class="header-right">
-            <div>
-                <span class="lang-btn">JP</span> / <span class="lang-btn">EN</span>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="../index.html" class="nav-link">HOME</a></li>
-                    <li><a href="../aboutUs.html" class="nav-link">ABOUT</a></li>
-                    <li><a href="../achievements.html" class="nav-link">RESEARCH</a></li>
-                    <li><a href="../members.html" class="nav-link">MEMBERS</a></li>
-                    <li><a href="../news.html" class="nav-link">NEWS</a></li>
-                </ul>
-            </nav>
+        <div class="lang-switcher">
+            <span class="lang-btn" id="btn-ja" onclick="switchLang('ja')">JP</span>
+            <span class="lang-sep">/</span>
+            <span class="lang-btn" id="btn-en" onclick="switchLang('en')">EN</span>
         </div>
+        <nav>
+            <ul>
+                <li><a href="../index.html" class="nav-link">HOME</a></li>
+                <li><a href="../aboutUs.html" class="nav-link">ABOUT</a></li>
+                <li><a href="../achievements.html" class="nav-link">RESEARCH</a></li>
+                <li><a href="../members.html" class="nav-link">MEMBERS</a></li>
+                <li><a href="../recruit.html" class="nav-link">RECRUIT</a></li>
+                <li><a href="../news.html" class="nav-link">NEWS</a></li>
+            </ul>
+        </nav>
     </header>
 
     <div class="page-hero">
@@ -582,10 +583,10 @@
                 <div class="footer-nav">
                     <h4>Quick Links</h4>
                     <ul style="font-size:0.9rem;">
-                        <li style="margin-bottom:8px;"><a href="index.html">Home</a></li>
-                        <li style="margin-bottom:8px;"><a href="achievements.html">Research</a></li>
-                        <li style="margin-bottom:8px;"><a href="recruit.html">Recruit</a></li>
-                        <li style="margin-bottom:8px;"><a href="news.html">News</a></li>
+                        <li style="margin-bottom:8px;"><a href="../index.html">Home</a></li>
+                        <li style="margin-bottom:8px;"><a href="../achievements.html">Research</a></li>
+                        <li style="margin-bottom:8px;"><a href="../recruit.html">Recruit</a></li>
+                        <li style="margin-bottom:8px;"><a href="../news.html">News</a></li>
                     </ul>
                 </div>
             </div>
@@ -647,6 +648,7 @@
 </body>
 
 </html>
+
 
 
 
