@@ -215,7 +215,7 @@
             <!-- フィルターバー -->
             <div class="filter-bar">
                 <!-- タグフィルター -->
-                <select id="filter-tag" onchange="applyFilter()">
+                <select id="filter-tag" onchange="applyFilter()" disabled onchange="applyFilter()">
                     <option value="" data-ja="すべてのタグ" data-en="All Tags">すべてのタグ</option>
                     <option value="News">News</option>
                     <option value="Award">Award</option>
@@ -223,7 +223,7 @@
                     <option value="Event">Event</option>
                 </select>
                 <!-- 年度フィルター（動的生成） -->
-                <select id="filter-year" onchange="applyFilter()">
+                <select id="filter-year" onchange="applyFilter()" disabled onchange="applyFilter()">
                     <option value="" data-ja="すべての年度" data-en="All Years">すべての年度</option>
                 </select>
                 <span class="filter-count" id="filter-count"></span>
@@ -359,6 +359,31 @@
         }
 
         /* ===== フィルター ===== */
+
+        // フィルター無効化ヘルパーを追加
+        function setFiltersDisabled(disabled) {
+            ['filter-tag', 'filter-year'].forEach(id => {
+                document.getElementById(id).disabled = disabled;
+            });
+        }
+        
+        // フィルターバーにCSSも追加
+        // select:disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+        
+        // 初期化時に無効化（fetchが始まるのでデフォルトdisabledにしてもOK）
+        // fetchのthenとcatchに追記：
+        .then(data => {
+            // ... 既存処理 ...
+            buildYearFilter(allArticles);
+            updateCount();
+            renderPage();
+            setFiltersDisabled(false);   // ← 追加
+        })
+        .catch(() => {
+            // ... 既存エラー処理 ...
+            setFiltersDisabled(false);   // ← 追加
+        });
+        
         function applyFilter() {
             const tag  = document.getElementById('filter-tag').value;
             const year = document.getElementById('filter-year').value;
@@ -542,6 +567,7 @@
     </script>
 </body>
 </html>
+
 
 
 
