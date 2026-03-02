@@ -90,6 +90,11 @@
             background: var(--primary-color);
             color: white;
         }
+        .pub-tab:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
 
         /* 年ごとのグループ */
         .year-group { margin-bottom: 40px; }
@@ -203,10 +208,11 @@
         <section>
             <!-- タグフィルタータブ -->
             <div class="pub-tabs">
-                <button class="pub-tab active" onclick="filterPub('all',this)">すべて</button>
-                <button class="pub-tab" onclick="filterPub('論文',this)">📄 学術論文</button>
-                <button class="pub-tab" onclick="filterPub('科研費',this)">K 科学研究費</button>
-                <button class="pub-tab" onclick="filterPub('受賞',this)">🏆 受賞</button>
+                <!-- 変更後：disabled 属性を追加 -->
+                <button class="pub-tab active" disabled onclick="filterPub('all',this)">すべて</button>
+                <button class="pub-tab" disabled onclick="filterPub('論文',this)">📄 学術論文</button>
+                <button class="pub-tab" disabled onclick="filterPub('科研費',this)">K 科学研究費</button>
+                <button class="pub-tab" disabled onclick="filterPub('受賞',this)">🏆 受賞</button>
             </div>
 
             <div id="pub-container">
@@ -317,6 +323,22 @@
         })
         .catch(() => {
             document.getElementById('pub-container').innerHTML = '<p style="text-align:center;color:#888;">データを取得できませんでした。</p>';
+        });
+
+        // ヘルパー関数を追加
+        function setTabsDisabled(disabled) {
+            document.querySelectorAll('.pub-tab').forEach(btn => btn.disabled = disabled);
+        }
+        
+        // fetchの then と catch に追記
+        .then(data => {
+            // ... 既存処理 ...
+            renderPubs();
+            setTabsDisabled(false);   // ← 追加
+        })
+        .catch(() => {
+            // ... 既存エラー処理 ...
+            setTabsDisabled(false);   // ← 追加（エラー時も解除）
         });
 
         function filterPub(type, btn) {
