@@ -188,18 +188,40 @@
         }
 
         fetch(GAS_URL + '?' + new URLSearchParams({ type: 'getPublicMembers' }), { redirect: 'follow' })
-        .then(r => r.json())
+        .then(r => {
+            // まずテキストとして受け取り、JSONパースを試みる
+            return r.text().then(text => {
+                try {
+                    return JSON.parse(text);
+                } catch(e) {
+                    // JSONパース失敗時：レスポンス内容をそのまま表示（デバッグ用）
+                    throw new Error('JSONパース失敗。GASレスポンス: ' + text.substring(0, 200));
+                }
+            });
+        })
         .then(data => {
             if (!data.success) {
                 document.getElementById('members-container').innerHTML =
-                    '<p style="text-align:center;color:#888;padding:40px">データを取得できませんでした。</p>';
+                    `<p style="text-align:center;color:#c0392b;padding:40px">
+                        ❌ GASエラー: ${JSON.stringify(data)}<br>
+                        <small style="color:#888">GASエディタで clearAllCache() を実行してみてください</small>
+                    </p>`;
                 return;
             }
-            renderGroups(data.members || []);
+            if (!data.members || data.members.length === 0) {
+                document.getElementById('members-container').innerHTML =
+                    '<p style="text-align:center;color:#888;padding:40px">メンバーが登録されていません。</p>';
+                return;
+            }
+            renderGroups(data.members);
         })
-        .catch(() => {
+        .catch(err => {
             document.getElementById('members-container').innerHTML =
-                '<p style="text-align:center;color:#888;padding:40px">データを取得できませんでした。</p>';
+                `<p style="text-align:center;color:#c0392b;padding:40px">
+                    ❌ 取得エラー: ${err.message}<br>
+                    <small style="color:#888">ブラウザの開発者ツール（F12）→ Consoleタブでも詳細を確認できます</small>
+                </p>`;
+            console.error('members fetch error:', err);
         });
 
         function renderGroups(members) {
@@ -233,9 +255,9 @@
                                 <span>${group.label}</span>
                                 <span class="group-count">${inGroup.length}名</span>
                             </div>
-                            <span class="group-arrow" id="${arrowId}">▲</span>
+                            <span class="group-arrow" id="${arrowId}">▽</span>
                         </div>
-                        <div class="group-body open" id="${bodyId}">
+                        <div class="group-body" id="${bodyId}">
                             ${inGroup.map((m, mi) => renderMemberCard(m, gi, mi)).join('')}
                         </div>
                     </div>`;
