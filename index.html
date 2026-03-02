@@ -295,7 +295,7 @@
     </footer>
 
     <script>
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbw_xTVSO0jYA22tsPTEKWS1_LWKQHKFHaU9RmBIl_0F9mcM-RtQIzE5CcttT5FQzhjXUQ/exec";
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbyn-77l1a98_TDs8q12SLCiqxVKLz39UKwfEHOy-QphXecg5-cgBHFx5jAe3iXzuY8D4A/exec";
         let currentLang = 'ja';
         let cachedArticles = [];
 
@@ -315,7 +315,7 @@
             const newsList = document.getElementById('news-list');
             const items = articles
                 .sort((a,b) => new Date(b.date) - new Date(a.date))
-                .slice(0, 5);
+                .slice(0, 3);
 
             if(items.length === 0){
                 newsList.innerHTML = '<p style="text-align:center;color:#888;padding:30px">ニュースはありません。</p>';
@@ -345,7 +345,7 @@
         }
 
         // ニュース取得（ローディング → データ表示）
-        fetch(GAS_URL + '?' + new URLSearchParams({ type: 'getPublicArticles' }), { redirect: 'follow' })
+        fetch(GAS_URL + '?' + new URLSearchParams({ type: 'getPublicArticles' }), { redirect: 'follow' }))
         .then(r => r.json())
         .then(data => {
             if(!data.success) throw new Error("取得失敗");
@@ -366,4 +366,3 @@
     </script>
 </body>
 </html>
-
