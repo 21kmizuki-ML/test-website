@@ -177,9 +177,10 @@
         </div>
         <input type="checkbox" id="menu-toggle">
         <label for="menu-toggle" class="menu-icon"><i class="fas fa-bars"></i></label>
-        <div>
-            <span class="lang-btn" onclick="switchLang('ja')">JP</span> /
-            <span class="lang-btn" onclick="switchLang('en')">EN</span>
+        <div class="lang-switcher">
+            <span class="lang-btn" id="btn-ja" onclick="switchLang('ja')">JP</span>
+            <span class="lang-sep">/</span>
+            <span class="lang-btn" id="btn-en" onclick="switchLang('en')">EN</span>
         </div>
         <nav>
             <ul>
