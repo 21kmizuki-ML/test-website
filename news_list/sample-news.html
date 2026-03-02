@@ -49,7 +49,7 @@
         .lang-btn.active { color: var(--primary-color); background: #eef2f8; }
         .lang-sep { color: #ddd; font-size: 0.8rem; }
 
-       /* ヘッダー */
+        /* ヘッダー */
         header {
             display: flex; justify-content: space-between; align-items: center;
             padding: 0.5rem 5%; background: var(--white);
@@ -67,6 +67,15 @@
             background: var(--accent-color); transition: var(--transition);
         }
         .nav-link:hover::after { width: 100%; }
+        .recruit-hero {
+            padding: 120px 10%;
+            background: linear-gradient(135deg, #003366 0%, #001a33 100%);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            /* ★ ::before の " マークは削除（下に定義なし） */
+        }
 
         
         /* --- ページヒーロー --- */
@@ -638,6 +647,7 @@
 </body>
 
 </html>
+
 
 
 
