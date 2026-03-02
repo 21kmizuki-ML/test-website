@@ -109,9 +109,10 @@
 
     <header>
         <div class="logo"><a href="index.html"><img src="image/logo.png" alt="研究室ロゴ"></a></div>
-        <div>
-            <span class="lang-btn" onclick="switchLang('ja')">JP</span> /
-            <span class="lang-btn" onclick="switchLang('en')">EN</span>
+        <div class="lang-switcher">
+            <span class="lang-btn" id="btn-ja" onclick="switchLang('ja')">JP</span>
+            <span class="lang-sep">/</span>
+            <span class="lang-btn" id="btn-en" onclick="switchLang('en')">EN</span>
         </div>
         <nav>
             <ul>
