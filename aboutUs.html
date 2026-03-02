@@ -100,8 +100,17 @@
         .footer-bottom { background: var(--footer-dark); text-align: center; padding: 25px 0; font-size: 0.8rem; margin: 0 -11.2%; margin-top: 40px;}
 
         @media (max-width: 768px) {
+            .menu-icon { display: block; }
+            nav {
+                position: absolute; top: 80px; left: 0; width: 100%;
+                background: var(--white); max-height: 0; overflow: hidden;
+                transition: var(--transition); box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            }
+            nav ul { flex-direction: column; padding: 20px 5%; gap: 15px; }
+            #menu-toggle:checked ~ nav { max-height: 500px; }
+            .hero { height: 350px; }
+            .chief-container { flex-direction: column; text-align: center; }
             section { padding: 50px 5%; }
-            .logo-concept { flex-direction: column; }
         }
     </style>
 </head>
