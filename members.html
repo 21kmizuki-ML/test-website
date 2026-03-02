@@ -248,6 +248,16 @@
             });
         }
 
+        /* ===== 初期化（ページ読込時） ===== */
+        (function init() {
+            const saved = localStorage.getItem('siteLang') || 'ja';
+            currentLang = saved;
+            document.body.classList.toggle('en', saved === 'en');
+            document.documentElement.lang = saved === 'en' ? 'en' : 'ja';
+            document.getElementById('btn-ja').classList.toggle('active', saved === 'ja');
+            document.getElementById('btn-en').classList.toggle('active', saved === 'en');
+        })();
+
         // グループ定義
         // type:'fixed'     → 常に展開表示・開閉なし（教員）
         // type:'accordion' → 開閉タブ（それ以外）
