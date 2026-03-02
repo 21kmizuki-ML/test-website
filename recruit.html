@@ -6,7 +6,6 @@
     <title>RECRUIT | XXXXXXXXXXXXXXXXXXXXXXXXXXXXX研究室</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* index.html の共通スタイルを継承 */
         :root {
             --primary-color: #003366;
             --accent-color: #c5a059;
@@ -30,12 +29,8 @@
         .nav-link { font-size: 0.85rem; font-weight: 600; text-decoration: none; color: inherit; position: relative; }
         .nav-link::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--accent-color); transition: var(--transition); }
         .nav-link:hover::after { width: 100%; }
-
-         /* 言語切替 */
         .lang-btn { margin-left: 20px; cursor: pointer; font-size: 0.8rem; font-weight: bold; color: var(--primary-color); }
 
-
-        /* リクルート専用メッセージセクション */
         .recruit-hero {
             padding: 120px 10%;
             background: linear-gradient(135deg, #003366 0%, #001a33 100%);
@@ -43,17 +38,7 @@
             text-align: center;
             position: relative;
             overflow: hidden;
-        }
-
-        .recruit-hero::before {
-            content: '“';
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 15rem;
-            color: rgba(197, 160, 89, 0.1);
-            font-family: serif;
+            /* ★ ::before の " マークは削除（下に定義なし） */
         }
 
         .message-box {
@@ -81,8 +66,9 @@
             border-bottom: 3px solid var(--accent-color);
         }
 
-        /* 求める人物像セクション */
         section { padding: 80px 10%; }
+        h2 { font-size: 2rem; margin-bottom: 16px; text-align: center; }
+
         .target-list {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -94,14 +80,12 @@
             border: 1px solid #ddd;
             border-radius: 10px;
             text-align: center;
+            transition: var(--transition);
         }
-        .target-item i { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 20px; }
+        .target-item:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.1); transform: translateY(-3px); }
+        .target-item i { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 20px; display: block; }
 
-        /* コンタクトボタン */
-        .cta-section {
-            text-align: center;
-            background-color: var(--bg-light);
-        }
+        .cta-section { text-align: center; background-color: var(--bg-light); }
         .btn-large {
             display: inline-block;
             padding: 20px 60px;
@@ -117,7 +101,7 @@
         .btn-large:hover { background-color: var(--accent-color); transform: scale(1.05); }
 
         footer { background: var(--primary-color); color: white; padding: 60px 10% 0; }
-        .footer-bottom { background: var(--footer-dark); text-align: center; padding: 25px 0; font-size: 0.8rem; margin: 0 -11.2%; margin-top: 40px;}
+        .footer-bottom { background: var(--footer-dark); text-align: center; padding: 25px 0; font-size: 0.8rem; margin: 0 -11.2%; margin-top: 40px; color: rgba(255,255,255,0.6); }
     </style>
 </head>
 <body>
@@ -154,14 +138,15 @@
         </div>
 
         <section>
-            <h2 style="text-align: center;">こんな方を募集しています</h2>
+            <h2>こんな方を募集しています</h2>
             <div class="target-list">
                 <div class="target-item">
                     <i class="fas fa-lightbulb"></i>
                     <p>現場での疑問を科学的に解決したい指導者・選手</p>
                 </div>
                 <div class="target-item">
-                    <i class="fas fa-calculate"></i>
+                    <!-- fa-drafting-compass：設計・力学・物理的分析のアイコン -->
+                    <i class="fas fa-drafting-compass"></i>
                     <p>スポーツを物理学や力学の視点で分析したい方</p>
                 </div>
                 <div class="target-item">
@@ -185,5 +170,8 @@
         <div class="footer-bottom">&copy; 2026 XXXXXXXXXXa Lab, NSSU. All Rights Reserved.</div>
     </footer>
 
+    <script>
+        function switchLang(lang){ /* 将来実装 */ }
+    </script>
 </body>
 </html>
