@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>記事詳細タイトル | 研究室</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #003366;
+            --accent-color: #c5a059;
+            --text-color: #333;
+            --bg-light: #f8f9fa;
+            --white: #ffffff;
+            --transition: all 0.3s ease;
+            --footer-dark: #1a1a1a;
+            --code-bg: #2d2d2d;
+            --code-text: #f8f8f2;
+        }
+        * { 
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box; }
+        body {
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            color: var(--text-color);
+            line-height: 1.8;
+            background-color: var(--white);
+        }
+        a { 
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        ul { list-style: none; }
+
+        /* --- ヘッダー（指定デザイン：モバイルメニュー・言語切替対応） --- */
+        header {
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            padding: 0.5rem 5%; 
+            background: var(--white);
+            position: sticky; 
+            top: 0; z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
+            height: 80px;
+        }
+        .logo a { 
+            display: flex; 
+            align-items: center; 
+        }
+        .logo img { 
+            height: 60px; 
+            width: auto; 
+            display: block; 
+        }
+        #menu-toggle { display: none; }
+        .menu-icon { 
+            display: none; 
+            cursor: pointer; 
+            font-size: 1.5rem; 
+            color: var(--primary-color); 
+        }
+        
+        .header-right { 
+            display: flex; 
+            align-items: center; 
+            gap: 20px; 
+        }
+        .lang-btn { 
+            cursor: pointer; 
+            font-size: 0.8rem; 
+            font-weight: bold; 
+            color: var(--primary-color); 
+        }
+        
+        nav ul { 
+            display: flex; 
+            gap: 20px; 
+        }
+        .nav-link { 
+            font-size: 0.85rem; 
+            font-weight: 600; 
+            position: relative; 
+            padding: 5px 0; 
+        }
+        .nav-link::after {
+            content: ''; 
+            position: absolute; 
+            bottom: 0; 
+            left: 0; 
+            width: 0; 
+            height: 2px;
+            background: var(--accent-color); 
+            transition: var(--transition);
+        }
+        .nav-link:hover::after { width: 100%; }
+
+        /* --- ページヒーロー --- */
+        .page-hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #005599 100%);
+            color: white; 
+            padding: 80px 10%; 
+            text-align: center;
+        }
+        .page-hero h1 { 
+            font-size: 2.5rem; 
+            margin-bottom: 10px; 
+        }
+        .page-hero p { opacity: 0.8; }
+
+        /* --- メインコンテンツ --- */
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 5%; }
+        
+        /* 戻るボタン */
+        .back-to-list {
+            display: inline-flex; 
+            align-items: center; 
+            gap: 8px;
+            color: var(--primary-color); 
+            font-weight: 600; 
+            margin-bottom: 30px;
+            font-size: 0.95rem; 
+            border: 1px solid var(--primary-color);
+            padding: 8px 20px; border-radius: 50px;
+        }
+        .back-to-list:hover { 
+            background: var(--primary-color); 
+            color: white; 
+        }
+
+        /* 記事メタ情報（日付の横に太字の記事名） */
+        .article-meta { 
+            margin-bottom: 25px; 
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex; 
+            gap: 15px; 
+            align-items: center; 
+            flex-wrap: wrap;
+        }
+        .date { 
+            color: #666; 
+            font-size: 0.95rem; 
+        }
+        .article-title-inline { 
+            font-weight: bold; 
+            font-size: 1.1rem; 
+            color: var(--primary-color); 
+        }
+        .news-tag {
+            background: var(--primary-color); 
+            color: white;
+            font-size: 0.7rem; 
+            padding: 2px 10px; 
+            border-radius: 4px; 
+            font-weight: 600;
+        }
+
+        /* --- 本文内スタイル --- */
+        .article-body h2 { 
+            color: var(--primary-color); 
+            border-left: 5px solid var(--accent-color); 
+            padding-left: 15px; 
+            margin: 45px 0 20px; 
+            font-size: 1.5rem; 
+        }
+        .article-body p { margin-bottom: 1.5rem; }
+
+        /* 汎用クラス */
+        .content-img { 
+            max-width: 100%; 
+            height: auto; 
+            border-radius: 5px; 
+            margin: 10px 0; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+        }
+        .img-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 15px; 
+            margin: 20px 0; 
+        }
+        .video-container { 
+            position: relative; 
+            padding-bottom: 56.25%; 
+            height: 0; 
+            overflow: hidden; 
+            margin: 20px 0; 
+        }
+        .video-container iframe { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            border: 0; 
+        }
+        .local-video { 
+            width: 100%; 
+            border-radius: 5px; 
+            margin: 15px 0; 
+        }
+        .btn-link { 
+            display: inline-block; 
+            background: var(--primary-color); 
+            color: white !important; 
+            padding: 10px 25px; 
+            border-radius: 5px; 
+            font-weight: bold; 
+            margin: 10px 0; 
+        }
+        .pdf-preview { 
+            width: 100%; 
+            height: 500px; 
+            border: 1px solid #ccc; 
+            margin: 15px 0; 
+        }
+
+        /* サンプルボックス */
+        .example-box { 
+            background: #fdfdfd; 
+            border: 1px solid #ddd; 
+            border-radius: 8px; 
+            margin: 30px 0; 
+            overflow: hidden; 
+        }
+        .example-header { 
+            background: #eee; 
+            padding: 10px 20px; 
+            font-size: 0.8rem; 
+            font-weight: bold; 
+            color: #666; 
+        }
+        .view-rendered { 
+            padding: 25px; 
+            background: white; 
+        }
+        .view-code { 
+            background: var(--code-bg); 
+            color: var(--code-text); 
+            padding: 15px 20px; 
+            font-family: monospace; 
+            font-size: 0.85rem; 
+            overflow-x: auto; 
+            white-space: pre; 
+        }
+
+        /* --- フッター（指定デザイン） --- */
+        footer { 
+            background: var(--primary-color); 
+            color: white;
+            margin-top: 50px; 
+        }
+        .footer-content { padding: 60px 10% 40px; }
+        .footer-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+            gap: 40px; 
+        }
+        .footer-contact h4, .footer-nav h4 { 
+            font-size: 1.2rem; 
+            margin-bottom: 20px; 
+            color: var(--accent-color); 
+        }
+        .footer-contact p { 
+            margin-bottom: 10px; 
+            font-size: 0.9rem; 
+        }
+        .footer-bottom { 
+            background: var(--footer-dark); 
+            text-align: center; 
+            padding: 25px 0; 
+            font-size: 0.8rem; 
+            color: rgba(255,255,255,0.6); 
+            border-top: 1px solid rgba(255,255,255,0.05); 
+        }
+        
+        .example{
+            border:1px solid #ddd; 
+            border-radius:8px; 
+            overflow:hidden; 
+            margin:20px 0;
+        }
+        .example .head{
+            background:#eee; 
+            font-size:.85rem; 
+            padding:8px 14px; 
+            font-weight:bold;
+        }
+        .view{padding:18px;}
+        .code{
+            background:var(--code-bg); 
+            color:var(--code-text); 
+            font-family:monospace; 
+            font-size:.85rem; 
+            padding:14px; 
+            white-space:pre; 
+            overflow:auto;
+        }
+        .content-img{
+            max-width:100%; 
+            height:auto; 
+            margin:10px 0; 
+            border-radius:6px; 
+            box-shadow:0 4px 10px rgba(0,0,0,.1);
+        }
+        .img-grid{
+            display:grid; 
+            grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); 
+            gap:12px;
+        }
+        .btn{
+            display:inline-flex;
+            align-items:center;
+            gap:8px;
+            background:var(--primary-color);
+            color:#fff !important;
+            padding:10px 24px;
+            border-radius:6px;
+            font-weight:bold;
+            text-decoration:none;
+            transition:0.3s;
+        }
+
+        .btn:hover{
+            opacity:0.85;
+        }
+        /* ボタン配置 */
+        .btn-center{
+            text-align:center;
+        }
+
+        .btn-right{
+            text-align:right;
+        }
+        .note{
+            background:#fff7e6; 
+            border-left:4px solid #ffb84d; 
+            padding:12px; 
+            margin:14px 0;
+        }
+        
+        /* モバイル対応 */
+        @media (max-width: 768px) {
+            .menu-icon { display: block; }
+            nav {
+                position: absolute; 
+                top: 80px; 
+                left: 0; 
+                width: 100%;
+                background: var(--white); 
+                max-height: 0; 
+                overflow: hidden;
+                transition: var(--transition); 
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            }
+            nav ul { 
+                flex-direction: column; 
+                padding: 20px 5%; 
+                gap: 15px; 
+            }
+            #menu-toggle:checked ~ nav { max-height: 500px; }
+            .page-hero h1 { font-size: 1.8rem; }
+            .article-meta { 
+                flex-direction: 
+                column; align-items: flex-start; 
+                gap: 8px; 
+            }
+            .pdf-preview { height: 350px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="../index.html"><img src="../image/logo.png" alt="研究室ロゴ"></a>
+        </div>
+        <input type="checkbox" id="menu-toggle">
+        <label for="menu-toggle" class="menu-icon"><i class="fas fa-bars"></i></label>
+        
+        <div class="header-right">
+            <div>
+                <span class="lang-btn">JP</span> / <span class="lang-btn">EN</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html" class="nav-link">HOME</a></li>
+                    <li><a href="../aboutUs.html" class="nav-link">ABOUT</a></li>
+                    <li><a href="../achievements.html" class="nav-link">RESEARCH</a></li>
+                    <li><a href="../members.html" class="nav-link">MEMBERS</a></li>
+                    <li><a href="../news.html" class="nav-link">NEWS</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="page-hero">
+        <h1>News Detail</h1>
+        <p>記事詳細・入力ガイド</p>
+    </div>
+
+    <main class="container">
+        <a href="../news.html" class="back-to-list">
+            <i class="fas fa-arrow-left"></i> 記事一覧に戻る
+        </a>
+
+        <div class="article-meta">
+            <span class="news-tag">News</span>
+            <span class="date"><i class="far fa-calendar-alt"></i> 2026.03.02</span>
+            <span class="article-title-inline">ここに記事の名前（タイトル）が太字で表示されます</span>
+        </div>
+
+        <article class="article-body">
+            
+            <h2>0. 記事作成の基本ルール</h2>
+            <ul>
+                <li>文章は必ず &lt;p&gt; タグで囲む</li>
+                <li>改行だけでは段落にならない</li>
+                <li>改行にはコレ→&lt;br&gt;</li>
+                <li>　　　　を使うと改行できる。</li>
+                <li>画像の前後に説明文を入れる</li>
+                <li>ファイル名に日本語を使わない（例：experiment.jpg）</li>
+            </ul>
+            <div class="note">よくあるミス：タグの閉じ忘れ / 画像パス間違い / Word貼付による不要装飾</div>
+
+            <h2>1. テキスト配置（左・中央・右）</h2>
+            <div class="example">
+            <div class="head">表示例</div>
+            <div class="view">
+                <p style="text-align:left;">左寄せ（デフォルト）</p>
+                <p style="text-align:center;">中央揃え</p>
+                <p style="text-align:right;">右寄せ</p>
+            </div>
+            <div class="head">テキスト配置　コード</div>
+            <div class="code">&lt;p style="text-align:left;"&gt;左寄せ&lt;/p&gt;
+            &lt;p style="text-align:center;"&gt;中央&lt;/p&gt;
+            &lt;p style="text-align:right;"&gt;右寄せ&lt;/p&gt;</div>
+            </div>
+
+            <h2>2. テキスト装飾</h2>
+            <div class="example">
+            <div class="head">表示例</div>
+            <div class="view">
+                <p style="font-size:1.3rem;">サイズ変更</p>
+                <p><strong>太字</strong> / <i>斜体</i> / <u>下線</u> / <s>中央線</s></p>
+                <p style="font-family:serif;">明朝体（serif）</p>
+                <p>特殊文字例：研究成果 &rarr; 公開しました &copy;</p>
+            </div>
+            <div class="head">テキスト装飾　コード</div>
+            <div class="code">&lt;p style="font-size:1.3rem;"&gt;サイズ変更&lt;/p&gt;
+            &lt;strong&gt;太字&lt;/strong&gt;
+            &lt;i&gt;斜体&lt;/i&gt;
+            &lt;u&gt;下線&lt;/u&gt;
+            &lt;s&gt;中央線&lt;/s&gt;
+            &lt;p style="font-family:serif;"&gt;明朝体&lt;/p&gt;
+            &amp;rarr; &amp;copy;</div>
+            </div>
+
+            <h2>3. 画像を縦に並べる</h2>
+            <div class="example">
+            <div class="head">表示例</div>
+            <div class="view">
+                <img src="sample_img.png" class="content-img" alt="img1">
+                <img src="sample_img.png" class="content-img" alt="img2">
+            </div>
+            <div class="head">画像立て並べ　コード</div>
+            <div class="code">&lt;img src="img1.jpg" class="content-img"&gt;
+            &lt;img src="img2.jpg" class="content-img"&gt;</div>
+            </div>
+
+            <h2>4. 複数画像（横並び）</h2>
+            <div class="example">
+            <div class="head">表示例</div>
+            <div class="view img-grid">
+                <img src="sample_img.png" class="content-img">
+                <img src="sample_img.png" class="content-img">
+            </div>
+            <div class="head">画像横並べ　コード</div>
+            <div class="code">&lt;div class="img-grid"&gt;
+            &lt;img src="img1.jpg" class="content-img"&gt;
+            &lt;img src="img2.jpg" class="content-img"&gt;
+            &lt;/div&gt;</div>
+            </div>
+
+            <h2>5. 外部リンクとボタン</h2>
+            <div class="example">
+            <div class="head">表示例</div>
+            <div class="view">
+                <p><a href="https://example.com" target="_blank">外部サイト（別タブ）</a></p>
+                <div class="btn-center">
+                    <a href="https://example.com" 
+                        class="btn" 
+                        target="_blank">
+                        詳細はこちら
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+
+                <div class="btn-right">
+                    <a href="https://example.com" 
+                        class="btn" 
+                        target="_blank">
+                        資料ページへ
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="head">外部サイトリンク　コード</div>
+            <div class="code">&lt;a href="URL" target="_blank"&gt;リンク&lt;/a&gt;
+            &lt;a href="URL" class="btn"&gt;ボタン&lt;/a&gt;
+            </div>
+            <div class="head">ボタン右揃え　コード</div>
+            <div class="code">&lt;div class="btn-right"&gt;
+            &lt; a href="https://example.com"
+            class="btn" 
+            target="_blank" &gt;
+                資料ページへ
+            &lt;i class="fas fa-external-link-alt"&gt; &lt;/i&gt;
+            &lt;/a&gt;
+            &lt;/div&gt;
+            </div>
+
+            <h2>6. PDF表示</h2>
+            <div class="example">
+            <div class="head">表示例</div>
+            <div class="view">
+                <a href="sample_pdf.pdf" download>PDFをダウンロード</a>
+                <iframe src="sample_pdf.pdf" style="width:100%;height:400px;border:1px solid #ccc;"></iframe>
+            </div>
+            <div class="head">PDF表示　コード</div>
+            <div class="code">&lt;a href="file.pdf" download&gt;保存&lt;/a&gt;
+            &lt;iframe src="file.pdf"&gt;&lt;/iframe&gt;</div>
+            </div>
+        </article>
+        <br>
+        <div class="btn-right">
+            <a href="../news.html" class="back-to-list">
+                <i class="fas fa-arrow-left"></i> 記事一覧に戻る
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p><i class="fas fa-university"></i> XXXXXX大学 XXXXX研究科</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 〒XXX-XXXX XXXXXXXXXXXX町 XXXX-X</p>
+                    <p><i class="fas fa-envelope"></i> contact☆example.univ.ac.jp (☆→＠)</p>
+                </div>
+                <div class="footer-nav">
+                    <h4>Quick Links</h4>
+                    <ul style="font-size:0.9rem;">
+                        <li style="margin-bottom:8px;"><a href="../index.html">Home</a></li>
+                        <li style="margin-bottom:8px;"><a href="../members.html">Members</a></li>
+                        <li style="margin-bottom:8px;"><a href="../achievements.html">Research</a></li>
+                        <li style="margin-bottom:8px;"><a href="../news.html">News</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 XXXXXXXXXXXX Lab, XXXXXXXXXXX University. All Rights Reserved.
+        </div>
+    </footer>
+
+</body>
+</html>
