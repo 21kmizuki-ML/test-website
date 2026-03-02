@@ -347,7 +347,7 @@
         }
 
         // ニュース取得（ローディング → データ表示）
-        fetch(GAS_URL + '?' + new URLSearchParams({ type: 'getPublicArticles' }), { redirect: 'follow' }))
+        fetch(GAS_URL + '?' + new URLSearchParams({ type: 'getPublicArticles' }), { redirect: 'follow' })
         .then(r => r.json())
         .then(data => {
             if(!data.success) throw new Error("取得失敗");
@@ -368,6 +368,7 @@
     </script>
 </body>
 </html>
+
 
 
 
