@@ -15,38 +15,13 @@
             --transition: all 0.3s ease;
             --footer-dark: #1a1a1a;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
-            color: var(--text-color);
-            line-height: 1.8;
+            color: var(--text-color); line-height: 1.8; background-color: var(--white);
         }
-
-        a { 
-            text-decoration: none; 
-            color: inherit; 
-        }
+        a { text-decoration: none; color: inherit; }
         ul { list-style: none; }
-
-         /* ヘッダー */
-        header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 0.5rem 5%; background: var(--white);
-            position: sticky; top: 0; z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05); height: 80px;
-        }
-        .logo a { display: flex; align-items: center; }
-        .logo img { height: 60px; width: auto; display: block; }
-        #menu-toggle { display: none; }
-        .menu-icon { display: none; cursor: pointer; font-size: 1.5rem; color: var(--primary-color); }
-        nav ul { display: flex; gap: 20px; }
-        .nav-link { font-size: 0.85rem; font-weight: 600; position: relative; padding: 5px 0; }
-        .nav-link::after {
-            content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px;
-            background: var(--accent-color); transition: var(--transition);
-        }
-        .nav-link:hover::after { width: 100%; }
 
         /* ===== 言語切替 CSS =====
            デフォルト（body.ja）: .lang-ja 表示 / .lang-en 非表示
@@ -68,6 +43,24 @@
         .lang-btn.active { color: var(--primary-color); background: #eef2f8; }
         .lang-sep { color: #ddd; font-size: 0.8rem; }
 
+        /* ヘッダー */
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.5rem 5%; background: var(--white);
+            position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); height: 80px;
+        }
+        .logo a { display: flex; align-items: center; }
+        .logo img { height: 60px; width: auto; display: block; }
+        #menu-toggle { display: none; }
+        .menu-icon { display: none; cursor: pointer; font-size: 1.5rem; color: var(--primary-color); }
+        nav ul { display: flex; gap: 20px; }
+        .nav-link { font-size: 0.85rem; font-weight: 600; position: relative; padding: 5px 0; }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px;
+            background: var(--accent-color); transition: var(--transition);
+        }
+        .nav-link:hover::after { width: 100%; }
         .recruit-hero {
             padding: 120px 10%;
             background: linear-gradient(135deg, #003366 0%, #001a33 100%);
