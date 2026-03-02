@@ -264,21 +264,6 @@
             document.getElementById('btn-en').classList.toggle('active', saved === 'en');
         })();
 
-        const name =
-          currentLang==="en" && item.name_en
-            ? item.name_en
-            : item.name_ja;
-        
-        const education =
-          currentLang==="en"
-            ? item.education_en
-            : item.education_ja;
-        
-        const career =
-          currentLang==="en"
-            ? item.career_en
-            : item.career_ja;
-
         // グループ定義
         // type:'fixed'     → 常に展開表示・開閉なし（教員）
         // type:'accordion' → 開閉タブ（それ以外）
@@ -380,70 +365,119 @@
 
         /* 教員カード（横長レイアウト） */
         function renderFacultyCard(m) {
+        
             const imgUrl = driveUrl(m.photoUrl);
+        
+            const nameJa = m.name_ja || '';
+            const nameEn = m.name_en || '';
+            const bioJa  = m.bio_ja || '';
+            const bioEn  = m.bio_en || '';
+            const eduJa  = m.education_ja || '';
+            const eduEn  = m.education_en || '';
+            const carJa  = m.career_ja || '';
+            const carEn  = m.career_en || '';
+        
+            const name = currentLang==="en" ? (nameEn||nameJa) : (nameJa||nameEn);
+            const bio  = currentLang==="en" ? (bioEn||bioJa)  : (bioJa||bioEn);
+            const edu  = currentLang==="en" ? (eduEn||eduJa)  : (eduJa||eduEn);
+            const car  = currentLang==="en" ? (carEn||carJa)  : (carJa||carEn);
+        
             const photoHtml = imgUrl
-                ? `<img src="${imgUrl}" alt="${m.name}"
+                ? `<img src="${imgUrl}" alt="${name}"
                     onerror="this.parentNode.innerHTML='<div class=faculty-photo-placeholder><i class=fas fa-user></i></div>'">`
                 : `<div class="faculty-photo-placeholder"><i class="fas fa-user"></i></div>`;
-
-            const gradeLabel = m.grade || '教員';
-
+        
+            const gradeLabel = m.grade || 'Faculty';
+        
             return `
             <div class="faculty-card-inner">
                 <div class="faculty-photo-wrap">${photoHtml}</div>
                 <div class="faculty-info">
                     <span class="faculty-grade-badge">${gradeLabel}</span>
-                    <div class="faculty-name">${m.name}</div>
-                    ${m.bio_ja ? `<div class="faculty-comment">${m.bio_ja}</div>` : ''}
-                    ${m.education ? `
-                        <div class="faculty-section-label"><i class="fas fa-graduation-cap"></i> 学歴</div>
-                        <div class="faculty-text">${m.education}</div>` : ''}
-                    ${m.career ? `
-                        <div class="faculty-section-label"><i class="fas fa-briefcase"></i> 職歴</div>
-                        <div class="faculty-text">${m.career}</div>` : ''}
+                    <div class="faculty-name">${name}</div>
+        
+                    ${bio ? `<div class="faculty-comment">${bio}</div>` : ''}
+        
+                    ${edu ? `
+                        <div class="faculty-section-label">
+                            <i class="fas fa-graduation-cap"></i>
+                            ${currentLang==="en"?"Education":"学歴"}
+                        </div>
+                        <div class="faculty-text">${edu}</div>` : ''}
+        
+                    ${car ? `
+                        <div class="faculty-section-label">
+                            <i class="fas fa-briefcase"></i>
+                            ${currentLang==="en"?"Career":"職歴"}
+                        </div>
+                        <div class="faculty-text">${car}</div>` : ''}
                 </div>
             </div>`;
         }
 
         /* 大学院生・学部生カード（学歴・職歴も任意表示） */
         function renderMemberCard(m, gi, mi) {
-            const imgUrl = driveUrl(m.photoUrl);
-            const photoHtml = imgUrl
-                ? `<img class="member-avatar" src="${imgUrl}" alt="${m.name}"
-                    onerror="this.outerHTML='<div class=member-avatar-placeholder><i class=fas fa-user></i></div>'">`
-                : `<div class="member-avatar-placeholder"><i class="fas fa-user"></i></div>`;
 
-            const bioJa   = m.bio_ja || '';
-            const bioEn   = m.bio_en || '';
+            const imgUrl = driveUrl(m.photoUrl);
+        
+            const nameJa = m.name_ja || '';
+            const nameEn = m.name_en || '';
+            const bioJa  = m.bio_ja || '';
+            const bioEn  = m.bio_en || '';
+            const eduJa  = m.education_ja || '';
+            const eduEn  = m.education_en || '';
+            const carJa  = m.career_ja || '';
+            const carEn  = m.career_en || '';
+        
+            const name = currentLang==="en" ? (nameEn||nameJa) : (nameJa||nameEn);
+            const bio  = currentLang==="en" ? (bioEn||bioJa)  : (bioJa||bioEn);
+            const edu  = currentLang==="en" ? (eduEn||eduJa)  : (eduJa||eduEn);
+            const car  = currentLang==="en" ? (carEn||carJa)  : (carJa||carEn);
+        
             const hasBoth = bioJa && bioEn;
             const cardId  = `mc-${gi}-${mi}`;
-
-            const eduCareerHtml = (m.education || m.career) ? `
+        
+            const photoHtml = imgUrl
+                ? `<img class="member-avatar" src="${imgUrl}" alt="${name}"
+                    onerror="this.outerHTML='<div class=member-avatar-placeholder><i class=fas fa-user></i></div>'">`
+                : `<div class="member-avatar-placeholder"><i class="fas fa-user"></i></div>`;
+        
+            const eduCareerHtml = (edu || car) ? `
                 <div class="member-edu-career">
-                    ${m.education ? `
-                        <div class="member-sub-label"><i class="fas fa-graduation-cap"></i> 学歴</div>
-                        <div class="member-sub-text">${m.education}</div>` : ''}
-                    ${m.career ? `
-                        <div class="member-sub-label"><i class="fas fa-briefcase"></i> 職歴</div>
-                        <div class="member-sub-text">${m.career}</div>` : ''}
+                    ${edu ? `
+                        <div class="member-sub-label">
+                            <i class="fas fa-graduation-cap"></i>
+                            ${currentLang==="en"?"Education":"学歴"}
+                        </div>
+                        <div class="member-sub-text">${edu}</div>` : ''}
+        
+                    ${car ? `
+                        <div class="member-sub-label">
+                            <i class="fas fa-briefcase"></i>
+                            ${currentLang==="en"?"Career":"職歴"}
+                        </div>
+                        <div class="member-sub-text">${car}</div>` : ''}
                 </div>` : '';
-
+        
             return `
             <div class="member-card">
                 ${photoHtml}
                 <div class="member-info">
                     <div>
-                        <span class="member-name">${m.name}</span>
+                        <span class="member-name">${name}</span>
                         <span class="member-grade-tag">${m.grade}</span>
                     </div>
-                    <div class="member-bio" id="${cardId}-bio">${bioJa || bioEn}</div>
+        
+                    <div class="member-bio" id="${cardId}-bio">${bio}</div>
+        
                     ${hasBoth ? `
                     <div class="lang-switch">
-                        <button class="lang-btn-small active" id="${cardId}-ja"
+                        <button class="lang-btn-small active"
                             onclick="switchMemberLang('${cardId}','ja',${JSON.stringify(bioJa)},${JSON.stringify(bioEn)})">JP</button>
-                        <button class="lang-btn-small" id="${cardId}-en"
+                        <button class="lang-btn-small"
                             onclick="switchMemberLang('${cardId}','en',${JSON.stringify(bioJa)},${JSON.stringify(bioEn)})">EN</button>
                     </div>` : ''}
+        
                     ${eduCareerHtml}
                 </div>
             </div>`;
