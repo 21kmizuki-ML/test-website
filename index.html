@@ -312,8 +312,7 @@
         }
 
         function renderNews(articles){
-            const container = document.getElementById("news-list");
-            container.innerHTML = "";
+            const newsList = document.getElementById("news-list");
             
             const items = articles
                 .sort((a,b) => new Date(b.date) - new Date(a.date))
@@ -368,6 +367,7 @@
     </script>
 </body>
 </html>
+
 
 
 
