@@ -38,6 +38,26 @@
         .nav-link:hover::after { width: 100%; }
         .lang-btn { margin-left: 20px; cursor: pointer; font-size: 0.8rem; font-weight: bold; color: var(--primary-color); }
 
+        /* ===== 言語切替 CSS =====
+           デフォルト（body.ja）: .lang-ja 表示 / .lang-en 非表示
+           body.en のとき逆転                                    */
+        .lang-en { display: none; }
+        body.en .lang-ja { display: none; }
+        body.en .lang-en { display: inline; }
+        /* ブロック要素用 */
+        .lang-en.blk { display: none; }
+        body.en .lang-en.blk { display: block; }
+
+        /* JP/EN ボタン */
+        .lang-switcher { display: flex; align-items: center; gap: 4px; }
+        .lang-btn {
+            cursor: pointer; font-size: 0.8rem; font-weight: bold;
+            color: #aaa; padding: 3px 6px; border-radius: 4px; transition: var(--transition);
+            user-select: none;
+        }
+        .lang-btn.active { color: var(--primary-color); background: #eef2f8; }
+        .lang-sep { color: #ddd; font-size: 0.8rem; }
+
         .recruit-hero {
             padding: 120px 10%;
             background: linear-gradient(135deg, #003366 0%, #001a33 100%);
