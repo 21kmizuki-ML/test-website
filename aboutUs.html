@@ -6,7 +6,6 @@
     <title>ABOUT US | XXXXXXXXXXXXXXXXXXXXXXXXXXX研究室</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* index.html の共通スタイルを継承 */
         :root {
             --primary-color: #003366;
             --accent-color: #c5a059;
@@ -16,15 +15,35 @@
             --transition: all 0.3s ease;
             --footer-dark: #1a1a1a;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
-            color: var(--text-color);
-            line-height: 1.8;
+            color: var(--text-color); line-height: 1.8; background-color: var(--white);
         }
-        
-         /* ヘッダー */
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* ===== 言語切替 CSS =====
+           デフォルト（body.ja）: .lang-ja 表示 / .lang-en 非表示
+           body.en のとき逆転                                    */
+        .lang-en { display: none; }
+        body.en .lang-ja { display: none; }
+        body.en .lang-en { display: inline; }
+        /* ブロック要素用 */
+        .lang-en.blk { display: none; }
+        body.en .lang-en.blk { display: block; }
+
+        /* JP/EN ボタン */
+        .lang-switcher { display: flex; align-items: center; gap: 4px; }
+        .lang-btn {
+            cursor: pointer; font-size: 0.8rem; font-weight: bold;
+            color: #aaa; padding: 3px 6px; border-radius: 4px; transition: var(--transition);
+            user-select: none;
+        }
+        .lang-btn.active { color: var(--primary-color); background: #eef2f8; }
+        .lang-sep { color: #ddd; font-size: 0.8rem; }
+
+        /* ヘッダー */
         header {
             display: flex; justify-content: space-between; align-items: center;
             padding: 0.5rem 5%; background: var(--white);
@@ -42,6 +61,7 @@
             background: var(--accent-color); transition: var(--transition);
         }
         .nav-link:hover::after { width: 100%; }
+
 
          /* ページヒーロー */
         .page-hero {
