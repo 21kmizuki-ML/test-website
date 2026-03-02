@@ -20,26 +20,16 @@
         a { text-decoration: none; color: inherit; }
         ul { list-style: none; }
 
-        /* ===== 言語切替 CSS =====
-           デフォルト（body.ja）: .lang-ja 表示 / .lang-en 非表示
-           body.en のとき逆転                                    */
+        /* 言語切替 */
         .lang-en { display: none; }
         body.en .lang-ja { display: none; }
         body.en .lang-en { display: inline; }
-        /* ブロック要素用 */
         .lang-en.blk { display: none; }
         body.en .lang-en.blk { display: block; }
-
-        /* JP/EN ボタン */
         .lang-switcher { display: flex; align-items: center; gap: 4px; }
-        .lang-btn {
-            cursor: pointer; font-size: 0.8rem; font-weight: bold;
-            color: #aaa; padding: 3px 6px; border-radius: 4px; transition: var(--transition);
-            user-select: none;
-        }
+        .lang-btn { cursor: pointer; font-size: 0.8rem; font-weight: bold; color: #aaa; padding: 3px 6px; border-radius: 4px; transition: var(--transition); user-select: none; }
         .lang-btn.active { color: var(--primary-color); background: #eef2f8; }
         .lang-sep { color: #ddd; font-size: 0.8rem; }
-
 
         header { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 5%; background: var(--white); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); height: 80px; }
         .logo a { display: flex; align-items: center; }
@@ -59,7 +49,7 @@
         .members-section h2 { font-size: 2rem; margin-bottom: 40px; text-align: center; position: relative; padding-bottom: 15px; }
         .members-section h2::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 50px; height: 3px; background: var(--accent-color); }
 
-        /* 教員セクション（開閉なし・常時表示） */
+        /* 教員セクション */
         .faculty-section-wrap { max-width: 900px; margin: 0 auto 24px; border-radius: 12px; overflow: hidden; box-shadow: 0 3px 12px rgba(0,0,0,0.08); }
         .faculty-section-title { background: #1a3a5c; color: white; padding: 16px 24px; display: flex; align-items: center; gap: 10px; font-size: 1.05rem; font-weight: bold; }
         .faculty-section-body { background: var(--white); }
@@ -68,8 +58,6 @@
         .group-accordion { max-width: 900px; margin: 0 auto 16px; border-radius: 12px; overflow: hidden; box-shadow: 0 3px 12px rgba(0,0,0,0.08); }
         .group-header { background: var(--primary-color); color: white; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; transition: var(--transition); }
         .group-header:hover { background: #004488; }
-        .group-header.faculty-header { background: #1a3a5c; }
-        .group-header.faculty-header:hover { background: #0d2a46; }
         .group-title { font-size: 1.05rem; font-weight: bold; display: flex; align-items: center; gap: 10px; }
         .group-count { font-size: 0.82rem; opacity: 0.75; }
         .group-arrow { font-size: 1.1rem; }
@@ -100,15 +88,9 @@
         .member-name { font-size: 1.05rem; font-weight: bold; color: var(--primary-color); }
         .member-grade-tag { display: inline-block; background: #eef2f8; color: var(--primary-color); font-size: 0.75rem; padding: 2px 10px; border-radius: 10px; margin-left: 8px; font-weight: 600; }
         .member-bio { font-size: 0.88rem; color: #555; margin-top: 5px; line-height: 1.7; }
-
-        /* 大学院生の学歴・職歴（任意） */
         .member-edu-career { margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e8e8e8; }
         .member-sub-label { font-size: 0.78rem; font-weight: bold; color: var(--primary-color); margin-top: 8px; margin-bottom: 3px; display: flex; align-items: center; gap: 5px; }
         .member-sub-text { font-size: 0.82rem; color: #666; white-space: pre-line; line-height: 1.6; }
-
-        .lang-switch { display: flex; gap: 8px; margin-top: 8px; }
-        .lang-btn-small { padding: 2px 10px; border: 1px solid #ccc; border-radius: 12px; font-size: 0.75rem; cursor: pointer; background: white; transition: var(--transition); }
-        .lang-btn-small.active { background: var(--primary-color); color: white; border-color: var(--primary-color); }
 
         .loading { text-align: center; padding: 60px; color: #888; font-size: 1.1rem; }
         @keyframes spin { from{transform:rotate(0)} to{transform:rotate(360deg)} }
@@ -162,7 +144,7 @@
     <div class="page-hero">
         <h1>
             <span class="lang-ja">メンバー紹介</span>
-            <span class="lang-en">Member introduction</span>
+            <span class="lang-en">Member Introduction</span>
         </h1>
         <p>Members</p>
     </div>
@@ -170,7 +152,8 @@
     <div class="members-section">
         <h2>Members</h2>
         <div id="members-container">
-            <div class="loading"><i class="fas fa-spinner fa-spin"></i>
+            <div class="loading">
+                <i class="fas fa-spinner fa-spin"></i>
                 <span class="lang-ja">読み込み中...</span>
                 <span class="lang-en">Now loading...</span>
             </div>
@@ -188,11 +171,9 @@
                         <span class="lang-en">XX University, XX Faculty, XX Department</span>
                     </p>
                     <p>
-                        <i class="fas fa-map-marker-alt"></i> 
-                        <span class="lang-ja">〒123-4567 
-                            <br>○○県○○市○○区○○町○○　○○大学　○○キャンパス ○○研究室</span>
-                        <span class="lang-en">XX University, XX Laboratory, 
-                            <br> XXXX-X XXX-cho, XXX-ku, XXX-shi, XXXX  123-4567</span>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span class="lang-ja">〒123-4567 <br>○○県○○市○○区○○町○○　○○大学　○○キャンパス ○○研究室</span>
+                        <span class="lang-en">XX University, XX Laboratory, <br> XXXX-X XXX-cho, XXX-ku, XXX-shi, XXXX  123-4567</span>
                     </p>
                     <p><i class="fas fa-envelope"></i> contact☆example.univ.ac.jp
                         <span class="lang-ja">（☆→＠）</span>
@@ -216,47 +197,25 @@
     </footer>
 
     <script>
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbyngC52HlxC1AVgV4cjH8BRqFhA0RAovPMFAo5HQ6zDB3bJ_FOUiARXdY4pFi6gULCndA/exec";
-        let currentLang = 'ja';
-        let allArticles = [];
-        let filtered    = [];
-        let currentPage = 1;
+        var GAS_URL = "https://script.google.com/macros/s/AKfycbzegqS-PyXkd6ZziybXSaYjn7Teb-5J53nR4Le5S8Ru-9stajWEh9IjvKMqo-GxHexzYQ/exec";
+        var currentLang = 'ja';
+        var cachedMembers = [];
 
         /* ===== 言語切替 ===== */
         function switchLang(lang) {
             currentLang = lang;
             localStorage.setItem('siteLang', lang);
-
-            // bodyクラスでCSS一括切替
             document.body.classList.toggle('en', lang === 'en');
             document.documentElement.lang = lang === 'en' ? 'en' : 'ja';
-
-            // ボタンのアクティブ表示
             document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
             document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-
-            // 動的ニュースカードを再描画
-            if (cachedArticles.length) renderNews(cachedArticles);
+            // 言語切替時にメンバーを再描画
+            if (cachedMembers.length) renderGroups(cachedMembers);
         }
 
-        /* ===== アコーディオン ===== */
-        function toggleAccordion() {
-            const el   = document.getElementById('chief-text');
-            const open = el.classList.toggle('expanded');
-            // アコーディオンボタンのテキストは .lang-ja/.lang-en スパンで制御済み
-            // → 開閉状態だけ反映すれば良い（スパンは差し替えない）
-            const spans = document.querySelectorAll('#chief-toggle span');
-            spans.forEach(s => {
-                const isJa = s.classList.contains('lang-ja');
-                s.textContent = open
-                    ? (isJa ? '閉じる ↑' : 'Close ↑')
-                    : (isJa ? '続きを読む ↓' : 'Read More ↓');
-            });
-        }
-
-        /* ===== 初期化（ページ読込時） ===== */
+        /* ===== 初期化 ===== */
         (function init() {
-            const saved = localStorage.getItem('siteLang') || 'ja';
+            var saved = localStorage.getItem('siteLang') || 'ja';
             currentLang = saved;
             document.body.classList.toggle('en', saved === 'en');
             document.documentElement.lang = saved === 'en' ? 'en' : 'ja';
@@ -265,42 +224,33 @@
         })();
 
         // グループ定義
-        // type:'fixed'     → 常に展開表示・開閉なし（教員）
-        // type:'accordion' → 開閉タブ（それ以外）
-        const GROUPS = [
-            { label: '教員',        icon: '👨‍🏫', grades: ['教員'],                   type: 'fixed'     },
-            { label: '助教・研究員', icon: '🔬',         grades: ['研究員','助教'],          type: 'accordion' },
-            { label: '大学院生',    icon: '🎓',           grades: ['D3','D2','D1','M2','M1'], type: 'accordion' },
-            { label: '学部4年生',   icon: '📖',           grades: ['B4'],                     type: 'accordion' },
-            { label: '学部3年生',   icon: '📗',           grades: ['B3'],                     type: 'accordion' }
+        var GROUPS = [
+            { label: '教員',         labelEn: 'Faculty',            icon: '👨‍🏫', grades: ['教員'],                   type: 'fixed'     },
+            { label: '助教・研究員', labelEn: 'Researchers',        icon: '🔬', grades: ['研究員','助教'],             type: 'accordion' },
+            { label: '大学院生',     labelEn: 'Graduate Students',  icon: '🎓', grades: ['D3','D2','D1','M2','M1'],    type: 'accordion' },
+            { label: '学部4年生',    labelEn: 'Undergrad (B4)',     icon: '📖', grades: ['B4'],                        type: 'accordion' },
+            { label: '学部3年生',    labelEn: 'Undergrad (B3)',     icon: '📗', grades: ['B3'],                        type: 'accordion' }
         ];
 
         function driveUrl(url) {
             if (!url) return '';
-            const m = url.match(/\/file\/d\/([^/]+)/);
-            if (m) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w400`;
+            var m = url.match(/\/file\/d\/([^/]+)/);
+            if (m) return 'https://drive.google.com/thumbnail?id=' + m[1] + '&sz=w400';
             return url;
         }
 
+        /* ===== データ取得 ===== */
         fetch(GAS_URL + '?' + new URLSearchParams({ type: 'getPublicMembers' }), { redirect: 'follow' })
-        .then(r => {
-            // まずテキストとして受け取り、JSONパースを試みる
-            return r.text().then(text => {
-                try {
-                    return JSON.parse(text);
-                } catch(e) {
-                    // JSONパース失敗時：レスポンス内容をそのまま表示（デバッグ用）
-                    throw new Error('JSONパース失敗。GASレスポンス: ' + text.substring(0, 200));
-                }
+        .then(function(r) {
+            return r.text().then(function(text) {
+                try { return JSON.parse(text); }
+                catch(e) { throw new Error('JSONパース失敗: ' + text.substring(0, 200)); }
             });
         })
-        .then(data => {
+        .then(function(data) {
             if (!data.success) {
                 document.getElementById('members-container').innerHTML =
-                    `<p style="text-align:center;color:#c0392b;padding:40px">
-                        ❌ GASエラー: ${JSON.stringify(data)}<br>
-                        <small style="color:#888">GASエディタで clearAllCache() を実行してみてください</small>
-                    </p>`;
+                    '<p style="text-align:center;color:#c0392b;padding:40px">❌ GASエラー: ' + JSON.stringify(data) + '</p>';
                 return;
             }
             if (!data.members || data.members.length === 0) {
@@ -308,54 +258,53 @@
                     '<p style="text-align:center;color:#888;padding:40px">メンバーが登録されていません。</p>';
                 return;
             }
+            cachedMembers = data.members;
             renderGroups(data.members);
         })
-        .catch(err => {
+        .catch(function(err) {
             document.getElementById('members-container').innerHTML =
-                `<p style="text-align:center;color:#c0392b;padding:40px">
-                    ❌ 取得エラー: ${err.message}<br>
-                    <small style="color:#888">ブラウザの開発者ツール（F12）→ Consoleタブでも詳細を確認できます</small>
-                </p>`;
+                '<p style="text-align:center;color:#c0392b;padding:40px">❌ 取得エラー: ' + err.message + '</p>';
             console.error('members fetch error:', err);
         });
 
         function renderGroups(members) {
-            let html = '';
-            GROUPS.forEach((group, gi) => {
-                const inGroup = members.filter(m => group.grades.includes(m.grade));
+            var html = '';
+            GROUPS.forEach(function(group, gi) {
+                var inGroup = members.filter(function(m) { return group.grades.indexOf(m.grade) !== -1; });
                 if (inGroup.length === 0) return;
 
+                var groupLabel = currentLang === 'en' ? group.labelEn : group.label;
+                var countLabel = currentLang === 'en'
+                    ? inGroup.length + (inGroup.length !== 1 ? ' members' : ' member')
+                    : inGroup.length + '名';
+
                 if (group.type === 'fixed') {
-                    // ========== 教員：常時表示・開閉なし ==========
-                    html += `
-                    <div class="faculty-section-wrap">
-                        <div class="faculty-section-title">
-                            <span>${group.icon}</span>
-                            <span>${group.label}</span>
-                            <span class="group-count">${inGroup.length}名</span>
-                        </div>
-                        <div class="faculty-section-body">
-                            ${inGroup.map(m => renderFacultyCard(m)).join('')}
-                        </div>
-                    </div>`;
+                    html += '<div class="faculty-section-wrap">'
+                        + '<div class="faculty-section-title">'
+                            + '<span>' + group.icon + '</span>'
+                            + '<span>' + groupLabel + '</span>'
+                            + '<span class="group-count">' + countLabel + '</span>'
+                        + '</div>'
+                        + '<div class="faculty-section-body">'
+                            + inGroup.map(function(m) { return renderFacultyCard(m); }).join('')
+                        + '</div>'
+                    + '</div>';
                 } else {
-                    // ========== その他：アコーディオン ==========
-                    const bodyId  = `group-body-${gi}`;
-                    const arrowId = `group-arrow-${gi}`;
-                    html += `
-                    <div class="group-accordion">
-                        <div class="group-header" onclick="toggleGroup('${bodyId}','${arrowId}')">
-                            <div class="group-title">
-                                <span>${group.icon}</span>
-                                <span>${group.label}</span>
-                                <span class="group-count">${inGroup.length}名</span>
-                            </div>
-                            <span class="group-arrow" id="${arrowId}">▽</span>
-                        </div>
-                        <div class="group-body" id="${bodyId}">
-                            ${inGroup.map((m, mi) => renderMemberCard(m, gi, mi)).join('')}
-                        </div>
-                    </div>`;
+                    var bodyId  = 'group-body-' + gi;
+                    var arrowId = 'group-arrow-' + gi;
+                    html += '<div class="group-accordion">'
+                        + '<div class="group-header" onclick="toggleGroup(\'' + bodyId + '\',\'' + arrowId + '\')">'
+                            + '<div class="group-title">'
+                                + '<span>' + group.icon + '</span>'
+                                + '<span>' + groupLabel + '</span>'
+                                + '<span class="group-count">' + countLabel + '</span>'
+                            + '</div>'
+                            + '<span class="group-arrow" id="' + arrowId + '">▽</span>'
+                        + '</div>'
+                        + '<div class="group-body" id="' + bodyId + '">'
+                            + inGroup.map(function(m, mi) { return renderMemberCard(m, gi, mi); }).join('')
+                        + '</div>'
+                    + '</div>';
                 }
             });
 
@@ -363,136 +312,103 @@
                 html || '<p style="text-align:center;color:#888;padding:40px">メンバーが登録されていません。</p>';
         }
 
-        /* 教員カード（横長レイアウト） */
+        /* ===== 教員カード =====
+           フィールド名（GASから来るデータ）:
+             m.name         … 日本語名（必ず存在）
+             m.name_en      … 英語名（任意）
+             m.bio_ja       … 日本語自己紹介
+             m.bio_en       … 英語自己紹介
+             m.education    … 日本語学歴
+             m.education_en … 英語学歴
+             m.career       … 日本語職歴
+             m.career_en    … 英語職歴
+             m.photoUrl     … 写真URL
+             m.grade        … 学年・役職
+        ===== */
         function renderFacultyCard(m) {
-        
-            const imgUrl = driveUrl(m.photoUrl);
-            const bioJa  = m.bio_ja || '';
-            const bioEn  = m.bio_en || '';
+            var imgUrl = driveUrl(m.photoUrl);
 
-            // 名前・学歴・職歴をEN時に英語版で表示（英語がなければ日本語にフォールバック）
-            const displayName     = currentLang === 'en' ? (m.name_en     || m.name)      : m.name;
-            const displayEducation= currentLang === 'en' ? (m.education_en|| m.education) : m.education;
-            const displayCareer   = currentLang === 'en' ? (m.career_en   || m.career)    : m.career;
-        
-            const bio  = currentLang==="en" ? (bioEn||bioJa)  : (bioJa||bioEn);
+            // 言語に応じてフォールバック付きで表示値を選択
+            var displayName      = currentLang === 'en' ? (m.name_en      || m.name)      : m.name;
+            var displayBio       = currentLang === 'en' ? (m.bio_en       || m.bio_ja)    : (m.bio_ja || m.bio_en);
+            var displayEducation = currentLang === 'en' ? (m.education_en || m.education) : m.education;
+            var displayCareer    = currentLang === 'en' ? (m.career_en    || m.career)    : m.career;
 
-        
-            const photoHtml = imgUrl
-                ? `<img src="${imgUrl}" alt="${name}"
-                    onerror="this.parentNode.innerHTML='<div class=faculty-photo-placeholder><i class=fas fa-user></i></div>'">`
-                : `<div class="faculty-photo-placeholder"><i class="fas fa-user"></i></div>`;
-        
-            const gradeLabel = m.grade || 'Faculty';
-        
-            return `
-            <div class="faculty-card-inner">
-                <div class="faculty-photo-wrap">${photoHtml}</div>
-                <div class="faculty-info">
-                    <span class="faculty-grade-badge">${gradeLabel}</span>
-                    <div class="faculty-name">${name}</div>
-        
-                    ${bio ? `<div class="faculty-comment">${bio}</div>` : ''}
-        
-                    ${edu ? `
-                        <div class="faculty-section-label">
-                            <i class="fas fa-graduation-cap"></i>
-                            ${currentLang==="en"?"Education":"学歴"}
-                        </div>
-                        <div class="faculty-text">${edu}</div>` : ''}
-        
-                    ${car ? `
-                        <div class="faculty-section-label">
-                            <i class="fas fa-briefcase"></i>
-                            ${currentLang==="en"?"Career":"職歴"}
-                        </div>
-                        <div class="faculty-text">${car}</div>` : ''}
-                </div>
-            </div>`;
+            var eduLabel = currentLang === 'en' ? 'Education' : '学歴';
+            var carLabel = currentLang === 'en' ? 'Career'    : '職歴';
+
+            var photoHtml = imgUrl
+                ? '<img src="' + imgUrl + '" alt="' + displayName + '" onerror="this.parentNode.innerHTML=\'<div class=faculty-photo-placeholder><i class=fas\\ fa-user></i></div>\'">'
+                : '<div class="faculty-photo-placeholder"><i class="fas fa-user"></i></div>';
+
+            return '<div class="faculty-card-inner">'
+                + '<div class="faculty-photo-wrap">' + photoHtml + '</div>'
+                + '<div class="faculty-info">'
+                    + '<span class="faculty-grade-badge">' + (m.grade || 'Faculty') + '</span>'
+                    + '<div class="faculty-name">' + displayName + '</div>'
+                    + (displayBio ? '<div class="faculty-comment">' + displayBio + '</div>' : '')
+                    + (displayEducation
+                        ? '<div class="faculty-section-label"><i class="fas fa-graduation-cap"></i>' + eduLabel + '</div>'
+                        + '<div class="faculty-text">' + displayEducation + '</div>'
+                        : '')
+                    + (displayCareer
+                        ? '<div class="faculty-section-label"><i class="fas fa-briefcase"></i>' + carLabel + '</div>'
+                        + '<div class="faculty-text">' + displayCareer + '</div>'
+                        : '')
+                + '</div>'
+            + '</div>';
         }
 
-        /* 大学院生・学部生カード（学歴・職歴も任意表示） */
+        /* ===== 一般メンバーカード ===== */
         function renderMemberCard(m, gi, mi) {
+            var imgUrl = driveUrl(m.photoUrl);
 
-            const imgUrl = driveUrl(m.photoUrl);
-        
-            const nameJa = m.name_ja || '';
-            const nameEn = m.name_en || '';
-            const bioJa  = m.bio_ja || '';
-            const bioEn  = m.bio_en || '';
-            const eduJa  = m.education_ja || '';
-            const eduEn  = m.education_en || '';
-            const carJa  = m.career_ja || '';
-            const carEn  = m.career_en || '';
-        
-            const name = currentLang==="en" ? (nameEn||nameJa) : (nameJa||nameEn);
-            const bio  = currentLang==="en" ? (bioEn||bioJa)  : (bioJa||bioEn);
-            const edu  = currentLang==="en" ? (eduEn||eduJa)  : (eduJa||eduEn);
-            const car  = currentLang==="en" ? (carEn||carJa)  : (carJa||carEn);
-        
-            const hasBoth = bioJa && bioEn;
-            const cardId  = `mc-${gi}-${mi}`;
-        
-            const photoHtml = imgUrl
-                ? `<img class="member-avatar" src="${imgUrl}" alt="${name}"
-                    onerror="this.outerHTML='<div class=member-avatar-placeholder><i class=fas fa-user></i></div>'">`
-                : `<div class="member-avatar-placeholder"><i class="fas fa-user"></i></div>`;
-        
-            const eduCareerHtml = (edu || car) ? `
-                <div class="member-edu-career">
-                    ${edu ? `
-                        <div class="member-sub-label">
-                            <i class="fas fa-graduation-cap"></i>
-                            ${currentLang==="en"?"Education":"学歴"}
-                        </div>
-                        <div class="member-sub-text">${edu}</div>` : ''}
-        
-                    ${car ? `
-                        <div class="member-sub-label">
-                            <i class="fas fa-briefcase"></i>
-                            ${currentLang==="en"?"Career":"職歴"}
-                        </div>
-                        <div class="member-sub-text">${car}</div>` : ''}
-                </div>` : '';
-        
-            return `
-            <div class="member-card">
-                ${photoHtml}
-                <div class="member-info">
-                    <div>
-                        <span class="member-name">${name}</span>
-                        <span class="member-grade-tag">${m.grade}</span>
-                    </div>
-        
-                    <div class="member-bio" id="${cardId}-bio">${bio}</div>
-        
-                    ${hasBoth ? `
-                    <div class="lang-switch">
-                        <button class="lang-btn-small active"
-                            onclick="switchMemberLang('${cardId}','ja',${JSON.stringify(bioJa)},${JSON.stringify(bioEn)})">JP</button>
-                        <button class="lang-btn-small"
-                            onclick="switchMemberLang('${cardId}','en',${JSON.stringify(bioJa)},${JSON.stringify(bioEn)})">EN</button>
-                    </div>` : ''}
-        
-                    ${eduCareerHtml}
-                </div>
-            </div>`;
+            // 言語に応じてフォールバック付きで表示値を選択
+            var displayName      = currentLang === 'en' ? (m.name_en      || m.name)      : m.name;
+            var displayBio       = currentLang === 'en' ? (m.bio_en       || m.bio_ja)    : (m.bio_ja || m.bio_en);
+            var displayEducation = currentLang === 'en' ? (m.education_en || m.education) : m.education;
+            var displayCareer    = currentLang === 'en' ? (m.career_en    || m.career)    : m.career;
+
+            var eduLabel = currentLang === 'en' ? 'Education' : '学歴';
+            var carLabel = currentLang === 'en' ? 'Career'    : '職歴';
+
+            var photoHtml = imgUrl
+                ? '<img class="member-avatar" src="' + imgUrl + '" alt="' + displayName + '" onerror="this.outerHTML=\'<div class=member-avatar-placeholder><i class=fas\\ fa-user></i></div>\'">'
+                : '<div class="member-avatar-placeholder"><i class="fas fa-user"></i></div>';
+
+            var eduCareerHtml = '';
+            if (displayEducation || displayCareer) {
+                eduCareerHtml = '<div class="member-edu-career">'
+                    + (displayEducation
+                        ? '<div class="member-sub-label"><i class="fas fa-graduation-cap"></i>' + eduLabel + '</div>'
+                        + '<div class="member-sub-text">' + displayEducation + '</div>'
+                        : '')
+                    + (displayCareer
+                        ? '<div class="member-sub-label"><i class="fas fa-briefcase"></i>' + carLabel + '</div>'
+                        + '<div class="member-sub-text">' + displayCareer + '</div>'
+                        : '')
+                + '</div>';
+            }
+
+            return '<div class="member-card">'
+                + photoHtml
+                + '<div class="member-info">'
+                    + '<div>'
+                        + '<span class="member-name">' + displayName + '</span>'
+                        + '<span class="member-grade-tag">' + m.grade + '</span>'
+                    + '</div>'
+                    + '<div class="member-bio">' + (displayBio || '') + '</div>'
+                    + eduCareerHtml
+                + '</div>'
+            + '</div>';
         }
 
-        /* アコーディオン開閉
-           ▲ = 開いている（クリックで閉じる）
-           ▽ = 閉じている（クリックで開く） */
+        /* ===== アコーディオン開閉 ===== */
         function toggleGroup(bodyId, arrowId) {
-            const body    = document.getElementById(bodyId);
-            const arrow   = document.getElementById(arrowId);
-            const isOpen  = body.classList.toggle('open');
+            var body   = document.getElementById(bodyId);
+            var arrow  = document.getElementById(arrowId);
+            var isOpen = body.classList.toggle('open');
             arrow.textContent = isOpen ? '▲' : '▽';
-        }
-
-        function switchMemberLang(cardId, lang, bioJa, bioEn) {
-            document.getElementById(cardId+'-bio').textContent = lang === 'ja' ? bioJa : bioEn;
-            document.getElementById(cardId+'-ja').classList.toggle('active', lang==='ja');
-            document.getElementById(cardId+'-en').classList.toggle('active', lang==='en');
         }
     </script>
 </body>
