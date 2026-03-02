@@ -32,15 +32,15 @@
         .nav-link::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--accent-color); transition: var(--transition); }
         .nav-link:hover::after { width: 100%; }
 
-        /* ページヘッダー */
-        .page-header {
-            background: linear-gradient(rgba(0,51,102,0.8);
-            background-size: cover;
-            background-position: center;
+         /* ページヒーロー */
+        .page-hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #005599 100%);
             color: white;
-            padding: 100px 10%;
+            padding: 80px 10%;
             text-align: center;
         }
+        .page-hero h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        .page-hero p { opacity: 0.8; font-size: 1rem; }
 
          /* 言語切替 */
         .lang-btn { margin-left: 20px; cursor: pointer; font-size: 0.8rem; font-weight: bold; color: var(--primary-color); }
@@ -112,9 +112,6 @@
         <div class="page-hero">
             <h1>研究室について</h1>
             <p>ABOUT OUR LAB</p>
-        </div>
-        <div class="page-header">
-
         </div>
 
         <section>
