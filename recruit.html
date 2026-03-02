@@ -297,7 +297,9 @@
 
     <script>
         let currentLang = 'ja';
-        let cachedArticles = [];
+        let allArticles = [];
+        let filtered    = [];
+        let currentPage = 1;
 
         /* ===== 言語切替 ===== */
         function switchLang(lang) {
