@@ -332,6 +332,16 @@
                     : (isJa ? '続きを読む ↓' : 'Read More ↓');
             });
         }
+
+        /* ===== 初期化（ページ読込時） ===== */
+        (function init() {
+            const saved = localStorage.getItem('siteLang') || 'ja';
+            currentLang = saved;
+            document.body.classList.toggle('en', saved === 'en');
+            document.documentElement.lang = saved === 'en' ? 'en' : 'ja';
+            document.getElementById('btn-ja').classList.toggle('active', saved === 'ja');
+            document.getElementById('btn-en').classList.toggle('active', saved === 'en');
+        })();
     </script>
 </body>
 </html>
