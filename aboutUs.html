@@ -73,27 +73,7 @@
         .page-hero h1 { font-size: 2.5rem; margin-bottom: 10px; }
         .page-hero p { opacity: 0.8; font-size: 1rem; }
 
-         /* ===== 言語切替 CSS =====
-           デフォルト（body.ja）: .lang-ja 表示 / .lang-en 非表示
-           body.en のとき逆転                                    */
-        .lang-en { display: none; }
-        body.en .lang-ja { display: none; }
-        body.en .lang-en { display: inline; }
-        /* ブロック要素用 */
-        .lang-en.blk { display: none; }
-        body.en .lang-en.blk { display: block; }
-
-        /* JP/EN ボタン */
-        .lang-switcher { display: flex; align-items: center; gap: 4px; }
-        .lang-btn {
-            cursor: pointer; font-size: 0.8rem; font-weight: bold;
-            color: #aaa; padding: 3px 6px; border-radius: 4px; transition: var(--transition);
-            user-select: none;
-        }
-        .lang-btn.active { color: var(--primary-color); background: #eef2f8; }
-        .lang-sep { color: #ddd; font-size: 0.8rem; }
-
-
+         
         section { padding: 80px 10%; }
         h2 { font-size: 2rem; margin-bottom: 50px; text-align: center; position: relative; padding-bottom: 15px; }
         h2::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 50px; height: 3px; background: var(--accent-color); }
