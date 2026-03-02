@@ -367,20 +367,16 @@
         function renderFacultyCard(m) {
         
             const imgUrl = driveUrl(m.photoUrl);
-        
-            const nameJa = m.name_ja || '';
-            const nameEn = m.name_en || '';
             const bioJa  = m.bio_ja || '';
             const bioEn  = m.bio_en || '';
-            const eduJa  = m.education_ja || '';
-            const eduEn  = m.education_en || '';
-            const carJa  = m.career_ja || '';
-            const carEn  = m.career_en || '';
+
+            // 名前・学歴・職歴をEN時に英語版で表示（英語がなければ日本語にフォールバック）
+            const displayName     = currentLang === 'en' ? (m.name_en     || m.name)      : m.name;
+            const displayEducation= currentLang === 'en' ? (m.education_en|| m.education) : m.education;
+            const displayCareer   = currentLang === 'en' ? (m.career_en   || m.career)    : m.career;
         
-            const name = currentLang==="en" ? (nameEn||nameJa) : (nameJa||nameEn);
             const bio  = currentLang==="en" ? (bioEn||bioJa)  : (bioJa||bioEn);
-            const edu  = currentLang==="en" ? (eduEn||eduJa)  : (eduJa||eduEn);
-            const car  = currentLang==="en" ? (carEn||carJa)  : (carJa||carEn);
+
         
             const photoHtml = imgUrl
                 ? `<img src="${imgUrl}" alt="${name}"
