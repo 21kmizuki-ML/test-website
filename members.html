@@ -258,23 +258,18 @@
             document.getElementById('btn-en').classList.toggle('active', saved === 'en');
         })();
 
-        function setLang(lang){
-          LANG = lang;
-          drawMembers();
-        }
-
         const name =
-          LANG==="en" && item.name_en
+          currentLang==="en" && item.name_en
             ? item.name_en
             : item.name_ja;
         
         const education =
-          LANG==="en"
+          currentLang==="en"
             ? item.education_en
             : item.education_ja;
         
         const career =
-          LANG==="en"
+          currentLang==="en"
             ? item.career_en
             : item.career_ja;
 
