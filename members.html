@@ -212,7 +212,9 @@
     <script>
         const GAS_URL = "https://script.google.com/macros/s/AKfycby3bJZatARZrhS7yCcZzbBTghMsmrIfwUNcuAQ_prOjxY3flYwbv2HpyAk18O6wf4g-Yg/exec";
         let currentLang = 'ja';
-        let cachedArticles = [];
+        let allArticles = [];
+        let filtered    = [];
+        let currentPage = 1;
 
         /* ===== 言語切替 ===== */
         function switchLang(lang) {
