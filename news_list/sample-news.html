@@ -343,18 +343,26 @@
 
     <div class="page-hero">
         <h1>News Detail</h1>
-        <p>記事詳細・入力ガイド</p>
+        <p>
+            <span class="lang-ja">記事作成ガイド</span>
+            <span class="lang-en">Article writing guide</span>
+        </p>
     </div>
 
     <main class="container">
         <a href="../news.html" class="back-to-list">
-            <i class="fas fa-arrow-left"></i> 記事一覧に戻る
+            <i class="fas fa-arrow-left"></i> 
+            <span class="lang-ja">記事一覧に戻る</span>
+            <span class="lang-en">Back to news list</span>
         </a>
 
         <div class="article-meta">
             <span class="news-tag">News</span>
             <span class="date"><i class="far fa-calendar-alt"></i> 2026.03.02</span>
-            <span class="article-title-inline">ここに記事の名前（タイトル）が太字で表示されます</span>
+            <span class="article-title-inline">
+                <span class="lang-ja">ここに記事の名前（タイトル）が太字で表示されます</span>
+                <span class="lang-en">The article name (title) will appear here in bold</span>
+            </span>
         </div>
 
         <article class="article-body">
@@ -522,6 +530,56 @@
         </div>
     </footer>
 
+    <script>
+        let currentLang = 'ja';
+        let allArticles = [];
+        let filtered    = [];
+        let currentPage = 1;
+
+        /* ===== 言語切替 ===== */
+        function switchLang(lang) {
+            currentLang = lang;
+            localStorage.setItem('siteLang', lang);
+
+            // bodyクラスでCSS一括切替
+            document.body.classList.toggle('en', lang === 'en');
+            document.documentElement.lang = lang === 'en' ? 'en' : 'ja';
+
+            // ボタンのアクティブ表示
+            document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+
+            // 動的ニュースカードを再描画
+            if (cachedArticles.length) renderNews(cachedArticles);
+        }
+
+        /* ===== アコーディオン ===== */
+        function toggleAccordion() {
+            const el   = document.getElementById('chief-text');
+            const open = el.classList.toggle('expanded');
+            // アコーディオンボタンのテキストは .lang-ja/.lang-en スパンで制御済み
+            // → 開閉状態だけ反映すれば良い（スパンは差し替えない）
+            const spans = document.querySelectorAll('#chief-toggle span');
+            spans.forEach(s => {
+                const isJa = s.classList.contains('lang-ja');
+                s.textContent = open
+                    ? (isJa ? '閉じる ↑' : 'Close ↑')
+                    : (isJa ? '続きを読む ↓' : 'Read More ↓');
+            });
+        }
+
+        /* ===== 初期化（ページ読込時） ===== */
+        (function init() {
+            const saved = localStorage.getItem('siteLang') || 'ja';
+            currentLang = saved;
+            document.body.classList.toggle('en', saved === 'en');
+            document.documentElement.lang = saved === 'en' ? 'en' : 'ja';
+            document.getElementById('btn-ja').classList.toggle('active', saved === 'ja');
+            document.getElementById('btn-en').classList.toggle('active', saved === 'en');
+        })();
+    </script>
+
 </body>
 
 </html>
+
