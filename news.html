@@ -284,6 +284,40 @@
 
     <script>
         const GAS_URL = "https://script.google.com/macros/s/AKfycby3bJZatARZrhS7yCcZzbBTghMsmrIfwUNcuAQ_prOjxY3flYwbv2HpyAk18O6wf4g-Yg/exec";
+        let currentLang = 'ja';
+        let cachedArticles = [];
+
+        /* ===== 言語切替 ===== */
+        function switchLang(lang) {
+            currentLang = lang;
+            localStorage.setItem('siteLang', lang);
+
+            // bodyクラスでCSS一括切替
+            document.body.classList.toggle('en', lang === 'en');
+            document.documentElement.lang = lang === 'en' ? 'en' : 'ja';
+
+            // ボタンのアクティブ表示
+            document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+
+            // 動的ニュースカードを再描画
+            if (cachedArticles.length) renderNews(cachedArticles);
+        }
+
+        /* ===== アコーディオン ===== */
+        function toggleAccordion() {
+            const el   = document.getElementById('chief-text');
+            const open = el.classList.toggle('expanded');
+            // アコーディオンボタンのテキストは .lang-ja/.lang-en スパンで制御済み
+            // → 開閉状態だけ反映すれば良い（スパンは差し替えない）
+            const spans = document.querySelectorAll('#chief-toggle span');
+            spans.forEach(s => {
+                const isJa = s.classList.contains('lang-ja');
+                s.textContent = open
+                    ? (isJa ? '閉じる ↑' : 'Close ↑')
+                    : (isJa ? '続きを読む ↓' : 'Read More ↓');
+            });
+        }
 
         const NEWS_PER   = 20;        // 1ページあたり表示件数
         let currentLang  = "ja";
@@ -469,6 +503,7 @@
     </script>
 </body>
 </html>
+
 
 
 
