@@ -24,6 +24,26 @@
         a { text-decoration: none; color: inherit; }
         ul { list-style: none; }
 
+        /* ===== 言語切替 CSS =====
+           デフォルト（body.ja）: .lang-ja 表示 / .lang-en 非表示
+           body.en のとき逆転                                    */
+        .lang-en { display: none; }
+        body.en .lang-ja { display: none; }
+        body.en .lang-en { display: inline; }
+        /* ブロック要素用 */
+        .lang-en.blk { display: none; }
+        body.en .lang-en.blk { display: block; }
+
+        /* JP/EN ボタン */
+        .lang-switcher { display: flex; align-items: center; gap: 4px; }
+        .lang-btn {
+            cursor: pointer; font-size: 0.8rem; font-weight: bold;
+            color: #aaa; padding: 3px 6px; border-radius: 4px; transition: var(--transition);
+            user-select: none;
+        }
+        .lang-btn.active { color: var(--primary-color); background: #eef2f8; }
+        .lang-sep { color: #ddd; font-size: 0.8rem; }
+
         /* ヘッダー */
         header {
             display: flex; justify-content: space-between; align-items: center;
@@ -80,12 +100,7 @@
         }
 
         /* ローディング */
-        .loading-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: #888;
-            font-size: 1rem;
-        }
+        .loading-state { text-align: center; padding: 40px 20px; color: #888; font-size: 1rem; }
         .loading-state i { margin-right: 8px; }
         @keyframes spin { from{transform:rotate(0)} to{transform:rotate(360deg)} }
         .fa-spin { animation: spin 1s linear infinite; }
@@ -122,19 +137,13 @@
         .accordion-content.expanded { max-height: 1000px; }
         .accordion-toggle { margin-top: 20px; cursor: pointer; font-weight: bold; color: var(--primary-color); }
 
-        /* 言語切替 */
-        .lang-btn { margin-left: 20px; cursor: pointer; font-size: 0.8rem; font-weight: bold; color: var(--primary-color); }
-
         /* LAB CHIEF */
         .chief-container {
             display: flex; align-items: center; gap: 50px;
             max-width: 900px; margin: 0 auto; flex-wrap: wrap;
         }
         .chief-image { flex: 1; min-width: 250px; text-align: center; }
-        .chief-image img {
-            width: 100%; max-width: 300px; border-radius: 10px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
+        .chief-image img { width: 100%; max-width: 300px; border-radius: 10px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
         .chief-profile { flex: 2; min-width: 300px; }
         .chief-name { font-size: 1.8rem; color: var(--primary-color); margin-bottom: 5px; }
         .chief-title { font-weight: bold; color: var(--accent-color); margin-bottom: 20px; display: block; }
@@ -151,7 +160,6 @@
             border-top: 1px solid rgba(255,255,255,0.05);
         }
 
-        /* モバイル */
         @media (max-width: 768px) {
             .menu-icon { display: block; }
             nav {
@@ -175,9 +183,10 @@
         </div>
         <input type="checkbox" id="menu-toggle">
         <label for="menu-toggle" class="menu-icon"><i class="fas fa-bars"></i></label>
-        <div>
-            <span class="lang-btn" onclick="switchLang('ja')">JP</span> /
-            <span class="lang-btn" onclick="switchLang('en')">EN</span>
+        <div class="lang-switcher">
+            <span class="lang-btn" id="btn-ja" onclick="switchLang('ja')">JP</span>
+            <span class="lang-sep">/</span>
+            <span class="lang-btn" id="btn-en" onclick="switchLang('en')">EN</span>
         </div>
         <nav>
             <ul>
@@ -192,6 +201,7 @@
     </header>
 
     <main>
+        <!-- ヒーロー -->
         <div class="hero" id="home">
             <div class="slideshow">
                 <div class="slide"></div>
@@ -201,7 +211,10 @@
             </div>
             <div class="hero-text">
                 <h1>Exploring the Future</h1>
-                <p>test1XXXXXXXXXXXXX研究室</p>
+                <p>
+                    <span class="lang-ja">XXXXXXXXXXXXX研究室</span>
+                    <span class="lang-en">XXXXXXXXXXXXX Lab</span>
+                </p>
             </div>
         </div>
 
@@ -209,15 +222,18 @@
         <section id="news" style="background-color: var(--bg-light);">
             <h2>News &amp; Topics</h2>
             <div class="news-container">
-                <!-- ローディング表示 → 取得後にニュース一覧に差し替え -->
                 <div id="news-list">
                     <div class="loading-state">
-                        <i class="fas fa-spinner fa-spin"></i>最新情報を読み込み中...
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <span class="lang-ja">最新情報を読み込み中...</span>
+                        <span class="lang-en">Loading latest news...</span>
                     </div>
                 </div>
                 <div class="news-more">
                     <a href="news.html" class="btn-link">
-                        View All News <i class="fas fa-arrow-right"></i>
+                        <span class="lang-ja">ニュース一覧へ</span>
+                        <span class="lang-en">View All News</span>
+                        <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
             </div>
@@ -232,20 +248,32 @@
                 </div>
                 <div class="chief-profile">
                     <h3 class="chief-name">XXXXXXXX</h3>
-                    <span class="chief-title">XXXXXXXXXXXXXXX | 准教授・博士（XXXXXXXXX科学）</span>
+                    <span class="chief-title">
+                        <span class="lang-ja">XXXXXXXXXXXXXXX | 准教授・博士（XXXXXXXXX科学）</span>
+                        <span class="lang-en">XXXXXXXXXXXXXXX | Associate Professor, Ph.D.</span>
+                    </span>
                     <div class="accordion-content" id="chief-text">
-                        <p>科学的なアプローチによって、アスリートにおける競技力向上や運動初心者における運動技能の改善をねらいます。フィールドから実験室まで様々な場所で測定を行い、国際大会で優勝する選手から運動嫌いな子どもまで幅広い運動パフォーマンスの分析を行っています。世界中の研究機関とのネットワークを活用しながら、前例にとらわれずに、スポーツ科学、社会に貢献することを目指しています。</p>
+                        <p class="lang-ja">科学的なアプローチによって、アスリートにおける競技力向上や運動初心者における運動技能の改善をねらいます。フィールドから実験室まで様々な場所で測定を行い、国際大会で優勝する選手から運動嫌いな子どもまで幅広い運動パフォーマンスの分析を行っています。世界中の研究機関とのネットワークを活用しながら、前例にとらわれずに、スポーツ科学、社会に貢献することを目指しています。</p>
+                        <p class="lang-en blk">Using scientific approaches, we aim to improve athletic performance and develop motor skills in beginners. We conduct measurements from the field to the laboratory, analyzing a wide range of subjects—from world-champion athletes to children who dislike exercise. Leveraging our global network of research institutions, we contribute to sports science and society without being bound by convention.</p>
                     </div>
                     <div class="accordion-toggle" id="chief-toggle" onclick="toggleAccordion()">
-                        Read More ↓
+                        <span class="lang-ja">続きを読む ↓</span>
+                        <span class="lang-en">Read More ↓</span>
                     </div>
                     <p style="margin-top:15px; font-size:0.9rem;">
-                        <i class="fas fa-graduation-cap"></i> XXXXXXXXXXXXX大学院XXXXXXX研究科 教授<br>
-                        <i class="fas fa-tags"></i> キーワード：短距離走、接地メカニクス、筋腱複合体
+                        <i class="fas fa-graduation-cap"></i>
+                        <span class="lang-ja"> XXXXXXXXXXXXX大学院XXXXXXX研究科 教授</span>
+                        <span class="lang-en"> Professor, Graduate School of XXXXXXX, XXXXXXXXXXXXX University</span>
+                        <br>
+                        <i class="fas fa-tags"></i>
+                        <span class="lang-ja"> キーワード：短距離走、接地メカニクス、筋腱複合体</span>
+                        <span class="lang-en"> Keywords: Sprint Running, Ground Contact Mechanics, Muscle-Tendon Complex</span>
                     </p>
                     <div style="margin-top:16px;">
                         <a href="members.html" class="btn-link" style="margin-top:0; padding:9px 22px; font-size:0.85rem;">
-                            メンバー一覧へ <i class="fas fa-arrow-right"></i>
+                            <span class="lang-ja">メンバー一覧へ</span>
+                            <span class="lang-en">View Members</span>
+                            <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>
                 </div>
@@ -256,13 +284,17 @@
         <section id="research" style="background-color: var(--bg-light);">
             <h2>Research</h2>
             <div style="text-align:left; max-width:900px; margin:0 auto;">
-                <p>スポーツバイオメカニクス領域では、強い選手の特徴やトレーニングによる成長は、筋腱メカニクスやスポーツ動作中の運動学・動力学的パラーメータを分析することで評価することができます。そこで私たちは、一流アスリートから運動嫌いの子どもたちを対象に、MRIやハイスピードカメラ、光学式モーションキャプチャシステムおよび地面反力計といった最新機器を用いて、トレーニングやコーチングに役立つ研究に取り組んでいます。</p>
+                <p class="lang-ja">スポーツバイオメカニクス領域では、強い選手の特徴やトレーニングによる成長は、筋腱メカニクスやスポーツ動作中の運動学・動力学的パラーメータを分析することで評価することができます。そこで私たちは、一流アスリートから運動嫌いの子どもたちを対象に、MRIやハイスピードカメラ、光学式モーションキャプチャシステムおよび地面反力計といった最新機器を用いて、トレーニングやコーチングに役立つ研究に取り組んでいます。</p>
+                <p class="lang-en blk">In sports biomechanics, the characteristics of elite athletes and the effects of training can be evaluated by analyzing muscle-tendon mechanics and kinematic/kinetic parameters during sports movements. We conduct research using state-of-the-art equipment—including MRI, high-speed cameras, optical motion capture systems, and force plates—with subjects ranging from elite athletes to children who dislike physical activity.</p>
                 <div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:28px; justify-content:flex-end;">
                     <a href="achievements.html" class="btn-link" style="margin-top:0;">
-                        研究業績を見る <i class="fas fa-book"></i>
+                        <span class="lang-ja">研究業績を見る</span>
+                        <span class="lang-en">Publications</span>
+                        <i class="fas fa-book"></i>
                     </a>
                     <a href="aboutUs.html" class="btn-link accent" style="margin-top:0;">
-                        研究活動について →
+                        <span class="lang-ja">研究活動について →</span>
+                        <span class="lang-en">About Our Research →</span>
                     </a>
                 </div>
             </div>
@@ -276,7 +308,10 @@
                     <h4>Contact Us</h4>
                     <p><i class="fas fa-university"></i> XXXXXXXXXXXXX大学院XXXXXXXXXX研究科</p>
                     <p><i class="fas fa-map-marker-alt"></i> 〒XXX-XXXX XXXXXXXXXXXXXXXX XXXX-X</p>
-                    <p><i class="fas fa-envelope"></i> contact☆example.univ.ac.jp (☆→＠)</p>
+                    <p><i class="fas fa-envelope"></i> contact☆example.univ.ac.jp
+                        <span class="lang-ja">（☆→＠）</span>
+                        <span class="lang-en">(replace ☆ with @)</span>
+                    </p>
                 </div>
                 <div class="footer-nav">
                     <h4>Quick Links</h4>
@@ -299,27 +334,50 @@
         let currentLang = 'ja';
         let cachedArticles = [];
 
-        function switchLang(lang){
+        /* ===== 言語切替 ===== */
+        function switchLang(lang) {
             currentLang = lang;
-            if(cachedArticles.length) renderNews(cachedArticles);
+            localStorage.setItem('siteLang', lang);
+
+            // bodyクラスでCSS一括切替
+            document.body.classList.toggle('en', lang === 'en');
+            document.documentElement.lang = lang === 'en' ? 'en' : 'ja';
+
+            // ボタンのアクティブ表示
+            document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+
+            // 動的ニュースカードを再描画
+            if (cachedArticles.length) renderNews(cachedArticles);
         }
 
-        function toggleAccordion(){
-            const el  = document.getElementById('chief-text');
-            const btn = document.getElementById('chief-toggle');
-            const isOpen = el.classList.toggle('expanded');
-            btn.textContent = isOpen ? 'Close ↑' : 'Read More ↓';
+        /* ===== アコーディオン ===== */
+        function toggleAccordion() {
+            const el   = document.getElementById('chief-text');
+            const open = el.classList.toggle('expanded');
+            // アコーディオンボタンのテキストは .lang-ja/.lang-en スパンで制御済み
+            // → 開閉状態だけ反映すれば良い（スパンは差し替えない）
+            const spans = document.querySelectorAll('#chief-toggle span');
+            spans.forEach(s => {
+                const isJa = s.classList.contains('lang-ja');
+                s.textContent = open
+                    ? (isJa ? '閉じる ↑' : 'Close ↑')
+                    : (isJa ? '続きを読む ↓' : 'Read More ↓');
+            });
         }
 
-        function renderNews(articles){
-            const newsList = document.getElementById("news-list");
-            
+        /* ===== ニュース描画 ===== */
+        function renderNews(articles) {
+            const newsList = document.getElementById('news-list');
             const items = articles
-                .sort((a,b) => new Date(b.date) - new Date(a.date))
+                .sort((a, b) => new Date(b.date) - new Date(a.date))
                 .slice(0, 3);
 
-            if(items.length === 0){
-                newsList.innerHTML = '<p style="text-align:center;color:#888;padding:30px">ニュースはありません。</p>';
+            if (items.length === 0) {
+                newsList.innerHTML = `<p style="text-align:center;color:#888;padding:30px">
+                    <span class="lang-ja">ニュースはありません。</span>
+                    <span class="lang-en" style="${currentLang==='ja'?'display:none':''}">No news available.</span>
+                </p>`;
                 return;
             }
 
@@ -327,7 +385,8 @@
                 items.map(item => {
                     const title   = currentLang === 'ja' ? item.title_ja   : (item.title_en   || item.title_ja);
                     const content = currentLang === 'ja' ? item.content_ja : (item.content_en || item.content_ja);
-                    if(!title) return '';
+                    const readMore = currentLang === 'ja' ? '詳細を見る' : 'Read more';
+                    if (!title) return '';
                     return `<div class="news-item">
                         <div class="news-date">
                             ${item.date}<span class="news-tag">${item.tag}</span>
@@ -338,28 +397,37 @@
                             ${item.externalLink
                                 ? `<a href="${item.externalLink}" target="_blank" rel="noopener"
                                     style="color:var(--primary-color);font-size:0.85rem;font-weight:600;">
-                                    詳細を見る <i class="fas fa-external-link-alt" style="font-size:.75rem;"></i></a>`
+                                    ${readMore} <i class="fas fa-external-link-alt" style="font-size:.75rem;"></i></a>`
                                 : ''}
                         </div>
                     </div>`;
                 }).join('') + '</div>';
         }
 
-        // ニュース取得（ローディング → データ表示）
+        /* ===== 初期化（ページ読込時） ===== */
+        (function init() {
+            const saved = localStorage.getItem('siteLang') || 'ja';
+            currentLang = saved;
+            document.body.classList.toggle('en', saved === 'en');
+            document.documentElement.lang = saved === 'en' ? 'en' : 'ja';
+            document.getElementById('btn-ja').classList.toggle('active', saved === 'ja');
+            document.getElementById('btn-en').classList.toggle('active', saved === 'en');
+        })();
+
+        /* ===== ニュース取得 ===== */
         fetch(GAS_URL + '?' + new URLSearchParams({ type: 'getPublicArticles' }), { redirect: 'follow' })
         .then(r => r.json())
         .then(data => {
-            if(!data.success) throw new Error("取得失敗");
+            if (!data.success) throw new Error('取得失敗');
             cachedArticles = data.articles || [];
             renderNews(cachedArticles);
         })
         .catch(() => {
-            // フォールバック
             const fallback = [{
-                date:"2026.02.27", tag:"News",
-                title_ja:"ウェブサイトをリニューアルしました。",
-                title_en:"Website renewed.",
-                content_ja:"", content_en:"", externalLink:""
+                date: '2026.02.27', tag: 'News',
+                title_ja: 'ウェブサイトをリニューアルしました。',
+                title_en: 'Website renewed.',
+                content_ja: '', content_en: '', externalLink: ''
             }];
             cachedArticles = fallback;
             renderNews(fallback);
@@ -367,13 +435,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
