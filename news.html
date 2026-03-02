@@ -23,13 +23,10 @@
         a { text-decoration: none; color: inherit; }
         ul { list-style: none; }
 
-        /* ===== 言語切替 CSS =====
-           デフォルト（body.ja）: .lang-ja 表示 / .lang-en 非表示
-           body.en のとき逆転                                    */
+        /* ===== 言語切替 CSS ===== */
         .lang-en { display: none; }
         body.en .lang-ja { display: none; }
         body.en .lang-en { display: inline; }
-        /* ブロック要素用 */
         .lang-en.blk { display: none; }
         body.en .lang-en.blk { display: block; }
 
@@ -61,7 +58,7 @@
             background: var(--accent-color); transition: var(--transition);
         }
         .nav-link:hover::after { width: 100%; }
-        
+
         /* ページヒーロー */
         .page-hero {
             background: linear-gradient(135deg, var(--primary-color) 0%, #005599 100%);
@@ -180,7 +177,7 @@
 </head>
 <body>
 
-   <header>
+    <header>
         <div class="logo">
             <a href="index.html"><img src="image/logo.png" alt="研究室ロゴ"></a>
         </div>
@@ -203,54 +200,70 @@
         </nav>
     </header>
 
-    <!-- ① 青のページヘッド -->
+    <!-- ページヘッド -->
     <div class="page-hero">
         <h1>News &amp; Topics</h1>
-        <p>最新情報・お知らせ</p>
+        <p>
+            <span class="lang-ja">最新情報・お知らせ</span>
+            <span class="lang-en">Latest News &amp; Announcements</span>
+        </p>
     </div>
 
     <main>
         <div class="news-section">
 
-            <!-- ③ フィルターバー（タグ・年度） -->
+            <!-- フィルターバー -->
             <div class="filter-bar">
+                <!-- タグフィルター -->
                 <select id="filter-tag" onchange="applyFilter()">
-                    <option value="">すべてのタグ</option>
+                    <option value="" data-ja="すべてのタグ" data-en="All Tags">すべてのタグ</option>
                     <option value="News">News</option>
                     <option value="Award">Award</option>
                     <option value="Paper">Paper</option>
                     <option value="Event">Event</option>
                 </select>
+                <!-- 年度フィルター（動的生成） -->
                 <select id="filter-year" onchange="applyFilter()">
-                    <option value="">すべての年度</option>
+                    <option value="" data-ja="すべての年度" data-en="All Years">すべての年度</option>
                 </select>
                 <span class="filter-count" id="filter-count"></span>
             </div>
 
-            <!-- ② 記事一覧（ローディング → ページ表示） -->
+            <!-- 記事一覧 -->
             <div id="news-list" class="news-wrapper">
                 <div class="loading-state">
-                    <i class="fas fa-spinner fa-spin"></i>記事を読み込み中...
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <span class="lang-ja">記事を読み込み中...</span>
+                    <span class="lang-en">Loading articles...</span>
                 </div>
             </div>
 
-            <!-- ② ページネーション -->
+            <!-- ページネーション -->
             <div id="pagination" class="pagination"></div>
 
             <!-- 管理者パネル（コナミコマンドで表示） -->
             <div id="adminPanel">
-                <h3>管理者ログイン</h3>
+                <h3>
+                    <span class="lang-ja">管理者ログイン</span>
+                    <span class="lang-en">管理者ログイン</span>
+                </h3>
                 <div>
-                    <input id="name" placeholder="ユーザー名">
+                    <input id="name" placeholder="ユーザー名 / Username">
                 </div>
                 <div class="pw-wrap">
-                    <input id="pw" type="password" placeholder="パスワード">
+                    <input id="pw" type="password" placeholder="パスワード / Password">
                     <span class="pw-eye" id="pwEye" onclick="togglePw()">👁</span>
                 </div>
-                <button onclick="requestOTP()">OTP送信</button>
+                <button onclick="requestOTP()">
+                    <span class="lang-ja">ワンタイムパスワードを送信</span>
+                    <span class="lang-en">ワンタイムパスワードを送信</span>
+                </button>
                 <br><br>
-                <input id="otp" placeholder="OTPコード">
-                <button onclick="verifyOTP()">認証してログイン</button>
+                <input id="otp" placeholder="ワンタイムパスワード / OTP Code">
+                <button onclick="verifyOTP()">
+                    <span class="lang-ja">認証してログイン</span>
+                    <span class="lang-en">認証してログイン</span>
+                </button>
             </div>
 
         </div>
@@ -515,6 +528,7 @@
     </script>
 </body>
 </html>
+
 
 
 
