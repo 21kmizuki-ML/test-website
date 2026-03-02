@@ -229,6 +229,16 @@
             white-space: pre; 
         }
 
+        /* ===== 本文外部リンク ===== */
+        .article-body a:not(.btn):not(.back-to-list) {
+            color: #0066cc;
+            text-decoration: underline;
+        }
+        
+        .article-body a:not(.btn):not(.back-to-list):hover {
+            color: #004999;
+        }
+
         /* フッター */
         footer { background: var(--primary-color); color: white; margin-top: 50px; }
         .footer-content { padding: 60px 10% 40px; }
@@ -648,6 +658,7 @@
 </body>
 
 </html>
+
 
 
 
