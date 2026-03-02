@@ -187,7 +187,7 @@
             <div class="pub-tabs">
                 <button class="pub-tab active" onclick="filterPub('all',this)">すべて</button>
                 <button class="pub-tab" onclick="filterPub('論文',this)">📄 学術論文</button>
-                <button class="pub-tab" onclick="filterPub('科研費',this)">💴 科学研究費</button>
+                <button class="pub-tab" onclick="filterPub('科研費',this)">K 科学研究費</button>
                 <button class="pub-tab" onclick="filterPub('受賞',this)">🏆 受賞</button>
             </div>
 
@@ -225,7 +225,7 @@
     <script>
         const GAS_URL = "https://script.google.com/macros/s/AKfycby3bJZatARZrhS7yCcZzbBTghMsmrIfwUNcuAQ_prOjxY3flYwbv2HpyAk18O6wf4g-Yg/exec";
 
-        const TYPE_ICON = { '論文': '📄', '科研費': '💴', '受賞': '🏆' };
+        const TYPE_ICON = { '論文': '📄', '科研費': 'K', '受賞': '🏆' };
         let ALL_PUBS = [];
         let currentFilter = 'all';
 
