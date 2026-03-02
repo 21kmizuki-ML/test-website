@@ -258,6 +258,26 @@
             document.getElementById('btn-en').classList.toggle('active', saved === 'en');
         })();
 
+        function setLang(lang){
+          LANG = lang;
+          drawMembers();
+        }
+
+        const name =
+          LANG==="en" && item.name_en
+            ? item.name_en
+            : item.name_ja;
+        
+        const education =
+          LANG==="en"
+            ? item.education_en
+            : item.education_ja;
+        
+        const career =
+          LANG==="en"
+            ? item.career_en
+            : item.career_ja;
+
         // グループ定義
         // type:'fixed'     → 常に展開表示・開閉なし（教員）
         // type:'accordion' → 開閉タブ（それ以外）
