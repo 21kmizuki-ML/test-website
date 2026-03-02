@@ -309,92 +309,92 @@
 
     <script>
         const GAS_URL = "https://script.google.com/macros/s/AKfycby3bJZatARZrhS7yCcZzbBTghMsmrIfwUNcuAQ_prOjxY3flYwbv2HpyAk18O6wf4g-Yg/exec";
+        const NEWS_PER  = 20;
         let currentLang = 'ja';
-        let cachedArticles = [];
+        let allArticles = [];
+        let filtered    = [];
+        let currentPage = 1;
 
         /* ===== 言語切替 ===== */
         function switchLang(lang) {
             currentLang = lang;
             localStorage.setItem('siteLang', lang);
 
-            // bodyクラスでCSS一括切替
             document.body.classList.toggle('en', lang === 'en');
             document.documentElement.lang = lang === 'en' ? 'en' : 'ja';
-
-            // ボタンのアクティブ表示
             document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
             document.getElementById('btn-en').classList.toggle('active', lang === 'en');
 
-            // 動的ニュースカードを再描画
-            if (cachedArticles.length) renderNews(cachedArticles);
+            // フィルターの先頭optionテキストを切替
+            updateFilterLabels();
+
+            // 年度optionの「年」表記も更新
+            updateYearOptions();
+
+            // 件数表示・記事カードを再描画
+            if (allArticles.length) {
+                updateCount();
+                renderPage();
+            }
         }
 
-        /* ===== アコーディオン ===== */
-        function toggleAccordion() {
-            const el   = document.getElementById('chief-text');
-            const open = el.classList.toggle('expanded');
-            // アコーディオンボタンのテキストは .lang-ja/.lang-en スパンで制御済み
-            // → 開閉状態だけ反映すれば良い（スパンは差し替えない）
-            const spans = document.querySelectorAll('#chief-toggle span');
-            spans.forEach(s => {
-                const isJa = s.classList.contains('lang-ja');
-                s.textContent = open
-                    ? (isJa ? '閉じる ↑' : 'Close ↑')
-                    : (isJa ? '続きを読む ↓' : 'Read More ↓');
+        function updateFilterLabels() {
+            // data-ja / data-en 属性でoptionテキストを切替
+            document.querySelectorAll('select option[data-ja]').forEach(opt => {
+                opt.textContent = currentLang === 'en' ? opt.dataset.en : opt.dataset.ja;
             });
         }
 
-        const NEWS_PER   = 20;        // 1ページあたり表示件数
-        let currentLang  = "ja";
-        let allArticles  = [];        // 全記事
-        let filtered     = [];        // フィルター後
-        let currentPage  = 1;
-
-        /* ===== 言語切替 ===== */
-        function switchLang(lang){
-            currentLang = lang;
-            if(allArticles.length) renderPage();
+        function updateYearOptions() {
+            document.querySelectorAll('#filter-year option[value]:not([value=""])').forEach(opt => {
+                const y = opt.value;
+                opt.textContent = currentLang === 'en' ? `Year ${y}` : `${y}年`;
+            });
         }
 
-        /* ===== フィルター適用 ===== */
-        function applyFilter(){
-            const tag  = document.getElementById("filter-tag").value;
-            const year = document.getElementById("filter-year").value;
+        function updateCount() {
+            const total = filtered.length;
+            document.getElementById('filter-count').textContent =
+                currentLang === 'en' ? `${total} result${total !== 1 ? 's' : ''}` : `${total} 件`;
+        }
 
+        /* ===== フィルター ===== */
+        function applyFilter() {
+            const tag  = document.getElementById('filter-tag').value;
+            const year = document.getElementById('filter-year').value;
             filtered = allArticles.filter(a => {
                 const matchTag  = !tag  || a.tag === tag;
                 const matchYear = !year || (a.date && a.date.startsWith(year));
                 return matchTag && matchYear;
             });
-
             currentPage = 1;
+            updateCount();
             renderPage();
         }
 
-        /* ===== ページ描画 ===== */
-        function renderPage(){
-            const container = document.getElementById("news-list");
-            container.innerHTML = "";
+        /* ===== 記事描画 ===== */
+        function renderPage() {
+            const container = document.getElementById('news-list');
+            container.innerHTML = '';
 
-            document.getElementById("filter-count").textContent =
-                filtered.length + " 件";
-
-            if(filtered.length === 0){
-                container.innerHTML = '<p style="text-align:center;color:#888;padding:40px">該当する記事がありません。</p>';
+            if (filtered.length === 0) {
+                container.innerHTML = `<p style="text-align:center;color:#888;padding:40px">
+                    <span class="lang-ja">該当する記事がありません。</span>
+                    <span class="lang-en" ${currentLang==='ja'?'style="display:none"':''}>No articles found.</span>
+                </p>`;
                 drawPagination(0);
                 return;
             }
 
             const start = (currentPage - 1) * NEWS_PER;
-            const items = filtered.slice(start, start + NEWS_PER);
+            filtered.slice(start, start + NEWS_PER).forEach(item => {
+                const title   = currentLang === 'ja' ? item.title_ja   : (item.title_en   || item.title_ja);
+                const content = currentLang === 'ja' ? item.content_ja : (item.content_en || item.content_ja);
+                const readMore = currentLang === 'ja' ? '詳細を見る' : 'Read more';
+                if (!title) return;
 
-            items.forEach(item => {
-                const title   = currentLang === "ja" ? item.title_ja   : (item.title_en   || item.title_ja);
-                const content = currentLang === "ja" ? item.content_ja : (item.content_en || item.content_ja);
-                if(!title) return;
-
-                const card = document.createElement("div");
-                card.className = "news-card" + (item.externalLink ? " has-link" : "");
+                const card = document.createElement('div');
+                card.className = 'news-card' + (item.externalLink ? ' has-link' : '');
                 card.innerHTML = `
                     <div class="news-meta">
                         <span>${item.date}</span>
@@ -404,7 +404,7 @@
                     ${content ? `<p class="news-body">${content}</p>` : ''}
                     ${item.externalLink
                         ? `<a class="news-link" href="${item.externalLink}" target="_blank" rel="noopener">
-                            詳細を見る <i class="fas fa-external-link-alt" style="font-size:.75rem;"></i></a>`
+                            ${readMore} <i class="fas fa-external-link-alt" style="font-size:.75rem;"></i></a>`
                         : ''}`;
                 container.appendChild(card);
             });
@@ -413,83 +413,97 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        /* ===== ページネーション描画 ===== */
-        function drawPagination(total){
-            const el   = document.getElementById("pagination");
+        /* ===== ページネーション ===== */
+        function drawPagination(total) {
+            const el    = document.getElementById('pagination');
             const pages = Math.ceil(total / NEWS_PER);
-            if(pages <= 1){ el.innerHTML = ""; return; }
+            if (pages <= 1) { el.innerHTML = ''; return; }
 
-            let h = `<button ${currentPage<=1?"disabled":""} onclick="goPage(${currentPage-1})">＜</button>`;
-            for(let i = 1; i <= pages; i++){
-                h += `<button class="${i===currentPage?"active":""}" onclick="goPage(${i})">${i}</button>`;
+            let h = `<button ${currentPage<=1?'disabled':''} onclick="goPage(${currentPage-1})">＜</button>`;
+            for (let i = 1; i <= pages; i++) {
+                h += `<button class="${i===currentPage?'active':''}" onclick="goPage(${i})">${i}</button>`;
             }
-            h += `<button ${currentPage>=pages?"disabled":""} onclick="goPage(${currentPage+1})">＞</button>`;
+            h += `<button ${currentPage>=pages?'disabled':''} onclick="goPage(${currentPage+1})">＞</button>`;
             el.innerHTML = h;
         }
 
-        function goPage(p){
-            currentPage = p;
-            renderPage();
-        }
+        function goPage(p) { currentPage = p; renderPage(); }
 
-        /* ===== 年度フィルターの選択肢を動的生成 ===== */
-        function buildYearFilter(articles){
+        /* ===== 年度フィルター生成 ===== */
+        function buildYearFilter(articles) {
             const years = [...new Set(
-                articles.map(a => a.date ? a.date.substring(0, 4) : "").filter(Boolean)
+                articles.map(a => a.date ? a.date.substring(0, 4) : '').filter(Boolean)
             )].sort((a, b) => b - a);
 
-            const sel = document.getElementById("filter-year");
+            const sel = document.getElementById('filter-year');
             years.forEach(y => {
-                const opt = document.createElement("option");
-                opt.value = y; opt.textContent = y + "年";
+                const opt = document.createElement('option');
+                opt.value = y;
+                opt.textContent = currentLang === 'en' ? `Year ${y}` : `${y}年`;
                 sel.appendChild(opt);
             });
         }
 
-        /* ===== 初期ロード ===== */
+        /* ===== 初期化 ===== */
+        (function init() {
+            const saved = localStorage.getItem('siteLang') || 'ja';
+            currentLang = saved;
+            document.body.classList.toggle('en', saved === 'en');
+            document.documentElement.lang = saved === 'en' ? 'en' : 'ja';
+            document.getElementById('btn-ja').classList.toggle('active', saved === 'ja');
+            document.getElementById('btn-en').classList.toggle('active', saved === 'en');
+            updateFilterLabels();
+        })();
+
+        /* ===== 記事取得 ===== */
         fetch(GAS_URL + '?' + new URLSearchParams({ type: 'getPublicArticles' }), { redirect: 'follow' })
         .then(r => r.json())
         .then(data => {
-            if(!data.success) throw new Error("取得失敗");
-            // 日付降順ソート
+            if (!data.success) throw new Error('取得失敗');
             allArticles = (data.articles || []).sort((a, b) => new Date(b.date) - new Date(a.date));
             filtered = allArticles.slice();
             buildYearFilter(allArticles);
+            updateCount();
             renderPage();
         })
         .catch(() => {
-            document.getElementById("news-list").innerHTML =
-                '<p style="text-align:center;color:#888;padding:40px">記事を取得できませんでした。</p>';
+            document.getElementById('news-list').innerHTML =
+                `<p style="text-align:center;color:#888;padding:40px">
+                    <span class="lang-ja">記事を取得できませんでした。</span>
+                    <span class="lang-en" ${currentLang==='ja'?'style="display:none"':''}>Failed to load articles.</span>
+                </p>`;
         });
 
         /* ===== 管理者ログイン ===== */
-        function requestOTP(){
+        function requestOTP() {
             fetch(GAS_URL + '?' + new URLSearchParams({
-                    type    : "request",
-                    name    : document.getElementById("name").value,
-                    password: document.getElementById("pw").value
+                    type: 'request',
+                    name: document.getElementById('name').value,
+                    password: document.getElementById('pw').value
                 }), { redirect: 'follow' })
             .then(r => r.json())
             .then(d => {
-                if(d.success){
-                    alert("OTPをメールに送信しました");
-                } else if(d.error === "locked"){
-                    alert(`アカウントがロックされています（残り${d.remaining}分）`);
+                if (d.success) {
+                    alert(currentLang === 'ja' ? 'OTPをメールに送信しました' : 'OTP sent to your email');
+                } else if (d.error === 'locked') {
+                    alert(currentLang === 'ja'
+                        ? `アカウントがロックされています（残り${d.remaining}分）`
+                        : `Account locked (${d.remaining} min remaining)`);
                 } else {
-                    alert("ユーザー名またはパスワードが違います");
+                    alert(currentLang === 'ja' ? 'ユーザー名またはパスワードが違います' : 'Invalid username or password');
                 }
             });
         }
 
-        function verifyOTP(){
+        function verifyOTP() {
             fetch(GAS_URL + '?' + new URLSearchParams({
-                    type: "verifyOTP",
-                    name: document.getElementById("name").value,
-                    otp : document.getElementById("otp").value
+                    type: 'verifyOTP',
+                    name: document.getElementById('name').value,
+                    otp:  document.getElementById('otp').value
                 }), { redirect: 'follow' })
             .then(r => r.json())
             .then(d => {
-                if(d.success){
+                if (d.success) {
                     window.open(
                         `${GAS_URL}?page=admin&token=${d.token}&t=${Date.now()}`,
                         'adminWindow',
@@ -497,37 +511,38 @@
                     );
                 } else {
                     const msg = {
-                        "wrong_otp": "OTPが違います",
-                        "expired"  : "OTPの有効期限が切れました",
-                        "no_otp"   : "OTPが発行されていません"
+                        wrong_otp: currentLang === 'ja' ? 'OTPが違います' : 'Incorrect OTP',
+                        expired:   currentLang === 'ja' ? 'OTPの有効期限が切れました' : 'OTP has expired',
+                        no_otp:    currentLang === 'ja' ? 'OTPが発行されていません' : 'No OTP issued'
                     };
                     alert(msg[d.error] || JSON.stringify(d));
                 }
             });
         }
 
-        function togglePw(){
-            const input = document.getElementById("pw");
-            const eye   = document.getElementById("pwEye");
-            if(input.type === "password"){ input.type = "text"; eye.textContent = "🙈"; }
-            else                         { input.type = "password"; eye.textContent = "👁"; }
+        function togglePw() {
+            const input = document.getElementById('pw');
+            const eye   = document.getElementById('pwEye');
+            if (input.type === 'password') { input.type = 'text';     eye.textContent = '🙈'; }
+            else                           { input.type = 'password'; eye.textContent = '👁'; }
         }
 
         /* ===== コナミコマンド ===== */
         let secret = [];
-        const konami = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown",
-                        "ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
-        document.addEventListener("keydown", e => {
+        const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown',
+                        'ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+        document.addEventListener('keydown', e => {
             secret.push(e.key);
-            if(secret.length > konami.length) secret.shift();
-            if(JSON.stringify(secret) === JSON.stringify(konami)){
-                document.getElementById("adminPanel").style.display = "block";
+            if (secret.length > konami.length) secret.shift();
+            if (JSON.stringify(secret) === JSON.stringify(konami)) {
+                document.getElementById('adminPanel').style.display = 'block';
                 secret = [];
             }
         });
     </script>
 </body>
 </html>
+
 
 
 
