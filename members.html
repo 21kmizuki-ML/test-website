@@ -231,6 +231,7 @@
             { label: '学部4年生',    labelEn: 'Undergrad (B4)',     icon: '📖', grades: ['B4'],                        type: 'accordion' },
             { label: '学部3年生',    labelEn: 'Undergrad (B3)',     icon: '📗', grades: ['B3'],                        type: 'accordion' }
         ];
+        
 
         function driveUrl(url) {
             if (!url) return '';
@@ -267,10 +268,72 @@
             console.error('members fetch error:', err);
         });
 
+        function sortGraduateMembers(list) {
+
+            var gradeOrder = {
+                "D3": 1,
+                "D2": 2,
+                "D1": 3,
+                "M2": 4,
+                "M1": 5
+            };
+        
+            return list.sort(function(a, b) {
+        
+                var gA = gradeOrder[a.grade] || 999;
+                var gB = gradeOrder[b.grade] || 999;
+        
+                // ① 学年順
+                if (gA !== gB) {
+                    return gA - gB;
+                }
+        
+                // ② 英語名アルファベット順（小文字化）
+                var nameA = (a.name_en || a.name || "").toLowerCase();
+                var nameB = (b.name_en || b.name || "").toLowerCase();
+        
+                return nameA.localeCompare(nameB);
+            });
+        }
+
+        function sortByNameAZ(list) {
+            return list.sort(function(a, b) {
+                var nameA = (a.name_en || a.name || "").toLowerCase();
+                var nameB = (b.name_en || b.name || "").toLowerCase();
+                return nameA.localeCompare(nameB);
+            });
+        }
+
         function renderGroups(members) {
             var html = '';
             GROUPS.forEach(function(group, gi) {
-                var inGroup = members.filter(function(m) { return group.grades.indexOf(m.grade) !== -1; });
+                var inGroup = members.filter(function(m) {
+                    return group.grades.indexOf(m.grade) !== -1;
+                });
+                
+                // ===== ソート制御 =====
+                
+                // 大学院生
+                if (group.grades.indexOf("D3") !== -1) {
+                    inGroup = sortGraduateMembers(inGroup);
+                }
+                // 研究員
+                else if (group.label === "助教・研究員") {
+                    inGroup = sortByNameAZ(inGroup);
+                }
+                // 学部4年
+                else if (group.label === "学部4年生") {
+                    inGroup = sortByNameAZ(inGroup);
+                }
+                // 学部3年
+                else if (group.label === "学部3年生") {
+                    inGroup = sortByNameAZ(inGroup);
+                }
+                
+                // ★ 大学院生グループのみソート
+                if (group.label === '大学院生') {
+                    inGroup = sortGraduateMembers(inGroup);
+                }
                 if (inGroup.length === 0) return;
 
                 var groupLabel = currentLang === 'en' ? group.labelEn : group.label;
